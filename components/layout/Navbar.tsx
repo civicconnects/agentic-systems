@@ -18,12 +18,14 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+            {/* UPDATED: Clean single button, no duplicate Beta badges */}
             <a href="/factory" className="text-white hover:text-blue-400 transition-colors flex items-center gap-2 group">
-              <Sparkles className="w-4 h-4 text-purple-400 group-hover:animate-pulse" />
+              <Sparkles className="w-4 h-4 text-purple-400" />
               AI Factory
-              <span className="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-0.5 rounded-full border border-purple-500/30">Beta</span>
             </a>
-            <a href="/#services" className="hover:text-white transition-colors">Services</a>
+            
+            {/* UPDATED: Direct link to new Services page */}
+            <a href="/services" className="hover:text-white transition-colors">Services</a>
             <a href="/portfolio" className="hover:text-white transition-colors">Case Studies</a>
             
             <div className="h-4 w-px bg-white/10"></div>
@@ -42,10 +44,7 @@ const Navbar = () => {
           </div>
 
           {/* MOBILE MENU BUTTON */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)} 
-            className="md:hidden text-white p-2"
-          >
+          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2">
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -53,14 +52,11 @@ const Navbar = () => {
         {/* MOBILE MENU DROPDOWN */}
         {isOpen && (
           <div className="md:hidden pt-4 pb-6 space-y-2 border-t border-white/10 mt-4 animate-in slide-in-from-top-2 fade-in duration-200">
-            <a 
-              href="/factory" 
-              className="flex items-center gap-2 text-white bg-white/5 px-4 py-3 rounded-lg"
-            >
-              <Sparkles className="w-4 h-4 text-purple-400" /> AI Factory <span className="text-xs bg-purple-500/20 text-purple-300 px-1.5 rounded">Beta</span>
+            <a href="/factory" className="flex items-center gap-2 text-white bg-white/5 px-4 py-3 rounded-lg">
+              <Sparkles className="w-4 h-4 text-purple-400" /> AI Factory
             </a>
-            <a href="/#services" onClick={() => setIsOpen(false)} className="block text-slate-300 hover:text-white px-4 py-3">Services</a>
-            <a href="/portfolio" onClick={() => setIsOpen(false)} className="block text-slate-300 hover:text-white px-4 py-3">Case Studies</a>
+            <a href="/services" className="block text-slate-300 hover:text-white px-4 py-3">Services</a>
+            <a href="/portfolio" className="block text-slate-300 hover:text-white px-4 py-3">Case Studies</a>
             <div className="px-4 pt-2">
               <a href="/contact" className="block text-center bg-blue-600 text-white px-4 py-3 rounded-lg font-bold">Book Strategy Call</a>
             </div>
