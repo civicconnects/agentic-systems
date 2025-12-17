@@ -39,13 +39,13 @@ export default function Home() {
       greeting: "Hi, this is Alex from Agentic Systems. I'm calling to confirm our meeting for Tuesday."
     },
     {
-      id: 4,
-      name: "Content Bot",
-      role: "SEO Specialist",
-      icon: <PenTool className="w-6 h-6 text-white" />,
-      desc: "Drafts blogs, social posts, and emails in your brand voice.",
-      color: "bg-orange-600",
-      greeting: "Ready to write! What topic should we cover for the blog today?"
+      id: 'custom', // This ID triggers the special upload flow
+      name: "Custom Assistant",
+      role: "Train on Your Data",
+      icon: <Bot className="w-6 h-6 text-white" />,
+      desc: "Upload your own PDF or FAQ to train a custom agent instantly.",
+      color: "bg-indigo-600 border-indigo-400 shadow-[0_0_30px_rgba(79,70,229,0.2)]", // Special styling
+      greeting: "I am ready to learn. Please upload your document."
     }
   ];
 
