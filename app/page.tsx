@@ -22,9 +22,9 @@ export default function Home() {
               <PhoneCall className="w-4 h-4 text-blue-500" />
               <span>918-409-2361</span>
             </div>
-            <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-medium transition-colors">
+            <a className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-medium transition-colors">
               Book Strategy Call
-            </button>
+            </a>
           </div>
         </div>
       </header>

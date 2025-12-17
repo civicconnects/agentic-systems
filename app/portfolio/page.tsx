@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle, BarChart3, Clock, DollarSign } from 'lucide-react';
+import { ArrowRight, CheckCircle, BarChart3, Clock, DollarSign, PhoneCall, MapPin } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 export default function Portfolio() {
@@ -9,12 +9,22 @@ export default function Portfolio() {
       {/* Navbar (Simplified for sub-pages) */}
       <header className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="/" className="font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
+          <div className="font-bold text-xl tracking-tighter text-white">
             AGENTIC <span className="text-blue-500">SYSTEMS</span>
-          </a>
-          <a href="/" className="text-sm text-slate-400 hover:text-white transition-colors">
-            ← Back to Home
-          </a>
+          </div>
+          <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-blue-500" />
+              <span>Dallas, TX</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <PhoneCall className="w-4 h-4 text-blue-500" />
+              <span>918-409-2361</span>
+            </div>
+            <a className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-medium transition-colors">
+              Book Strategy Call
+            </a>
+          </div>
         </div>
       </header>
 
