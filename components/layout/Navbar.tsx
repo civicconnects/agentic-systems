@@ -1,52 +1,73 @@
-"use client";
+"use client"; // This line is crucial for interactive menus
 
-import React from 'react';
-import { Menu, X, PhoneCall } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, X, MapPin, PhoneCall } from 'lucide-react';
 
 const Navbar = () => {
-  // Mobile menu state
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-        
-        {/* Logo */}
-        <a href="/" className="font-bold text-xl tracking-tighter text-white hover:opacity-80 transition-opacity">
-          AGENTIC <span className="text-blue-500">SYSTEMS</span>
-        </a>
-
-        {/* Desktop Menu (Hidden on mobile) */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-          <a href="/" className="hover:text-white transition-colors">Home</a>
-          <a href="/portfolio" className="hover:text-white transition-colors">Case Studies</a>
-          <a href="/contact" className="hover:text-white transition-colors">Contact</a>
-        </div>
-
-        {/* CTA Button (Hidden on mobile) */}
-        <div className="hidden md:block">
-          <a href="/contact" className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2">
-            <PhoneCall className="w-4 h-4" /> Book Strategy Call
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex justify-between items-center">
+          
+          {/* Logo */}
+          <a href="/" className="font-bold text-xl tracking-tighter text-white hover:opacity-80 transition-opacity">
+            AGENTIC <span className="text-blue-500">SYSTEMS</span>
           </a>
+
+          {/* Desktop Menu (Hidden on Mobile) */}
+          <div className="hidden md:flex items-center gap-8 text-sm text-slate-400">
+            <a href="/portfolio" className="hover:text-white transition-colors">Case Studies</a>
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-blue-500" />
+              <span>Dallas, TX</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <PhoneCall className="w-4 h-4 text-blue-500" />
+              <span>918-409-2361</span>
+            </div>
+            <a 
+              href="/contact" 
+              className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-full font-medium transition-colors"
+            >
+              Book Strategy Call
+            </a>
+          </div>
+
+          {/* Mobile Menu Button (Visible ONLY on Mobile) */}
+          <button 
+            onClick={() => setIsOpen(!isOpen)} 
+            className="md:hidden text-white p-2"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-slate-300 hover:text-white">
-          {isOpen ? <X /> : <Menu />}
-        </button>
+        {/* Mobile Dropdown (Animate Open/Close) */}
+        {isOpen && (
+          <div className="md:hidden pt-4 pb-6 space-y-4 border-t border-slate-800 mt-4 animate-in slide-in-from-top-2 fade-in duration-200">
+            <a 
+              href="/portfolio" 
+              className="block text-slate-300 hover:text-white hover:bg-slate-900 px-4 py-3 rounded-lg transition-colors"
+            >
+              View Case Studies
+            </a>
+            <div className="flex items-center gap-3 px-4 py-2 text-slate-400">
+              <PhoneCall className="w-4 h-4 text-blue-500" />
+              <span>918-409-2361</span>
+            </div>
+            <div className="px-4 pt-2">
+              <a 
+                href="/contact" 
+                className="block text-center bg-blue-600 text-white px-4 py-3 rounded-lg font-bold"
+              >
+                Book Strategy Call
+              </a>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Mobile Dropdown Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-slate-950 border-b border-slate-800 p-4 space-y-4">
-          <a href="/" className="block text-slate-300 hover:text-white font-medium">Home</a>
-          <a href="/portfolio" className="block text-slate-300 hover:text-white font-medium">Case Studies</a>
-          <a href="/contact" className="block text-slate-300 hover:text-white font-medium">Contact</a>
-          <a href="/contact" className="block text-center bg-blue-600 text-white py-2 rounded-lg font-bold">
-            Book Call
-          </a>
-        </div>
-      )}
     </nav>
   );
 };

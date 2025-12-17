@@ -1,13 +1,15 @@
 import React from 'react';
-import { Bot, Workflow, Phone, Layers, ArrowRight } from 'lucide-react';
+import { Bot, Workflow, Phone, Layers, ArrowRight, Cpu } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
-import Navbar from '@/components/layout/Navbar'; // New Import
+import Navbar from '@/components/layout/Navbar';
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-slate-950 text-slate-200">
       
-      {/* The New Master Menu */}
+      {/* This single line replaces the huge <header> block.
+         It loads your smart menu with the mobile hamburger button.
+      */}
       <Navbar />
 
       {/* Hero Section */}
@@ -33,9 +35,9 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="/contact" className="bg-white text-slate-950 px-8 py-3 rounded-lg font-bold hover:bg-slate-200 transition-colors">
+          <button className="bg-white text-slate-950 px-8 py-3 rounded-lg font-bold hover:bg-slate-200 transition-colors">
             Deploy Your Agents
-          </a>
+          </button>
           <a href="/portfolio" className="border border-slate-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-slate-800 transition-colors">
             View Case Studies
           </a>
@@ -73,10 +75,12 @@ export default function Home() {
       </section>
 
       <Footer />
+
     </main>
   );
 }
 
+// Reusable Component for Cards
 function ServiceCard({ title, icon, desc, tags }: { title: string, icon: any, desc: string, tags: string[] }) {
   return (
     <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-blue-500/30 hover:bg-slate-900 transition-all group">
