@@ -1,11 +1,12 @@
 import React from 'react';
 import { Bot, Workflow, Phone, Layers, ArrowRight, Cpu, MapPin, PhoneCall } from 'lucide-react';
+import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col bg-slate-950">
       
-      {/* Navbar / Contact Header */}
+      {/* Navbar */}
       <header className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="font-bold text-xl tracking-tighter text-white">
@@ -20,9 +21,15 @@ export default function Home() {
               <PhoneCall className="w-4 h-4 text-blue-500" />
               <span>918-409-2361</span>
             </div>
-            <button className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-medium transition-colors">
+            {/* LINK YOUR CALENDAR HERE */}
+            <a 
+              href="https://cal.com/" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-medium transition-colors"
+            >
               Book Strategy Call
-            </button>
+            </a>
           </div>
         </div>
       </header>
@@ -50,9 +57,14 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button className="bg-white text-slate-950 px-8 py-3 rounded-lg font-bold hover:bg-slate-200 transition-colors">
-            Start Automation Now
-          </button>
+          <a 
+            href="https://cal.com/"
+            target="_blank"
+            rel="noopener noreferrer" 
+            className="bg-white text-slate-950 px-8 py-3 rounded-lg font-bold hover:bg-slate-200 transition-colors flex items-center justify-center"
+          >
+            Deploy Your Agents
+          </a>
           <button className="border border-slate-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-slate-800 transition-colors">
             View Case Studies
           </button>
@@ -89,11 +101,14 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Add Footer Here */}
+      <Footer />
+
     </main>
   );
 }
 
-// Reusable Component for Cards
+// Reusable Component
 function ServiceCard({ title, icon, desc, tags }: { title: string, icon: any, desc: string, tags: string[] }) {
   return (
     <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-blue-500/30 hover:bg-slate-900 transition-all group">
