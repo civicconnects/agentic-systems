@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <main className="min-h-screen flex flex-col bg-slate-950 text-white">
       
-      {/* Simple Header */}
+      {/* Header */}
       <header className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <a href="/" className="font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
@@ -31,7 +31,7 @@ export default function Contact() {
               <span className="text-blue-500">Your Business?</span>
             </h1>
             <p className="text-slate-400 text-lg mb-12 leading-relaxed">
-              We don't just sell software; we sell time. Book a strategy call to discuss how our AI Agents can replace your manual workflows.
+              We don't just sell software; we sell time. Book a strategy call below to discuss how our AI Agents can replace your manual workflows.
             </p>
 
             <div className="space-y-8">
@@ -56,31 +56,15 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Column: The "Booking" Card */}
-          <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-8 md:p-10 shadow-2xl">
-            <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-              <Calendar className="w-6 h-6 text-blue-500" />
-              Book a Strategy Call
-            </h3>
-            
-            {/* Placeholder for Calendar Embed (Calendly) */}
-            <div className="bg-slate-950 border border-slate-800 rounded-xl p-8 text-center min-h-[300px] flex flex-col items-center justify-center gap-4">
-              <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center animate-pulse">
-                <Calendar className="w-8 h-8 text-blue-500" />
-              </div>
-              <div>
-                <p className="text-slate-300 font-medium">Calendar Integration Loading...</p>
-                <p className="text-sm text-slate-500 mt-2">
-                  (We can embed your Calendly here later)
-                </p>
-              </div>
-              <a 
-                href="mailto:hello@ai-hub.agency" 
-                className="mt-4 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-all w-full"
-              >
-                Send an Email Instead
-              </a>
-            </div>
+          {/* Right Column: Real Calendly Embed */}
+          <div className="bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl h-[750px]">
+            <iframe 
+              src="https://calendly.com/dwhitesvp/30min?hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3b82f6" 
+              width="100%" 
+              height="100%" 
+              frameBorder="0"
+              title="Select a Date & Time - Calendly"
+            ></iframe>
           </div>
 
         </div>
@@ -91,7 +75,7 @@ export default function Contact() {
   );
 }
 
-// Helper Component for the contact list
+// Helper Component
 function ContactItem({ icon, title, value, sub }: any) {
   return (
     <div className="flex gap-4 items-start">
