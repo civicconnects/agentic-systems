@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles } from 'lucide-react';
+import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles, Zap, Brain, Globe } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import ChatModal from '@/components/features/ChatModal'; 
@@ -9,6 +9,7 @@ import ChatModal from '@/components/features/ChatModal';
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<any>(null);
 
+  // Agent Data (Unchanged from V3)
   const agents = [
     { id: 1, name: "The Sentinel", role: "AI HR Director", icon: <Shield className="w-6 h-6 text-white" />, pain: "Compliance risks.", roi: "70% less admin.", desc: "Handles onboarding & policy Q&A.", color: "bg-emerald-600", greeting: "I am The Sentinel. Ready for onboarding." },
     { id: 2, name: "The Architect", role: "Editor-in-Chief", icon: <PenTool className="w-6 h-6 text-white" />, pain: "Slow content.", roi: "10x output.", desc: "Researches & writes content on brand.", color: "bg-orange-600", greeting: "Ready to write. What is the topic?" },
@@ -26,7 +27,7 @@ export default function Home() {
       <section className="relative pt-32 pb-20 px-6 text-center overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -z-10"></div>
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-300 text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-md">
-          <Sparkles className="w-3 h-3 text-purple-400" /> Agentic Systems V3.0
+          <Sparkles className="w-3 h-3 text-purple-400" /> The Era of the Agentic Enterprise
         </div>
         <h1 className="text-5xl md:text-8xl font-black tracking-tight text-white mb-8">
           Build Your <br />
@@ -35,7 +36,8 @@ export default function Home() {
           </span>
         </h1>
         <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-          Stop hiring for tasks. Hire for outcomes. <br/> We deploy autonomous AI departments that work 24/7.
+          Don't just automate tasks. Deploy autonomous Departments. <br/>
+          We architect AI that thinks, acts, and generates revenue.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-5">
           <a href="/factory" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">Deploy Agents</a>
@@ -43,26 +45,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* INTRO: Why Architecture Matters */}
-      <section className="py-20 px-6 max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-white mb-6">Why Architecture Matters</h2>
-        <p className="text-slate-400 text-lg leading-relaxed max-w-3xl mx-auto">
-          Most businesses fail at AI because they treat it like a chatbot. 
-          We treat AI as <strong>infrastructure</strong>. We don't just give you a login; 
-          we architect specific roles that plug into your existing teams, reducing overhead 
-          and increasing velocity from Day 1.
-        </p>
+      {/* NEW: EDUCATIONAL NARRATIVE */}
+      <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div>
+             <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm mb-4">
+                <Zap className="w-4 h-4" /> The Competitive Edge
+             </div>
+             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Smart vs. Dumb Automation</h2>
+             <p className="text-lg text-slate-400 leading-relaxed mb-6">
+               Traditional automation follows rules ("If X happens, do Y"). It breaks when things get complex. 
+             </p>
+             <p className="text-lg text-slate-400 leading-relaxed mb-8">
+               <strong>Agentic Systems are different.</strong> They make decisions. They navigate ambiguity. 
+               Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span> vs. competitors relying on manual workflows. This isn't just efficiency; it's dominance.
+             </p>
+             
+             <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+               <h4 className="text-white font-bold mb-2 flex items-center gap-2">
+                 <Globe className="w-5 h-5 text-purple-400" /> Client Interaction Model
+               </h4>
+               <p className="text-sm text-slate-400">
+                 Our agents don't sleep. They don't forget. They handle your clients with white-glove service 24/7, escalating to humans only when high-level strategy is required.
+               </p>
+             </div>
+          </div>
+          <div className="relative">
+            {/* Abstract visual representation of Brain vs Gear */}
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-500/20 rounded-full blur-[80px]"></div>
+             <div className="grid grid-cols-2 gap-4">
+                <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 opacity-50">
+                  <div className="text-slate-500 font-bold mb-2">Old Way</div>
+                  <div className="h-2 bg-slate-800 rounded mb-2 w-3/4"></div>
+                  <div className="h-2 bg-slate-800 rounded w-1/2"></div>
+                </div>
+                <div className="bg-slate-900 p-6 rounded-2xl border border-blue-500 shadow-xl scale-105 z-10">
+                  <div className="text-blue-400 font-bold mb-2 flex items-center gap-2"><Brain className="w-4 h-4"/> Agentic Way</div>
+                  <div className="text-sm text-white">Autonomous Decision Making</div>
+                </div>
+             </div>
+          </div>
+        </div>
       </section>
 
-      {/* AGENT GRID (Strict 3x2) */}
-      <section className="py-20 px-6 bg-slate-900/30 border-y border-slate-800">
+      {/* AGENT GRID */}
+      <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 flex justify-between items-end">
             <div>
               <h2 className="text-4xl font-bold text-white mb-2">The Ecosystem</h2>
               <p className="text-slate-400">Select an agent to initialize simulation.</p>
             </div>
-            {/* New link to full services page */}
             <a href="/services" className="hidden md:flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-bold text-sm">
               View Full Catalog <ArrowRight className="w-4 h-4" />
             </a>
@@ -92,16 +125,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-
-          {/* Mobile only link */}
-          <div className="mt-8 text-center md:hidden">
-            <a href="/services" className="text-blue-400 font-bold flex items-center justify-center gap-2">View Full Catalog <ArrowRight className="w-4 h-4"/></a>
-          </div>
         </div>
       </section>
 
-      {/* PRICING SECTION (Restored) */}
-      <section className="py-24 px-6">
+      {/* PRICING SECTION */}
+      <section className="py-24 px-6 bg-slate-900/30 border-t border-slate-800">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-white mb-4">Transparent Pricing</h2>
@@ -136,17 +164,11 @@ export default function Home() {
       </section>
 
       <Footer />
-
-      {/* Chat Modal Logic */}
-      {activeAgent && (
-        <ChatModal agent={activeAgent} onClose={() => setActiveAgent(null)} />
-      )}
-
+      {activeAgent && <ChatModal agent={activeAgent} onClose={() => setActiveAgent(null)} />}
     </main>
   );
 }
 
-// Pricing Card Component
 function PricingCard({ name, price, period, desc, features, featured = false }: any) {
   return (
     <div className={`relative p-8 rounded-2xl border flex flex-col ${featured ? 'bg-slate-900 border-blue-500 shadow-2xl shadow-blue-900/20' : 'bg-slate-950 border-slate-800'}`}>

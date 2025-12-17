@@ -1,15 +1,15 @@
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { Mail, Video, Users, ArrowRight } from 'lucide-react';
+import { Mail, Video, Users, ArrowRight, Zap, Database, Shield } from 'lucide-react';
 
 export default function Services() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-slate-950 text-white selection:bg-blue-500/30">
       <Navbar />
       
-      <section className="py-24 px-6 text-center">
-        <h1 className="text-5xl font-bold mb-6">AI Job Roles</h1>
+      <section className="pt-32 pb-20 px-6 text-center">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6">AI Job Roles</h1>
         <p className="text-slate-400 max-w-2xl mx-auto text-lg">
           We don't sell generic "tools." We provision specific digital employees tailored to your operational needs.
         </p>
