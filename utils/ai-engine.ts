@@ -26,7 +26,8 @@ export const generateAIResponse = async (
 ) => {
   
   // LOGIC: Use User's key if provided, otherwise use your Public Demo Key
-  const activeKey = userProvidedKey || PUBLIC_DEMO_KEY;
+  // We trim whitespace just in case the copy-paste added spaces
+  const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
   if (!activeKey || activeKey.includes("PASTE_YOUR")) {
     console.error("❌ ERROR: No API Key configured.");
@@ -50,8 +51,8 @@ export const generateAIResponse = async (
   try {
     console.log("📡 CONNECTING: Sending to Google Gemini...");
     
-    // URL IS NOW GOOGLE, NOT OPENAI
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`, {
+    // UPDATED MODEL NAME: gemini-1.5-flash-latest
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,17 +72,17 @@ export const generateAIResponse = async (
 
   } catch (error) {
     console.error("❌ NETWORK ERROR:", error);
-    return "Connection Error. Please try again.";
+    return "Connection Error. Please check your internet connection.";
   }
 };
 
 // 3. PROMPT ENHANCER
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
-  const activeKey = userProvidedKey || PUBLIC_DEMO_KEY;
+  const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
   if (!activeKey) return `You are a helpful ${simpleRole}.`;
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
