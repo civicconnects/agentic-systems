@@ -1,7 +1,7 @@
 // src/utils/ai-engine.ts
 
 // 🚨 PASTE YOUR GEMINI KEY HERE 🚨
-const PUBLIC_DEMO_KEY = "AIzaSyB9FamRD0r3B9CoJdFw_yEaaPVC7a3UDyQ"; 
+const PUBLIC_DEMO_KEY = "AIzaSyBuq-tkFRg0jFKXY4vG-F-FwXSym03GqzE"; 
 
 export const extractTextFromFile = async (file: File): Promise<string> => {
   return new Promise((resolve) => {
