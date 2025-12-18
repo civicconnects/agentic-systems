@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles, Zap, Brain, Globe, Layers } from 'lucide-react';
+import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles, Zap, Brain, Globe, Layers, AlertTriangle } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import ChatModal from '@/components/features/ChatModal'; 
@@ -48,12 +48,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FIXED: Educational Narrative (Better Layout & More Content) */}
+      {/* UPDATED: Educational Narrative (Fixed Layout & Expanded Content) */}
       <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
           
           {/* Left Column: The Content */}
-          <div className="space-y-8">
+          <div className="w-full md:w-1/2 space-y-8">
              <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm">
                 <Zap className="w-4 h-4" /> The Competitive Edge
              </div>
@@ -63,13 +63,13 @@ export default function Home() {
              
              <div className="space-y-6 text-lg text-slate-400 leading-relaxed">
                <p>
-                 <strong>1. Traditional automation is fragile.</strong> It follows rigid linear rules ("If X happens, do Y"). It breaks the moment a date format changes, an email subject line varies, or a customer asks a question in a new way. It requires constant maintenance and human oversight.
+                 <strong>The Old Way is crumbling.</strong> Traditional automation (RPA) follows rigid, linear rules ("If X happens, do Y"). It is brittle. It breaks the moment a date format changes, an email subject line varies, or a customer asks a question in a new way. It requires constant maintenance, human oversight, and endless "bug fixing" hours.
                </p>
                <p>
-                 <strong>2. Agentic Systems are antifragile.</strong> They behave like high-level employees. They possess "Contextual Awareness"—understanding the intent behind a request, not just the keywords. They can reason through multi-step problems, creating their own plans to achieve the goal you set.
+                 <strong>Agentic Systems are antifragile.</strong> They behave like high-level employees. They possess "Contextual Awareness"—understanding the intent behind a request, not just the keywords. They can reason through multi-step problems, creating their own plans to achieve the goal you set. If one path is blocked, they find another.
                </p>
                <p>
-                 <strong>3. The ROI is immediate.</strong> Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span>. This isn't just about speed; it's about decision-making at scale.
+                 <strong>The ROI is immediate.</strong> Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span> within the first 90 days. This isn't just about speed; it's about decision-making at scale. While your competitors are manually routing tickets, your Agents are solving them.
                </p>
              </div>
              
@@ -83,16 +83,16 @@ export default function Home() {
              </div>
           </div>
 
-          {/* Right Column: The Visuals (Centered & Fixed) */}
-          <div className="relative flex justify-center items-center">
+          {/* Right Column: The Visuals (Stacked perfectly) */}
+          <div className="w-full md:w-1/2 relative flex justify-center items-center">
              {/* Background Glow */}
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px]"></div>
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-600/10 rounded-full blur-[80px]"></div>
              
-             <div className="w-full max-w-md space-y-6 relative z-10">
+             <div className="w-full max-w-sm space-y-6 relative z-10">
                 {/* Old Way Card */}
-                <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 opacity-60 hover:opacity-100 transition-opacity">
+                <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 opacity-60">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="text-slate-500 font-bold text-sm uppercase tracking-widest">The Old Way</div>
+                    <div className="text-slate-500 font-bold text-xs uppercase tracking-widest">The Old Way</div>
                     <Layers className="w-5 h-5 text-slate-600" />
                   </div>
                   <div className="space-y-3">
@@ -100,11 +100,14 @@ export default function Home() {
                     <div className="h-2 bg-slate-800 rounded w-3/4"></div>
                     <div className="h-2 bg-slate-800 rounded w-1/2"></div>
                   </div>
-                  <p className="text-xs text-red-400 mt-4 font-mono">ERROR: INPUT MISMATCH. PROCESS HALTED.</p>
+                  <div className="mt-4 flex items-center gap-2 text-red-400 text-xs font-mono bg-red-950/30 p-2 rounded border border-red-900/50">
+                    <AlertTriangle className="w-3 h-3" /> ERROR: INPUT MISMATCH
+                  </div>
                 </div>
 
                 {/* Agentic Way Card */}
-                <div className="bg-slate-900 p-8 rounded-2xl border border-blue-500 shadow-2xl shadow-blue-900/20 transform scale-105">
+                <div className="bg-slate-900 p-8 rounded-2xl border border-blue-500 shadow-2xl shadow-blue-900/20 transform md:scale-105 relative">
+                  <div className="absolute -right-3 -top-3 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">NEW STANDARD</div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="text-blue-400 font-bold text-sm uppercase tracking-widest flex items-center gap-2">
                       <Brain className="w-4 h-4"/> Agentic Way
@@ -117,12 +120,12 @@ export default function Home() {
                       <span className="text-white text-sm">Analyzing intent...</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse delay-75"></div>
-                      <span className="text-white text-sm">Formulating response...</span>
+                      <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse delay-75"></div>
+                      <span className="text-white text-sm">Formulating strategy...</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-white text-sm">Task executed successfully.</span>
+                      <span className="text-white text-sm">Execution complete.</span>
                     </div>
                   </div>
                 </div>
@@ -132,7 +135,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AGENT GRID (Added ID for scrolling) */}
+      {/* AGENT GRID */}
       <section id="ecosystem" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 flex justify-between items-end">
