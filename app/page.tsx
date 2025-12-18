@@ -39,7 +39,6 @@ export default function Home() {
           We architect AI that thinks, acts, and generates revenue.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-5">
-          {/* FIXED: Link points to the Ecosystem ID */}
           <a href="#ecosystem" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">
             Deploy Agents
           </a>
@@ -64,13 +63,13 @@ export default function Home() {
              
              <div className="space-y-6 text-lg text-slate-400 leading-relaxed">
                <p>
-                 <strong>Traditional automation is fragile.</strong> It follows rigid rules ("If X happens, do Y"). It breaks the moment a date format changes, an email subject line varies, or a customer asks a question in a new way. It requires constant maintenance and human oversight.
+                 <strong>1. Traditional automation is fragile.</strong> It follows rigid linear rules ("If X happens, do Y"). It breaks the moment a date format changes, an email subject line varies, or a customer asks a question in a new way. It requires constant maintenance and human oversight.
                </p>
                <p>
-                 <strong>Agentic Systems are antifragile.</strong> They behave like high-level employees. They possess "Contextual Awareness"—understanding the intent behind a request, not just the keywords. They can reason through multi-step problems, creating their own plans to achieve the goal you set.
+                 <strong>2. Agentic Systems are antifragile.</strong> They behave like high-level employees. They possess "Contextual Awareness"—understanding the intent behind a request, not just the keywords. They can reason through multi-step problems, creating their own plans to achieve the goal you set.
                </p>
                <p>
-                 Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span>. This isn't just about speed; it's about decision-making at scale.
+                 <strong>3. The ROI is immediate.</strong> Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span>. This isn't just about speed; it's about decision-making at scale.
                </p>
              </div>
              
