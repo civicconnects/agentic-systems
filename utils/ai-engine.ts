@@ -3,7 +3,7 @@
 // 1. CONFIGURATION
 // 🚨 IMPORTANT: Add this URL to your Cloudflare Environment Variables as NEXT_PUBLIC_N8N_WEBHOOK_URL
 // For testing now, you can paste your Production URL here inside the quotes.
-const N8N_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || "PASTE_YOUR_N8N_PRODUCTION_WEBHOOK_URL_HERE"; 
+const N8N_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || "https://n8n.civicconnects.com/webhook/chatgpt4"; 
 
 // 2. TEXT EXTRACTION (Kept for UI simulation)
 export const extractTextFromFile = async (file: File): Promise<string> => {
