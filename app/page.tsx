@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles, Zap, Brain, Globe } from 'lucide-react';
+import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles, Zap, Brain, Globe, Layers } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import ChatModal from '@/components/features/ChatModal'; 
@@ -9,7 +9,6 @@ import ChatModal from '@/components/features/ChatModal';
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<any>(null);
 
-  // Agent Data (Unchanged from V3)
   const agents = [
     { id: 1, name: "The Sentinel", role: "AI HR Director", icon: <Shield className="w-6 h-6 text-white" />, pain: "Compliance risks.", roi: "70% less admin.", desc: "Handles onboarding & policy Q&A.", color: "bg-emerald-600", greeting: "I am The Sentinel. Ready for onboarding." },
     { id: 2, name: "The Architect", role: "Editor-in-Chief", icon: <PenTool className="w-6 h-6 text-white" />, pain: "Slow content.", roi: "10x output.", desc: "Researches & writes content on brand.", color: "bg-orange-600", greeting: "Ready to write. What is the topic?" },
@@ -40,28 +39,42 @@ export default function Home() {
           We architect AI that thinks, acts, and generates revenue.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-5">
-          <a href="/factory" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">Deploy Agents</a>
-          <a href="/portfolio" className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors">See Proof</a>
+          {/* FIXED: Link points to the Ecosystem ID */}
+          <a href="#ecosystem" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+            Deploy Agents
+          </a>
+          <a href="/portfolio" className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors">
+            See Proof
+          </a>
         </div>
       </section>
 
-      {/* NEW: EDUCATIONAL NARRATIVE */}
+      {/* FIXED: Educational Narrative (Better Layout & More Content) */}
       <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-             <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm mb-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          
+          {/* Left Column: The Content */}
+          <div className="space-y-8">
+             <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm">
                 <Zap className="w-4 h-4" /> The Competitive Edge
              </div>
-             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Smart vs. Dumb Automation</h2>
-             <p className="text-lg text-slate-400 leading-relaxed mb-6">
-               Traditional automation follows rules ("If X happens, do Y"). It breaks when things get complex. 
-             </p>
-             <p className="text-lg text-slate-400 leading-relaxed mb-8">
-               <strong>Agentic Systems are different.</strong> They make decisions. They navigate ambiguity. 
-               Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span> vs. competitors relying on manual workflows. This isn't just efficiency; it's dominance.
-             </p>
+             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+               Smart vs. Dumb <br/> <span className="text-blue-500">Automation</span>
+             </h2>
              
-             <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+             <div className="space-y-6 text-lg text-slate-400 leading-relaxed">
+               <p>
+                 <strong>Traditional automation is fragile.</strong> It follows rigid rules ("If X happens, do Y"). It breaks the moment a date format changes, an email subject line varies, or a customer asks a question in a new way. It requires constant maintenance and human oversight.
+               </p>
+               <p>
+                 <strong>Agentic Systems are antifragile.</strong> They behave like high-level employees. They possess "Contextual Awareness"—understanding the intent behind a request, not just the keywords. They can reason through multi-step problems, creating their own plans to achieve the goal you set.
+               </p>
+               <p>
+                 Businesses incorporating AI Departments today are seeing a <span className="text-white font-bold">40% reduction in operational overhead</span>. This isn't just about speed; it's about decision-making at scale.
+               </p>
+             </div>
+             
+             <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 mt-8">
                <h4 className="text-white font-bold mb-2 flex items-center gap-2">
                  <Globe className="w-5 h-5 text-purple-400" /> Client Interaction Model
                </h4>
@@ -70,26 +83,58 @@ export default function Home() {
                </p>
              </div>
           </div>
-          <div className="relative">
-            {/* Abstract visual representation of Brain vs Gear */}
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-500/20 rounded-full blur-[80px]"></div>
-             <div className="grid grid-cols-2 gap-4">
-                <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 opacity-50">
-                  <div className="text-slate-500 font-bold mb-2">Old Way</div>
-                  <div className="h-2 bg-slate-800 rounded mb-2 w-3/4"></div>
-                  <div className="h-2 bg-slate-800 rounded w-1/2"></div>
+
+          {/* Right Column: The Visuals (Centered & Fixed) */}
+          <div className="relative flex justify-center items-center">
+             {/* Background Glow */}
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px]"></div>
+             
+             <div className="w-full max-w-md space-y-6 relative z-10">
+                {/* Old Way Card */}
+                <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 opacity-60 hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-slate-500 font-bold text-sm uppercase tracking-widest">The Old Way</div>
+                    <Layers className="w-5 h-5 text-slate-600" />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="h-2 bg-slate-800 rounded w-full"></div>
+                    <div className="h-2 bg-slate-800 rounded w-3/4"></div>
+                    <div className="h-2 bg-slate-800 rounded w-1/2"></div>
+                  </div>
+                  <p className="text-xs text-red-400 mt-4 font-mono">ERROR: INPUT MISMATCH. PROCESS HALTED.</p>
                 </div>
-                <div className="bg-slate-900 p-6 rounded-2xl border border-blue-500 shadow-xl scale-105 z-10">
-                  <div className="text-blue-400 font-bold mb-2 flex items-center gap-2"><Brain className="w-4 h-4"/> Agentic Way</div>
-                  <div className="text-sm text-white">Autonomous Decision Making</div>
+
+                {/* Agentic Way Card */}
+                <div className="bg-slate-900 p-8 rounded-2xl border border-blue-500 shadow-2xl shadow-blue-900/20 transform scale-105">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-blue-400 font-bold text-sm uppercase tracking-widest flex items-center gap-2">
+                      <Brain className="w-4 h-4"/> Agentic Way
+                    </div>
+                    <div className="bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded">ACTIVE</div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      <span className="text-white text-sm">Analyzing intent...</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse delay-75"></div>
+                      <span className="text-white text-sm">Formulating response...</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-white text-sm">Task executed successfully.</span>
+                    </div>
+                  </div>
                 </div>
              </div>
           </div>
+
         </div>
       </section>
 
-      {/* AGENT GRID */}
-      <section className="py-20 px-6">
+      {/* AGENT GRID (Added ID for scrolling) */}
+      <section id="ecosystem" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 flex justify-between items-end">
             <div>

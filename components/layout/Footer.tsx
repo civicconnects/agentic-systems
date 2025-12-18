@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           
-          {/* Column 1: Brand */}
+          {/* Brand */}
           <div className="col-span-1 md:col-span-1">
             <div className="font-bold text-xl tracking-tighter text-white mb-4">
               AGENTIC <span className="text-blue-500">SYSTEMS</span>
@@ -17,29 +17,29 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Column 2: Services */}
-          <div>
-            <h4 className="text-white font-semibold mb-4">Services</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="/#services" className="hover:text-blue-400 transition-colors">AI Voice Agents</a></li>
-              <li><a href="/#services" className="hover:text-blue-400 transition-colors">N8N Workflows</a></li>
-              <li><a href="/#services" className="hover:text-blue-400 transition-colors">Autonomous Departments</a></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Company (THIS IS THE MISSING SECTION) */}
+          {/* Company Links - FIXED */}
           <div>
             <h4 className="text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="/" className="hover:text-blue-400 transition-colors">Home</a></li>
+              <li><a href="/services" className="hover:text-blue-400 transition-colors">Services</a></li>
               <li><a href="/portfolio" className="hover:text-blue-400 transition-colors">Case Studies</a></li>
               <li><a href="/contact" className="hover:text-blue-400 transition-colors">Contact</a></li>
-              {/* The new Privacy Link */}
-              <li><a href="/privacy" className="hover:text-blue-400 transition-colors">Privacy Policy</a></li>
             </ul>
           </div>
 
-          {/* Column 4: Contact */}
+          {/* Services Links - FIXED */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Services</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="/services" className="hover:text-blue-400 transition-colors">AI Voice Agents</a></li>
+              <li><a href="/services" className="hover:text-blue-400 transition-colors">N8N Workflows</a></li>
+              <li><a href="/services" className="hover:text-blue-400 transition-colors">Autonomous Departments</a></li>
+              <li><a href="/services" className="hover:text-blue-400 transition-colors">Custom App Dev</a></li>
+            </ul>
+          </div>
+
+          {/* Contact */}
           <div>
             <h4 className="text-white font-semibold mb-4">Contact</h4>
             <ul className="space-y-4 text-sm">
@@ -50,8 +50,8 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-          <p>&copy; {new Date().getFullYear()} Agentic Systems. All rights reserved.</p>
+        <div className="border-t border-slate-900 pt-8 flex justify-between items-center text-xs">
+          <p>&copy; {new Date().getFullYear()} Agentic Systems.</p>
           <div className="flex gap-4">
             <Linkedin className="w-4 h-4 hover:text-white cursor-pointer" />
             <Twitter className="w-4 h-4 hover:text-white cursor-pointer" />

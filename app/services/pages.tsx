@@ -1,11 +1,11 @@
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { Mail, Video, Users, ArrowRight, Zap, Database, Shield } from 'lucide-react';
+import { Mail, Video, Users, ArrowRight } from 'lucide-react';
 
 export default function Services() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white selection:bg-blue-500/30">
+    <main className="min-h-screen bg-slate-950 text-white">
       <Navbar />
       
       <section className="pt-32 pb-20 px-6 text-center">
@@ -17,7 +17,6 @@ export default function Services() {
 
       <div className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
         
-        {/* Category 1 */}
         <ServiceCategory 
           title="Communication Managers"
           icon={<Mail className="w-8 h-8 text-blue-400" />}
@@ -29,7 +28,6 @@ export default function Services() {
           ]}
         />
 
-        {/* Category 2 */}
         <ServiceCategory 
           title="Content Engines"
           icon={<Video className="w-8 h-8 text-purple-400" />}
@@ -41,7 +39,6 @@ export default function Services() {
           ]}
         />
 
-        {/* Category 3 */}
         <ServiceCategory 
           title="Department Builders"
           icon={<Users className="w-8 h-8 text-green-400" />}
