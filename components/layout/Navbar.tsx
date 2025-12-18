@@ -23,8 +23,8 @@ const Navbar = () => {
               AI Factory
             </a>
             
-            {/* FIXED: Linking to /solutions because that folder exists */}
-            <a href="/solutions" className="hover:text-white transition-colors">Solutions</a>
+            {/* FIXED: Linking to /ai-services because that folder exists */}
+            <a href="/ai-services" className="hover:text-white transition-colors">AI Services</a>
             <a href="/portfolio" className="hover:text-white transition-colors">Case Studies</a>
             
             <div className="h-4 w-px bg-white/10"></div>
@@ -54,7 +54,7 @@ const Navbar = () => {
             <a href="/factory" className="flex items-center gap-2 text-white bg-white/5 px-4 py-3 rounded-lg">
               <Sparkles className="w-4 h-4 text-purple-400" /> AI Factory
             </a>
-            <a href="/solutions" className="block text-slate-300 hover:text-white px-4 py-3">Solutions</a>
+            <a href="/ai-services" className="block text-slate-300 hover:text-white px-4 py-3">AI Services</a>
             <a href="/portfolio" className="block text-slate-300 hover:text-white px-4 py-3">Case Studies</a>
             <div className="px-4 pt-2">
               <a href="/contact" className="block text-center bg-blue-600 text-white px-4 py-3 rounded-lg font-bold">Book Strategy Call</a>
