@@ -47,7 +47,7 @@ export const generateAIResponse = async (
   const MODEL_LIST = [
     "gemini-1.5-flash",
     "gemini-1.5-flash-001",
-    "gemini-1.5-pro",
+    "gemini-1.5-flash-latest",
     "gemini-1.0-pro",
     "gemini-pro"
   ];
@@ -73,6 +73,10 @@ export const generateAIResponse = async (
       
       if (result.status === 200) {
         console.log(`✅ SUCCESS: Connected to '${model}'`);
+        
+        if (!result.data.candidates || result.data.candidates.length === 0) {
+             return "Agent connected but returned no text. (Quota limit?)";
+        }
         return result.data.candidates[0].content.parts[0].text;
       }
       
