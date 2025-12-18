@@ -16,7 +16,7 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
-// 2. API HANDLER (Stable Version)
+// 2. ROBUST API HANDLER (With Auto-Switching)
 export const generateAIResponse = async (
   userProvidedKey: string, 
   messages: any[], 
@@ -24,7 +24,6 @@ export const generateAIResponse = async (
   context?: string
 ) => {
   
-  // Use User Key or Public Key
   const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
   if (!activeKey || activeKey.includes("PASTE_YOUR")) {
@@ -32,12 +31,10 @@ export const generateAIResponse = async (
     return "Configuration Error: API Key missing.";
   }
 
-  // Inject Context
   const finalSystemPrompt = context 
     ? `${systemInstruction}\n\nCONTEXT FROM USER FILE:\n${context.substring(0, 30000)}` 
     : systemInstruction;
 
-  // Format for Gemini
   const geminiContents = [
     { role: 'user', parts: [{ text: `SYSTEM INSTRUCTION: ${finalSystemPrompt}` }] },
     ...messages.map(m => ({
@@ -46,11 +43,10 @@ export const generateAIResponse = async (
     }))
   ];
 
-  try {
-    console.log("📡 CONNECTING: Sending to Google Gemini...");
-    
-    // UPDATED TO STABLE VERSION: gemini-1.5-flash-001
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${activeKey}`, {
+  // HELPER: Function to try a specific model
+  const tryModel = async (modelName: string) => {
+    console.log(`📡 CONNECTING: Trying model ${modelName}...`);
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -58,19 +54,30 @@ export const generateAIResponse = async (
         generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
       })
     });
-
     const data = await response.json();
+    return { status: response.status, data };
+  };
 
-    if (data.error) {
-      console.error("❌ GOOGLE ERROR:", data.error);
-      return `Error: ${data.error.message}`;
+  try {
+    // ATTEMPT 1: Try the newest Flash model
+    let result = await tryModel("gemini-1.5-flash");
+
+    // ATTEMPT 2: If Flash fails (404), try the standard Pro model
+    if (result.status === 404) {
+        console.warn("⚠️ Flash model not found. Switching to Gemini Pro...");
+        result = await tryModel("gemini-pro");
     }
 
-    if (!data.candidates || data.candidates.length === 0) {
-      return "The agent received your message but generated no response. (Check API quota)";
+    if (result.data.error) {
+      console.error("❌ GOOGLE ERROR:", result.data.error);
+      return `Error: ${result.data.error.message}`;
     }
 
-    return data.candidates[0].content.parts[0].text;
+    if (!result.data.candidates || result.data.candidates.length === 0) {
+      return "The agent is thinking but returned no text. (Quota limit reached?)";
+    }
+
+    return result.data.candidates[0].content.parts[0].text;
 
   } catch (error) {
     console.error("❌ NETWORK ERROR:", error);
@@ -78,22 +85,7 @@ export const generateAIResponse = async (
   }
 };
 
-// 3. PROMPT ENHANCER (Stable Version)
+// 3. PROMPT ENHANCER (Simple Version)
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
-  const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
-  if (!activeKey) return `You are a helpful ${simpleRole}.`;
-
-  try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${activeKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: `Write a system prompt for: ${simpleRole}` }] }]
-      })
-    });
-    const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
-  } catch (e) {
-    return `You are a ${simpleRole}.`;
-  }
+  return `You are a helpful ${simpleRole}.`; // Simplified to avoid extra API calls
 };
