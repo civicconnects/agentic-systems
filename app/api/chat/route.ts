@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
-export const runtime = 'edge'; // Optional: Makes it faster on Cloudflare
+// 1. Allow for longer timeouts (up to 60s) on supported platforms
+export const maxDuration = 60; 
+export const runtime = 'edge';
 
 export async function POST(request: Request) {
   try {
@@ -8,33 +10,34 @@ export async function POST(request: Request) {
     const n8nUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
 
     if (!n8nUrl) {
-      return NextResponse.json({ error: 'Configuration Error: No N8N URL set on server.' }, { status: 500 });
+      return NextResponse.json({ error: 'Server Config Error: Missing N8N URL.' }, { status: 500 });
     }
 
-    console.log("1. Forwarding to N8N:", n8nUrl);
+    // 2. Add an AbortController to manage timeouts manually if needed
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
 
-    // Forward to N8N
     const response = await fetch(n8nUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      signal: controller.signal
     });
 
-    // 2. READ RAW TEXT FIRST (This prevents the JSON crash)
-    const rawText = await response.text();
-    console.log("2. N8N Raw Response:", rawText);
+    clearTimeout(timeoutId);
 
-    // 3. Try to parse it as JSON
+    const rawText = await response.text();
+
     try {
       const data = JSON.parse(rawText);
       return NextResponse.json(data);
     } catch (e) {
-      // If N8N returned text (like "Workflow started"), wrap it in JSON so frontend doesn't break
-      return NextResponse.json({ output: rawText || "Workflow completed with no output." });
+      // If N8N returns plain text (common in errors), wrap it safely
+      return NextResponse.json({ output: rawText });
     }
 
   } catch (error: any) {
-    console.error('Proxy Fatal Error:', error);
-    return NextResponse.json({ error: `Server Error: ${error.message}` }, { status: 500 });
+    console.error('Proxy Error:', error);
+    return NextResponse.json({ error: 'The AI took too long to respond. Please try again.' }, { status: 504 });
   }
 }

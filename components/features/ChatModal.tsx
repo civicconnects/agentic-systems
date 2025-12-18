@@ -62,6 +62,10 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
   };
 
   // Voice Input
+
+  // Add this Ref to track the silence timer
+  const silenceTimer = useRef<any>(null);
+
   const toggleListening = () => {
     if (isListening) {
       recognitionRef.current?.stop();
@@ -70,18 +74,36 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
-        recognitionRef.current.continuous = false;
-        recognitionRef.current.interimResults = false;
+        recognitionRef.current.continuous = true; // CHANGED: Keep listening even after pauses
+        recognitionRef.current.interimResults = true; // CHANGED: See results as you speak
+
         recognitionRef.current.onstart = () => setIsListening(true);
+        
         recognitionRef.current.onresult = (event: any) => {
-          const transcript = event.results[0][0].transcript;
+          // Get the latest text
+          const transcript = Array.from(event.results)
+            .map((result: any) => result[0].transcript)
+            .join('');
+            
           setInput(transcript);
-          handleSend(transcript);
+
+          // AUTO-SEND LOGIC: Wait 2 seconds of silence, then send
+          if (silenceTimer.current) clearTimeout(silenceTimer.current);
+          
+          silenceTimer.current = setTimeout(() => {
+            recognitionRef.current?.stop();
+            setIsListening(false);
+            handleSend(transcript); // Send the final text
+          }, 2000); // Wait 2 seconds
         };
-        recognitionRef.current.onend = () => setIsListening(false);
+
+        recognitionRef.current.onend = () => {
+             setIsListening(false);
+        };
+        
         recognitionRef.current.start();
       } else {
-        alert("Browser does not support voice input.");
+        alert("Voice input not supported in this browser.");
       }
     }
   };
