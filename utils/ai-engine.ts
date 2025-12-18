@@ -1,7 +1,9 @@
 // src/utils/ai-engine.ts
 
-// 🚨 PASTE YOUR GEMINI KEY HERE 🚨
-const PUBLIC_DEMO_KEY = "AIzaSyBuq-tkFRg0jFKXY4vG-F-FwXSym03GqzE"; 
+// 🚨 READS FROM ENVIRONMENT VARIABLE NOW (Safe for GitHub) 🚨
+const PUBLIC_DEMO_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
+
+// ... rest of the file stays the same ...
 
 export const extractTextFromFile = async (file: File): Promise<string> => {
   return new Promise((resolve) => {
