@@ -1,10 +1,11 @@
 // src/utils/ai-engine.ts
 
-// 🚨 READS FROM ENVIRONMENT VARIABLE NOW (Safe for GitHub) 🚨
-const PUBLIC_DEMO_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
+// 1. CONFIGURATION
+// 🚨 IMPORTANT: Add this URL to your Cloudflare Environment Variables as NEXT_PUBLIC_N8N_WEBHOOK_URL
+// For testing now, you can paste your Production URL here inside the quotes.
+const N8N_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || "PASTE_YOUR_N8N_PRODUCTION_WEBHOOK_URL_HERE"; 
 
-// ... rest of the file stays the same ...
-
+// 2. TEXT EXTRACTION (Kept for UI simulation)
 export const extractTextFromFile = async (file: File): Promise<string> => {
   return new Promise((resolve) => {
     if (file.type === "application/pdf") {
@@ -17,70 +18,61 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
+// 3. N8N API HANDLER
 export const generateAIResponse = async (
-  userProvidedKey: string, 
+  userProvidedKey: string, // We ignore this now (or use it as an auth token if you want)
   messages: any[], 
   systemInstruction: string,
   context?: string
 ) => {
-  
-  const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
-  if (!activeKey || activeKey.includes("PASTE_YOUR")) {
-    return "Configuration Error: API Key missing. Please check ai-engine.ts";
+  const activeWebhook = N8N_WEBHOOK_URL;
+
+  if (!activeWebhook || activeWebhook.includes("PASTE_YOUR")) {
+    console.error("❌ ERROR: No N8N Webhook URL configured.");
+    return "Configuration Error: Developer has not set up the N8N Connection yet.";
   }
 
   const finalSystemPrompt = context 
     ? `${systemInstruction}\n\nCONTEXT FROM USER FILE:\n${context.substring(0, 30000)}` 
     : systemInstruction;
 
-  const geminiContents = [
-    { role: 'user', parts: [{ text: `SYSTEM INSTRUCTION: ${finalSystemPrompt}` }] },
-    ...messages.map(m => ({
-      role: m.role === 'bot' ? 'model' : 'user',
-      parts: [{ text: m.text || m.content }]
-    }))
-  ];
+  // Get the last user message to send as the primary prompt
+  const lastMessage = messages[messages.length - 1].content || messages[messages.length - 1].text;
 
-  // 🛡️ THE FINAL FIX: ONLY USE STABLE "v1" ENDPOINTS
-  // We dropped v1beta because it is failing for your specific account.
-  const ENDPOINTS = [
-    { ver: "v1", model: "gemini-1.5-flash" },
-    { ver: "v1", model: "gemini-pro" }
-  ];
-
-  for (const { ver, model } of ENDPOINTS) {
-    console.log(`📡 CONNECTING: Trying ${ver}/${model}...`);
+  try {
+    console.log("📡 CONNECTING: Sending to N8N Automation...");
     
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/${ver}/models/${model}:generateContent?key=${activeKey}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: geminiContents,
-          generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
-        })
-      });
+    const response = await fetch(activeWebhook, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chatInput: lastMessage,
+        systemPrompt: finalSystemPrompt,
+        history: messages // Sending full history in case you want to use it in N8N
+      })
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (response.ok && data.candidates) {
-        console.log(`✅ SUCCESS: Connected via ${ver}/${model}`);
-        return data.candidates[0].content.parts[0].text;
-      }
-
-      if (data.error) {
-        console.warn(`⚠️ Failed on ${model}:`, data.error.message);
-      }
+    // N8N usually returns JSON. We expect an 'output' or 'text' field.
+    // Adjust this based on your final N8N "Respond to Webhook" node settings.
+    if (data.output) return data.output;
+    if (data.text) return data.text;
+    if (data.message) return data.message;
     
-    } catch (e) {
-      console.error(`❌ Network error on ${model}`);
-    }
+    // Fallback if N8N just returns the raw string
+    if (typeof data === 'string') return data;
+
+    return "Error: N8N returned an empty response. Check your 'Respond to Webhook' node.";
+
+  } catch (error) {
+    console.error("❌ N8N ERROR:", error);
+    return "Connection Error: Unable to reach the Automation Backend.";
   }
-
-  return "Error: Unable to connect. Please Create a NEW API Key in a NEW Project at aistudio.google.com to reset your permissions.";
 };
 
-export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
-  return `You are a helpful ${simpleRole}.`; 
+// 4. PROMPT ENHANCER (Simplified)
+export const expandRoleToPrompt = async (key: string, role: string) => {
+  return `You are a helpful ${role}.`;
 };
