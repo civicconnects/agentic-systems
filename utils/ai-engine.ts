@@ -1,7 +1,7 @@
 // src/utils/ai-engine.ts
 
 // 🚨 PASTE YOUR GEMINI KEY HERE 🚨
-const PUBLIC_DEMO_KEY = "AIzaSyB9FamRD0r3B9CoJdFw_yEaaPVC7a3UDyQ"; 
+const PUBLIC_DEMO_KEY = "PASTE_YOUR_GEMINI_KEY_HERE"; 
 
 // 1. TEXT EXTRACTION
 export const extractTextFromFile = async (file: File): Promise<string> => {
@@ -16,7 +16,7 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
-// 2. ROBUST API HANDLER (With Auto-Switching)
+// 2. API HANDLER (Gemini Pro Version)
 export const generateAIResponse = async (
   userProvidedKey: string, 
   messages: any[], 
@@ -24,6 +24,9 @@ export const generateAIResponse = async (
   context?: string
 ) => {
   
+  // CACHE BUSTER LOG: Look for this in your console to know the new code loaded!
+  console.log("🚀 VERSION: GEMINI PRO STABLE LOADED");
+
   const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
   if (!activeKey || activeKey.includes("PASTE_YOUR")) {
@@ -43,10 +46,11 @@ export const generateAIResponse = async (
     }))
   ];
 
-  // HELPER: Function to try a specific model
-  const tryModel = async (modelName: string) => {
-    console.log(`📡 CONNECTING: Trying model ${modelName}...`);
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeKey}`, {
+  try {
+    console.log("📡 CONNECTING: Sending to Google Gemini Pro...");
+    
+    // SWITCHED TO 'gemini-pro' (The most compatible model)
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -54,30 +58,19 @@ export const generateAIResponse = async (
         generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
       })
     });
+
     const data = await response.json();
-    return { status: response.status, data };
-  };
 
-  try {
-    // ATTEMPT 1: Try the newest Flash model
-    let result = await tryModel("gemini-1.5-flash");
-
-    // ATTEMPT 2: If Flash fails (404), try the standard Pro model
-    if (result.status === 404) {
-        console.warn("⚠️ Flash model not found. Switching to Gemini Pro...");
-        result = await tryModel("gemini-pro");
+    if (data.error) {
+      console.error("❌ GOOGLE ERROR:", data.error);
+      return `Error: ${data.error.message}`;
     }
 
-    if (result.data.error) {
-      console.error("❌ GOOGLE ERROR:", result.data.error);
-      return `Error: ${result.data.error.message}`;
+    if (!data.candidates || data.candidates.length === 0) {
+      return "The agent received your message but generated no response.";
     }
 
-    if (!result.data.candidates || result.data.candidates.length === 0) {
-      return "The agent is thinking but returned no text. (Quota limit reached?)";
-    }
-
-    return result.data.candidates[0].content.parts[0].text;
+    return data.candidates[0].content.parts[0].text;
 
   } catch (error) {
     console.error("❌ NETWORK ERROR:", error);
@@ -85,8 +78,7 @@ export const generateAIResponse = async (
   }
 };
 
-// 3. PROMPT ENHANCER (Simple Version)
-// We simplified this to avoid extra API calls breaking the flow
+// 3. PROMPT ENHANCER
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
   return `You are a helpful ${simpleRole}.`; 
 };
