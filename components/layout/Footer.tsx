@@ -22,7 +22,7 @@ const Footer = () => {
             <h4 className="text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="/" className="hover:text-blue-400 transition-colors">Home</a></li>
-              <li><a href="/services" className="hover:text-blue-400 transition-colors">Services</a></li>
+              <li><a href="/solutions" className="hover:text-blue-400 transition-colors">Services</a></li>
               <li><a href="/portfolio" className="hover:text-blue-400 transition-colors">Case Studies</a></li>
               <li><a href="/contact" className="hover:text-blue-400 transition-colors">Contact</a></li>
             </ul>

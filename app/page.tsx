@@ -141,7 +141,7 @@ export default function Home() {
               <h2 className="text-4xl font-bold text-white mb-2">The Ecosystem</h2>
               <p className="text-slate-400">Select an agent to initialize simulation.</p>
             </div>
-            <a href="/services" className="hidden md:flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-bold text-sm">
+            <a href="/solutions" className="hidden md:flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-bold text-sm">
               View Full Catalog <ArrowRight className="w-4 h-4" />
             </a>
           </div>
