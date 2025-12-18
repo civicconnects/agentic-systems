@@ -1,7 +1,7 @@
 // src/utils/ai-engine.ts
 
 // 🚨 PASTE YOUR GEMINI KEY HERE 🚨
-const PUBLIC_DEMO_KEY = "PASTE_YOUR_GEMINI_KEY_HERE"; 
+const PUBLIC_DEMO_KEY = "AIzaSyB9FamRD0r3B9CoJdFw_yEaaPVC7a3UDyQ"; 
 
 // 1. TEXT EXTRACTION
 export const extractTextFromFile = async (file: File): Promise<string> => {
@@ -16,7 +16,7 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
-// 2. API HANDLER (Gemini Pro Version)
+// 2. THE "MODEL HUNTER" API HANDLER
 export const generateAIResponse = async (
   userProvidedKey: string, 
   messages: any[], 
@@ -24,9 +24,6 @@ export const generateAIResponse = async (
   context?: string
 ) => {
   
-  // CACHE BUSTER LOG: Look for this in your console to know the new code loaded!
-  console.log("🚀 VERSION: GEMINI PRO STABLE LOADED");
-
   const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
   if (!activeKey || activeKey.includes("PASTE_YOUR")) {
@@ -46,11 +43,18 @@ export const generateAIResponse = async (
     }))
   ];
 
-  try {
-    console.log("📡 CONNECTING: Sending to Google Gemini Pro...");
-    
-    // SWITCHED TO 'gemini-pro' (The most compatible model)
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${activeKey}`, {
+  // 🛡️ THE LIST OF MODELS TO TRY (In order of preference)
+  const MODEL_LIST = [
+    "gemini-1.5-flash",
+    "gemini-1.5-flash-001",
+    "gemini-1.5-pro",
+    "gemini-1.0-pro",
+    "gemini-pro"
+  ];
+
+  // Helper to try a specific model
+  const tryModel = async (modelName: string) => {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -58,27 +62,31 @@ export const generateAIResponse = async (
         generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
       })
     });
+    return { status: response.status, data: await response.json() };
+  };
 
-    const data = await response.json();
-
-    if (data.error) {
-      console.error("❌ GOOGLE ERROR:", data.error);
-      return `Error: ${data.error.message}`;
+  // 🔄 LOOP THROUGH MODELS UNTIL ONE WORKS
+  for (const model of MODEL_LIST) {
+    console.log(`📡 CONNECTING: Trying model '${model}'...`);
+    try {
+      const result = await tryModel(model);
+      
+      if (result.status === 200) {
+        console.log(`✅ SUCCESS: Connected to '${model}'`);
+        return result.data.candidates[0].content.parts[0].text;
+      }
+      
+      console.warn(`⚠️ Model '${model}' failed (${result.status}). Trying next...`);
+    
+    } catch (e) {
+      console.error(`❌ Network error on '${model}'`);
     }
-
-    if (!data.candidates || data.candidates.length === 0) {
-      return "The agent received your message but generated no response.";
-    }
-
-    return data.candidates[0].content.parts[0].text;
-
-  } catch (error) {
-    console.error("❌ NETWORK ERROR:", error);
-    return "Connection Error. Please check your internet.";
   }
+
+  return "Error: Unable to connect to ANY Google Gemini models. Please check if your API Key is valid and enabled in Google Cloud Console.";
 };
 
-// 3. PROMPT ENHANCER
+// 3. PROMPT ENHANCER (Simplified)
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
   return `You are a helpful ${simpleRole}.`; 
 };
