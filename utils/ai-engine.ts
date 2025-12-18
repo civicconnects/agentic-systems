@@ -40,12 +40,10 @@ export const generateAIResponse = async (
     }))
   ];
 
-  // 🛡️ THE MATRIX: Try every combination of Version + Model
+  // 🛡️ THE FINAL FIX: ONLY USE STABLE "v1" ENDPOINTS
+  // We dropped v1beta because it is failing for your specific account.
   const ENDPOINTS = [
-    { ver: "v1beta", model: "gemini-1.5-flash" },
-    { ver: "v1beta", model: "gemini-1.5-flash-latest" },
-    { ver: "v1beta", model: "gemini-pro" },
-    { ver: "v1", model: "gemini-1.5-flash" }, // Try Stable API
+    { ver: "v1", model: "gemini-1.5-flash" },
     { ver: "v1", model: "gemini-pro" }
   ];
 
@@ -64,20 +62,13 @@ export const generateAIResponse = async (
 
       const data = await response.json();
 
-      // IF SUCCESS:
       if (response.ok && data.candidates) {
         console.log(`✅ SUCCESS: Connected via ${ver}/${model}`);
         return data.candidates[0].content.parts[0].text;
       }
 
-      // IF ERROR: Log the specific message from Google
       if (data.error) {
         console.warn(`⚠️ Failed on ${model}:`, data.error.message);
-        
-        // Critical Check: Did the user forget to enable the API?
-        if (data.error.message.includes("API has not been used") || data.error.message.includes("Enable it")) {
-            return "CRITICAL ERROR: You created a Key, but did not ENABLE the 'Generative Language API' in Google Console. Please go to console.cloud.google.com and enable it.";
-        }
       }
     
     } catch (e) {
@@ -85,7 +76,7 @@ export const generateAIResponse = async (
     }
   }
 
-  return "Error: Unable to connect to Google Gemini. Please check the Console Logs (F12) to see the specific error message from Google.";
+  return "Error: Unable to connect. Please Create a NEW API Key in a NEW Project at aistudio.google.com to reset your permissions.";
 };
 
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
