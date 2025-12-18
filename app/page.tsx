@@ -50,10 +50,10 @@ export default function Home() {
 
       {/* UPDATED: Educational Narrative (Fixed Layout & Expanded Content) */}
       <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           
           {/* Left Column: The Content */}
-          <div className="w-full md:w-1/2 space-y-8">
+          <div className="space-y-8 order-2 lg:order-1">
              <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm">
                 <Zap className="w-4 h-4" /> The Competitive Edge
              </div>
@@ -84,11 +84,11 @@ export default function Home() {
           </div>
 
           {/* Right Column: The Visuals (Stacked perfectly) */}
-          <div className="w-full md:w-1/2 relative flex justify-center items-center">
+          <div className="relative flex justify-center items-center order-1 lg:order-2">
              {/* Background Glow */}
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-600/10 rounded-full blur-[80px]"></div>
              
-             <div className="w-full max-w-sm space-y-6 relative z-10">
+             <div className="w-full max-w-md space-y-6 relative z-10">
                 {/* Old Way Card */}
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 opacity-60">
                   <div className="flex items-center justify-between mb-4">
@@ -135,7 +135,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AGENT GRID */}
+      {/* AGENT GRID (Added ID for scrolling) */}
       <section id="ecosystem" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 flex justify-between items-end">
