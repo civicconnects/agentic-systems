@@ -1,10 +1,9 @@
 // src/utils/ai-engine.ts
 
-// --- CONFIGURATION ---
-// 🚨 PASTE YOUR GEMINI KEY INSIDE THE QUOTES BELOW 🚨
+// 🚨 PASTE YOUR GEMINI KEY HERE 🚨
 const PUBLIC_DEMO_KEY = "AIzaSyB9FamRD0r3B9CoJdFw_yEaaPVC7a3UDyQ"; 
 
-// 1. TEXT EXTRACTION ENGINE
+// 1. TEXT EXTRACTION
 export const extractTextFromFile = async (file: File): Promise<string> => {
   return new Promise((resolve) => {
     if (file.type === "application/pdf") {
@@ -17,7 +16,7 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
-// 2. GEMINI API HANDLER (Google Version)
+// 2. API HANDLER (Stable Version)
 export const generateAIResponse = async (
   userProvidedKey: string, 
   messages: any[], 
@@ -25,13 +24,12 @@ export const generateAIResponse = async (
   context?: string
 ) => {
   
-  // LOGIC: Use User's key if provided, otherwise use your Public Demo Key
-  // We trim whitespace just in case the copy-paste added spaces
+  // Use User Key or Public Key
   const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
   if (!activeKey || activeKey.includes("PASTE_YOUR")) {
     console.error("❌ ERROR: No API Key configured.");
-    return "Configuration Error: The developer has not added the public demo key yet.";
+    return "Configuration Error: API Key missing.";
   }
 
   // Inject Context
@@ -51,8 +49,8 @@ export const generateAIResponse = async (
   try {
     console.log("📡 CONNECTING: Sending to Google Gemini...");
     
-    // UPDATED MODEL NAME: gemini-1.5-flash-latest
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${activeKey}`, {
+    // UPDATED TO STABLE VERSION: gemini-1.5-flash-001
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -68,21 +66,25 @@ export const generateAIResponse = async (
       return `Error: ${data.error.message}`;
     }
 
+    if (!data.candidates || data.candidates.length === 0) {
+      return "The agent received your message but generated no response. (Check API quota)";
+    }
+
     return data.candidates[0].content.parts[0].text;
 
   } catch (error) {
     console.error("❌ NETWORK ERROR:", error);
-    return "Connection Error. Please check your internet connection.";
+    return "Connection Error. Please check your internet.";
   }
 };
 
-// 3. PROMPT ENHANCER
+// 3. PROMPT ENHANCER (Stable Version)
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
   const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
   if (!activeKey) return `You are a helpful ${simpleRole}.`;
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${activeKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${activeKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
