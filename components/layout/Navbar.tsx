@@ -25,7 +25,7 @@ const Navbar = () => {
             </a>
             
             {/* UPDATED: Direct link to new Services page */}
-            <a href="/services" className="hover:text-white transition-colors">Services</a>
+            <a href="/my-services" className="hover:text-white transition-colors">Services</a>
             <a href="/portfolio" className="hover:text-white transition-colors">Case Studies</a>
             
             <div className="h-4 w-px bg-white/10"></div>
