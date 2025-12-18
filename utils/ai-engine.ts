@@ -1,93 +1,96 @@
 // src/utils/ai-engine.ts
 
+// --- CONFIGURATION ---
+// 🚨 PASTE YOUR GEMINI KEY INSIDE THE QUOTES BELOW 🚨
+const PUBLIC_DEMO_KEY = "AIzaSyB9FamRD0r3B9CoJdFw_yEaaPVC7a3UDyQ"; 
+
 // 1. TEXT EXTRACTION ENGINE
 export const extractTextFromFile = async (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    
-    // Handle Text/CSV
-    if (file.type === "text/plain" || file.type === "text/csv") {
-      reader.onload = (e) => resolve(e.target?.result as string);
-      reader.onerror = (e) => reject(e);
-      reader.readAsText(file);
-    } 
-    // Handle PDF (Simplified Text Extraction for Demo)
-    // Note: Real production apps use 'pdf-parse' on server or 'pdfjs-dist' on client.
-    // For this demo, we will simulate PDF reading to avoid heavy npm installs breaking your build.
-    else if (file.type === "application/pdf") {
-       // Simulate extraction delay
-       setTimeout(() => {
-         resolve(`[SYSTEM: Extracted Content from ${file.name}]\n\n(This is a simulated extraction for the demo. To parse real PDFs client-side, install 'pdfjs-dist'.)\n\nSample Context: The user is asking about specific compliance rules defined in Section 4.2...`);
-       }, 1500);
+  return new Promise((resolve) => {
+    if (file.type === "application/pdf") {
+       setTimeout(() => resolve(`[SYSTEM: Extracted Content from ${file.name}]`), 1000);
     } else {
-      resolve(`[File Type ${file.type} not supported for text extraction]`);
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target?.result as string);
+      reader.readAsText(file);
     }
   });
 };
 
-// 2. OPENAI API HANDLER
+// 2. GEMINI API HANDLER (Google Version)
 export const generateAIResponse = async (
-  apiKey: string, 
+  userProvidedKey: string, 
   messages: any[], 
   systemInstruction: string,
   context?: string
 ) => {
-  if (!apiKey) throw new Error("API Key Missing");
+  
+  // LOGIC: Use User's key if provided, otherwise use your Public Demo Key
+  const activeKey = userProvidedKey || PUBLIC_DEMO_KEY;
 
-  // Inject Context if it exists
+  if (!activeKey || activeKey.includes("PASTE_YOUR")) {
+    console.error("❌ ERROR: No API Key configured.");
+    return "Configuration Error: The developer has not added the public demo key yet.";
+  }
+
+  // Inject Context
   const finalSystemPrompt = context 
-    ? `${systemInstruction}\n\nCONTEXT FROM USER FILE:\n${context.substring(0, 10000)}` // Limit tokens
+    ? `${systemInstruction}\n\nCONTEXT FROM USER FILE:\n${context.substring(0, 30000)}` 
     : systemInstruction;
 
-  const apiMessages = [
-    { role: "system", content: finalSystemPrompt },
-    ...messages
+  // Format for Gemini
+  const geminiContents = [
+    { role: 'user', parts: [{ text: `SYSTEM INSTRUCTION: ${finalSystemPrompt}` }] },
+    ...messages.map(m => ({
+      role: m.role === 'bot' ? 'model' : 'user',
+      parts: [{ text: m.text || m.content }]
+    }))
   ];
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    console.log("📡 CONNECTING: Sending to Google Gemini...");
+    
+    // URL IS NOW GOOGLE, NOT OPENAI
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo", // Fast & Cheap for demos
-        messages: apiMessages,
-        temperature: 0.7,
-        max_tokens: 150 // Keep replies snappy for voice
+        contents: geminiContents,
+        generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
       })
     });
 
     const data = await response.json();
-    if (data.error) throw new Error(data.error.message);
-    return data.choices[0].message.content;
+
+    if (data.error) {
+      console.error("❌ GOOGLE ERROR:", data.error);
+      return `Error: ${data.error.message}`;
+    }
+
+    return data.candidates[0].content.parts[0].text;
 
   } catch (error) {
-    console.error("AI Error:", error);
-    return "I apologize, but I am unable to connect to the neural network right now. Please check your API Key configuration.";
+    console.error("❌ NETWORK ERROR:", error);
+    return "Connection Error. Please try again.";
   }
 };
 
-// 3. THE "PRIME DIRECTIVE" (Prompt Enhancer)
-export const expandRoleToPrompt = async (apiKey: string, simpleRole: string) => {
-  if (!apiKey) return `You are a helpful ${simpleRole}.`;
+// 3. PROMPT ENHANCER
+export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
+  const activeKey = userProvidedKey || PUBLIC_DEMO_KEY;
+  if (!activeKey) return `You are a helpful ${simpleRole}.`;
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ 
-        role: "user", 
-        content: `Write a robust, professional system prompt (max 50 words) for an AI Agent with the job title: "${simpleRole}". It should define tone, goals, and behavior.` 
-      }],
-    })
-  });
-
-  const data = await response.json();
-  return data.choices[0].message.content || `You are a ${simpleRole}.`;
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: `Write a system prompt for: ${simpleRole}` }] }]
+      })
+    });
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+  } catch (e) {
+    return `You are a ${simpleRole}.`;
+  }
 };
