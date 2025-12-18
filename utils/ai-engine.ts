@@ -86,6 +86,7 @@ export const generateAIResponse = async (
 };
 
 // 3. PROMPT ENHANCER (Simple Version)
+// We simplified this to avoid extra API calls breaking the flow
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
-  return `You are a helpful ${simpleRole}.`; // Simplified to avoid extra API calls
+  return `You are a helpful ${simpleRole}.`; 
 };
