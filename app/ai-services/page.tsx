@@ -1,9 +1,14 @@
-import React from 'react';
+"use client"; // Required for interactivity
+
+import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import ChatModal from '@/components/features/ChatModal';
 import { Mail, Video, Users, ArrowRight, CheckCircle, Zap, HeartHandshake, PhoneCall, TrendingUp, Settings, Database, Upload, Rocket } from 'lucide-react';
 
 export default function AIServices() {
+  const [showBuilder, setShowBuilder] = useState(false);
+
   return (
     <main className="min-h-screen bg-slate-950 text-white selection:bg-blue-500/30">
       <Navbar />
@@ -45,48 +50,25 @@ export default function AIServices() {
           ]}
         />
 
-        {/* Category 3: Department Builders (EXPANDED) */}
+        {/* Category 3: Department Builders */}
         <ServiceCategory 
           title="Department Builders"
           icon={<Users className="w-8 h-8 text-green-400" />}
           desc="Full-stack autonomous teams for complex operations."
           roles={[
-            // Existing
             { title: "Compliance Team", detail: "Monitors all internal comms for policy violations.", saved: "Full Headcount" },
             { title: "Marketing Swarm", detail: "5 agents working in unison to plan and execute campaigns.", saved: "3 Headcounts" },
-            // NEW High-Performance Agents
-            { 
-              title: "The Orchestrator", 
-              detail: "Automates employee lifecycle: onboarding, policy Q&A, and conflict logging.", 
-              saved: "60% HR Admin",
-              icon: <Users className="w-4 h-4 text-emerald-400" />
-            },
-            { 
-              title: "The Advocate", 
-              detail: "Empathetic CS agent resolving 85% of tickets instantly 24/7.", 
-              saved: "25% Retention Boost",
-              icon: <HeartHandshake className="w-4 h-4 text-pink-400" />
-            },
-            { 
-              title: "The Dispatcher", 
-              detail: "Voice-integrated routing for thousands of simultaneous calls.", 
-              saved: "10x Scale",
-              icon: <PhoneCall className="w-4 h-4 text-cyan-400" />
-            },
-            { 
-              title: "The Closer", 
-              detail: "Rapid lead qualification and instant follow-up sequence.", 
-              saved: "2x Conversion",
-              icon: <TrendingUp className="w-4 h-4 text-orange-400" />
-            }
+            { title: "The Orchestrator", detail: "Automates employee lifecycle: onboarding, policy Q&A, and conflict logging.", saved: "60% HR Admin", icon: <Users className="w-4 h-4 text-emerald-400" /> },
+            { title: "The Advocate", detail: "Empathetic CS agent resolving 85% of tickets instantly 24/7.", saved: "25% Retention Boost", icon: <HeartHandshake className="w-4 h-4 text-pink-400" /> },
+            { title: "The Dispatcher", detail: "Voice-integrated routing for thousands of simultaneous calls.", saved: "10x Scale", icon: <PhoneCall className="w-4 h-4 text-cyan-400" /> },
+            { title: "The Closer", detail: "Rapid lead qualification and instant follow-up sequence.", saved: "2x Conversion", icon: <TrendingUp className="w-4 h-4 text-orange-400" /> }
           ]}
         />
 
       </div>
 
-      {/* NEW: CUSTOMIZE AGENTS SECTION */}
+      {/* CUSTOMIZE AGENTS SECTION */}
       <section className="py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden">
-        {/* Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] -z-10"></div>
         
         <div className="max-w-5xl mx-auto text-center">
@@ -119,16 +101,24 @@ export default function AIServices() {
             </div>
           </div>
 
-          <a 
-            href="/factory" 
+          <button 
+            onClick={() => setShowBuilder(true)}
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_30px_rgba(37,99,235,0.3)] hover:scale-105"
           >
             Start Building Your Agent <ArrowRight className="w-5 h-5" />
-          </a>
+          </button>
         </div>
       </section>
 
       <Footer />
+
+      {/* Builder Modal */}
+      {showBuilder && (
+        <ChatModal 
+            agent={{ id: 'custom_builder', name: 'Agent Forge', role: 'System Builder' }} 
+            onClose={() => setShowBuilder(false)} 
+        />
+      )}
     </main>
   );
 }

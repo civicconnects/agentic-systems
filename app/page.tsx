@@ -10,12 +10,80 @@ export default function Home() {
   const [activeAgent, setActiveAgent] = useState<any>(null);
 
   const agents = [
-    { id: 1, name: "The Sentinel", role: "AI HR Director", icon: <Shield className="w-6 h-6 text-white" />, pain: "Compliance risks.", roi: "70% less admin.", desc: "Handles onboarding & policy Q&A.", color: "bg-emerald-600", greeting: "I am The Sentinel. Ready for onboarding." },
-    { id: 2, name: "The Architect", role: "Editor-in-Chief", icon: <PenTool className="w-6 h-6 text-white" />, pain: "Slow content.", roi: "10x output.", desc: "Researches & writes content on brand.", color: "bg-orange-600", greeting: "Ready to write. What is the topic?" },
-    { id: 3, name: "Sales VP", role: "Lead Closer", icon: <BarChart className="w-6 h-6 text-white" />, pain: "Leads dying.", roi: "2x conversion.", desc: "Qualifies & books meetings 24/7.", color: "bg-blue-600", greeting: "Let's increase your revenue." },
-    { id: 4, name: "Voice Ops", role: "Outbound Caller", icon: <Mic className="w-6 h-6 text-white" />, pain: "Manual dialing.", roi: "10k calls/day.", desc: "Hyper-realistic voice outreach.", color: "bg-purple-600", greeting: "Hi, this is Voice Ops." },
-    { id: 5, name: "Front Desk", role: "Receptionist", icon: <MessageSquare className="w-6 h-6 text-white" />, pain: "Missed calls.", roi: "100% capture.", desc: "Routes calls & answers FAQs.", color: "bg-pink-600", greeting: "Thanks for calling." },
-    { id: 6, name: "The Analyst", role: "Ops Manager", icon: <Users className="w-6 h-6 text-white" />, pain: "Data silos.", roi: "Instant clarity.", desc: "Predicts bottlenecks in workflows.", color: "bg-cyan-600", greeting: "Systems operational." }
+    { 
+        id: 1, 
+        name: "The Sentinel", 
+        role: "Senior HR Director", 
+        icon: <Shield className="w-6 h-6 text-white" />, 
+        pain: "Compliance risks.", 
+        roi: "70% less admin.", 
+        desc: "Handles onboarding & policy Q&A.", 
+        color: "bg-emerald-600", 
+        systemInstruction: "You are the Senior HR Director. You are professional, compliant, and empathetic. Your goal is to solve employee conflicts and explain benefits.",
+        firstMessage: "Hello. I am The Sentinel, your HR Director. How can I assist with policy, benefits, or onboarding today?"
+    },
+    { 
+        id: 2, 
+        name: "The Architect", 
+        role: "Senior Content Editor", 
+        icon: <PenTool className="w-6 h-6 text-white" />, 
+        pain: "Slow content.", 
+        roi: "10x output.", 
+        desc: "Researches & writes content on brand.", 
+        color: "bg-orange-600",
+        systemInstruction: "You are a Senior Editor. You care about tone, SEO, and brand voice. You hate passive voice.",
+        firstMessage: "Greetings. I am The Architect. Give me a topic, and I will craft a viral blog post or tweet thread in seconds."
+    },
+    { 
+        id: 3, 
+        name: "The Closer", 
+        role: "VP of Sales", 
+        icon: <BarChart className="w-6 h-6 text-white" />, 
+        pain: "Leads dying.", 
+        roi: "2x conversion.", 
+        desc: "Qualifies & books meetings 24/7.", 
+        color: "bg-blue-600",
+        systemInstruction: "You are the VP of Sales. You are high-energy, persuasive, and always looking to qualify leads or close deals.",
+        firstMessage: "Hey there! I'm The Closer. Let's not waste time—are you looking to double your pipeline this quarter, or triple it?" 
+    },
+    { 
+        id: 4, 
+        name: "Voice Ops", 
+        role: "Logistics Dispatcher", 
+        icon: <Mic className="w-6 h-6 text-white" />, 
+        pain: "Manual dialing.", 
+        roi: "10k calls/day.", 
+        desc: "Hyper-realistic voice outreach.", 
+        color: "bg-purple-600",
+        mode: "voice", // VOICE MODE ENABLED
+        systemInstruction: "You are a Logistics Dispatcher. You are calm, rapid-fire, and precise.",
+        firstMessage: "Voice Ops connected. Lines are open. What is your routing status?"
+    },
+    { 
+        id: 5, 
+        name: "Front Desk", 
+        role: "Senior Receptionist", 
+        icon: <MessageSquare className="w-6 h-6 text-white" />, 
+        pain: "Missed calls.", 
+        roi: "100% capture.", 
+        desc: "Routes calls & answers FAQs.", 
+        color: "bg-pink-600",
+        mode: "voice", // VOICE MODE ENABLED
+        systemInstruction: "You are the Senior Receptionist. You are warm, welcoming, and helpful. Keep answers short and spoken.",
+        firstMessage: "Good morning! Welcome to AI Hub. I'm the Front Desk agent. Who are you looking to connect with today?"
+    },
+    { 
+        id: 6, 
+        name: "The Analyst", 
+        role: "Senior Ops Manager", 
+        icon: <Users className="w-6 h-6 text-white" />, 
+        pain: "Data silos.", 
+        roi: "Instant clarity.", 
+        desc: "Predicts bottlenecks in workflows.", 
+        color: "bg-cyan-600",
+        systemInstruction: "You are a Senior Ops Manager. You are data-driven, concise, and focused on efficiency/KPIs.",
+        firstMessage: "Operations online. I am The Analyst. Upload your dataset or ask me about workflow optimization. I'm ready."
+    }
   ];
 
   return (
@@ -48,11 +116,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NEW LAYOUT: Educational Narrative with Large Visual */}
+      {/* Educational Narrative */}
       <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center relative">
           
-          {/* Left Column: The Content */}
           <div className="w-full md:w-1/2 space-y-10 relative z-10">
              <div>
                 <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm mb-4">
@@ -68,7 +135,7 @@ export default function Home() {
                  <div className="bg-red-500/10 p-3 rounded-xl h-fit"><AlertTriangle className="w-6 h-6 text-red-400" /></div>
                  <div>
                     <strong className="text-white block mb-2 text-xl">The Old Way is crumbling.</strong> 
-                    Traditional automation (RPA) is brittle. It follows rigid rules and breaks the moment anything changes. It requires constant human oversight and endless maintenance.
+                    Traditional automation (RPA) is brittle. It follows rigid rules and breaks the moment anything changes. It requires constant human oversight.
                  </div>
                </div>
                <div className="flex gap-4">
@@ -82,28 +149,18 @@ export default function Home() {
                  <div className="bg-green-500/10 p-3 rounded-xl h-fit"><BarChart className="w-6 h-6 text-green-400" /></div>
                  <div>
                     <strong className="text-white block mb-2 text-xl">The ROI is immediate.</strong> 
-                    Businesses incorporating AI Departments see a <span className="text-white font-bold">40% reduction in overhead</span> in 90 days. It's decision-making at scale.
+                    Businesses incorporating AI Departments see a <span className="text-white font-bold">40% reduction in overhead</span> in 90 days.
                  </div>
                </div>
              </div>
           </div>
 
-          {/* Right Column: The Large Abstract Visual */}
-          <div className="w-full md:w-1/2 relative h-[600px]">
-             {/* Abstract Glowing Orb */}
+          {/* Abstract Visual */}
+          <div className="w-full md:w-1/2 relative h-[600px] flex items-center justify-center">
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-600/30 to-purple-600/30 rounded-full blur-[120px] animate-pulse"></div>
-             
-             {/* Wireframe / Chip Visual */}
-             <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-full h-full max-w-md max-h-md border border-blue-500/20 rounded-3xl p-8 backdrop-blur-sm bg-slate-900/50 flex items-center justify-center overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20"></div> {/* Optional grid pattern if you have one */}
-                    <Cpu className="w-64 h-64 text-blue-500/50 animate-spin-slow [animation-duration:20s]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-                    <div className="absolute bottom-8 left-8 right-8 text-center">
-                        <div className="text-blue-400 font-bold text-xl mb-2 flex items-center justify-center gap-2"><Brain className="w-6 h-6"/> Neural Architecture</div>
-                        <p className="text-sm text-slate-400">Self-learning, autonomous systems.</p>
-                    </div>
-                </div>
+             <div className="relative w-full h-full max-w-md max-h-md border border-blue-500/20 rounded-3xl p-8 backdrop-blur-sm bg-slate-900/50 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                <Cpu className="w-64 h-64 text-blue-500/50 animate-spin-slow [animation-duration:20s]" />
              </div>
           </div>
 
@@ -118,7 +175,6 @@ export default function Home() {
               <h2 className="text-4xl font-bold text-white mb-2">The Ecosystem</h2>
               <p className="text-slate-400">Select an agent to initialize simulation.</p>
             </div>
-            {/* UPDATED LINK */}
             <a href="/ai-services" className="hidden md:flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-bold text-sm">
               View Full Catalog <ArrowRight className="w-4 h-4" />
             </a>
@@ -141,10 +197,10 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-white">{agent.name}</h3>
                 <p className="text-blue-400 text-xs font-bold uppercase mb-3">{agent.role}</p>
                 <p className="text-sm text-slate-400 mb-4">{agent.desc}</p>
-                <div className="flex gap-4 text-xs font-mono border-t border-white/5 pt-4">
-                  <span className="text-red-400 flex items-center gap-1">Pain: {agent.pain}</span>
-                  <span className="text-green-400 flex items-center gap-1">ROI: {agent.roi}</span>
-                </div>
+                <button className="w-full mt-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 group-hover:border-blue-500/50">
+                    {agent.mode === 'voice' ? <Mic className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
+                    {agent.name} Demo
+                </button>
               </div>
             ))}
           </div>
