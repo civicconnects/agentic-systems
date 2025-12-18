@@ -3,7 +3,6 @@
 // 🚨 PASTE YOUR GEMINI KEY HERE 🚨
 const PUBLIC_DEMO_KEY = "AIzaSyB9FamRD0r3B9CoJdFw_yEaaPVC7a3UDyQ"; 
 
-// 1. TEXT EXTRACTION
 export const extractTextFromFile = async (file: File): Promise<string> => {
   return new Promise((resolve) => {
     if (file.type === "application/pdf") {
@@ -16,7 +15,6 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
-// 2. THE "MODEL HUNTER" API HANDLER
 export const generateAIResponse = async (
   userProvidedKey: string, 
   messages: any[], 
@@ -27,8 +25,7 @@ export const generateAIResponse = async (
   const activeKey = (userProvidedKey || PUBLIC_DEMO_KEY).trim();
 
   if (!activeKey || activeKey.includes("PASTE_YOUR")) {
-    console.error("❌ ERROR: No API Key configured.");
-    return "Configuration Error: API Key missing.";
+    return "Configuration Error: API Key missing. Please check ai-engine.ts";
   }
 
   const finalSystemPrompt = context 
@@ -43,54 +40,54 @@ export const generateAIResponse = async (
     }))
   ];
 
-  // 🛡️ THE LIST OF MODELS TO TRY (In order of preference)
-  const MODEL_LIST = [
-    "gemini-1.5-flash",
-    "gemini-1.5-flash-001",
-    "gemini-1.5-flash-latest",
-    "gemini-1.0-pro",
-    "gemini-pro"
+  // 🛡️ THE MATRIX: Try every combination of Version + Model
+  const ENDPOINTS = [
+    { ver: "v1beta", model: "gemini-1.5-flash" },
+    { ver: "v1beta", model: "gemini-1.5-flash-latest" },
+    { ver: "v1beta", model: "gemini-pro" },
+    { ver: "v1", model: "gemini-1.5-flash" }, // Try Stable API
+    { ver: "v1", model: "gemini-pro" }
   ];
 
-  // Helper to try a specific model
-  const tryModel = async (modelName: string) => {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: geminiContents,
-        generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
-      })
-    });
-    return { status: response.status, data: await response.json() };
-  };
-
-  // 🔄 LOOP THROUGH MODELS UNTIL ONE WORKS
-  for (const model of MODEL_LIST) {
-    console.log(`📡 CONNECTING: Trying model '${model}'...`);
+  for (const { ver, model } of ENDPOINTS) {
+    console.log(`📡 CONNECTING: Trying ${ver}/${model}...`);
+    
     try {
-      const result = await tryModel(model);
-      
-      if (result.status === 200) {
-        console.log(`✅ SUCCESS: Connected to '${model}'`);
-        
-        if (!result.data.candidates || result.data.candidates.length === 0) {
-             return "Agent connected but returned no text. (Quota limit?)";
-        }
-        return result.data.candidates[0].content.parts[0].text;
+      const response = await fetch(`https://generativelanguage.googleapis.com/${ver}/models/${model}:generateContent?key=${activeKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: geminiContents,
+          generationConfig: { temperature: 0.7, maxOutputTokens: 300 }
+        })
+      });
+
+      const data = await response.json();
+
+      // IF SUCCESS:
+      if (response.ok && data.candidates) {
+        console.log(`✅ SUCCESS: Connected via ${ver}/${model}`);
+        return data.candidates[0].content.parts[0].text;
       }
-      
-      console.warn(`⚠️ Model '${model}' failed (${result.status}). Trying next...`);
+
+      // IF ERROR: Log the specific message from Google
+      if (data.error) {
+        console.warn(`⚠️ Failed on ${model}:`, data.error.message);
+        
+        // Critical Check: Did the user forget to enable the API?
+        if (data.error.message.includes("API has not been used") || data.error.message.includes("Enable it")) {
+            return "CRITICAL ERROR: You created a Key, but did not ENABLE the 'Generative Language API' in Google Console. Please go to console.cloud.google.com and enable it.";
+        }
+      }
     
     } catch (e) {
-      console.error(`❌ Network error on '${model}'`);
+      console.error(`❌ Network error on ${model}`);
     }
   }
 
-  return "Error: Unable to connect to ANY Google Gemini models. Please check if your API Key is valid and enabled in Google Cloud Console.";
+  return "Error: Unable to connect to Google Gemini. Please check the Console Logs (F12) to see the specific error message from Google.";
 };
 
-// 3. PROMPT ENHANCER (Simplified)
 export const expandRoleToPrompt = async (userProvidedKey: string, simpleRole: string) => {
   return `You are a helpful ${simpleRole}.`; 
 };
