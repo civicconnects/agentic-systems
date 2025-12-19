@@ -23,6 +23,15 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
+              {/* Inside your Footer links... */}
+          <li>
+              <button 
+                onClick={() => document.getElementById('tour-trigger')?.click()} 
+                className="hover:text-blue-400 transition-colors text-left"
+  >
+              Start Interactive Tour
+                </button>
+          </li>
               <li><a href="/" className="hover:text-blue-400 transition-colors">Home</a></li>
               <li><a href="/ai-services" className="hover:text-blue-400 transition-colors">AI Services</a></li>
               <li><a href="/portfolio" className="hover:text-blue-400 transition-colors">Case Studies</a></li>
@@ -30,9 +39,9 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Links - Solutions */}
+          {/* Links - AI Services */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Solutions</h4>
+            <h4 className="text-white font-semibold mb-4">AI Services</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="/ai-services" className="hover:text-blue-400 transition-colors">AI Voice Agents</a></li>
               <li><a href="/ai-services" className="hover:text-blue-400 transition-colors">N8N Workflows</a></li>

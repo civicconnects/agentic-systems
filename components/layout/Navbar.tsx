@@ -20,7 +20,7 @@ const Navbar = () => {
     { name: 'Home', href: '/' },
     { name: 'AI Services', href: '/ai-services' },
     { name: 'Factory', href: '/factory' },
-    { name: 'Tutorials', href: '/tutorials' }, // 🆕 NEW LINK ADDED
+    { name: 'Tutorials', href: '/tutorials' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -44,12 +44,19 @@ const Navbar = () => {
             <Link 
               key={link.name} 
               href={link.href}
+              // 🎯 TARGET ID FOR TOUR STEP 4
+              id={link.name === 'Tutorials' ? 'tutorials-nav' : undefined}
               className={`text-sm font-medium transition-colors hover:text-blue-400 ${pathname === link.href ? 'text-blue-400' : 'text-slate-300'}`}
             >
               {link.name}
             </Link>
           ))}
-          <Link href="/factory" className="bg-white text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
+          <Link 
+            href="/factory" 
+            // 🎯 TARGET ID FOR TOUR STEP 3
+            id="custom-builder-link"
+            className="bg-white text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors"
+          >
             Deploy Agent
           </Link>
         </div>

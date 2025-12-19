@@ -223,7 +223,7 @@ export default function Home() {
       </section>
 
       {/* AGENT GRID */}
-      <section id="ecosystem" className="py-20 px-6">
+      <section id="agent-grid" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 flex justify-between items-end">
             <div>
