@@ -62,6 +62,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
   };
 
   // Voice Input
+  // Inside ChatModal function...
 
   // Add this Ref to track the silence timer
   const silenceTimer = useRef<any>(null);
@@ -122,9 +123,8 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       }
 
       // Use the fresh key
-      const expandedSystemPrompt = currentKey 
-        ? await expandRoleToPrompt(currentKey, customRole) 
-        : `You are ${customName}, a ${customRole}.`;
+      // Fix: Key argument removed, N8N handles it now
+    const expandedSystemPrompt = await expandRoleToPrompt(customRole);
 
       setIsBuilding(false);
       setView('chat');
@@ -162,13 +162,13 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
 
     if (currentKey) {
       // REAL AI MODE
-      try {
-        const reply = await generateAIResponse(
-          currentKey, 
-          messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }), 
-          sysPrompt,
-          fileContext
-        );
+     try {
+    // Fix: Removed 'currentKey', now passing only 3 arguments
+    const reply = await generateAIResponse(
+      messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }), 
+      sysPrompt,
+      fileContext
+    );
         
         setIsTyping(false);
         setMessages(prev => [...prev, { role: 'bot', text: reply }]);

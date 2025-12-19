@@ -1,11 +1,10 @@
 // src/utils/ai-engine.ts
 
-// 1. CONFIGURATION
-// 🚨 IMPORTANT: Add this URL to your Cloudflare Environment Variables as NEXT_PUBLIC_N8N_WEBHOOK_URL
-// For testing now, you can paste your Production URL here inside the quotes.
-const N8N_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || "https://n8n.civicconnects.com/webhook/chatgpt4"; 
+// 🚨 CONFIGURATION 
+// We point to our internal proxy to handle the N8N connection securely (No CORS errors)
+const PROXY_ENDPOINT = "/api/chat"; 
 
-// 2. TEXT EXTRACTION (Kept for UI simulation)
+// 1. TEXT EXTRACTION (Kept for File Uploads)
 export const extractTextFromFile = async (file: File): Promise<string> => {
   return new Promise((resolve) => {
     if (file.type === "application/pdf") {
@@ -18,61 +17,56 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   });
 };
 
-// 3. N8N API HANDLER
+// 2. THE ENGINE (Cleaned: No Key Logic, Direct to Proxy)
 export const generateAIResponse = async (
-  userProvidedKey: string, // We ignore this now (or use it as an auth token if you want)
   messages: any[], 
   systemInstruction: string,
   context?: string
 ) => {
 
-  const activeWebhook = N8N_WEBHOOK_URL;
-
-  if (!activeWebhook || activeWebhook.includes("PASTE_YOUR")) {
-    console.error("❌ ERROR: No N8N Webhook URL configured.");
-    return "Configuration Error: Developer has not set up the N8N Connection yet.";
-  }
-
   const finalSystemPrompt = context 
     ? `${systemInstruction}\n\nCONTEXT FROM USER FILE:\n${context.substring(0, 30000)}` 
     : systemInstruction;
 
-  // Get the last user message to send as the primary prompt
+  // Get the last user message
   const lastMessage = messages[messages.length - 1].content || messages[messages.length - 1].text;
 
   try {
-    console.log("📡 CONNECTING: Sending to N8N Automation...");
+    console.log("📡 ENGINE: Sending to N8N Proxy...");
     
-    const response = await fetch(activeWebhook, {
+    // Call the proxy which talks to N8N
+    const response = await fetch(PROXY_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chatInput: lastMessage,
         systemPrompt: finalSystemPrompt,
-        history: messages // Sending full history in case you want to use it in N8N
+        history: messages 
       })
     });
 
     const data = await response.json();
 
-    // N8N usually returns JSON. We expect an 'output' or 'text' field.
-    // Adjust this based on your final N8N "Respond to Webhook" node settings.
+    // Mapping N8N response fields
     if (data.output) return data.output;
     if (data.text) return data.text;
     if (data.message) return data.message;
     
-    // Fallback if N8N just returns the raw string
-    if (typeof data === 'string') return data;
+    // Handle N8N Errors
+    if (data.error) {
+        console.error("N8N Error:", data.error);
+        return "I am currently undergoing maintenance. Please try again in a moment.";
+    }
 
-    return "Error: N8N returned an empty response. Check your 'Respond to Webhook' node.";
+    return typeof data === 'string' ? data : "System Error: Empty response from Neural Engine.";
 
   } catch (error) {
-    console.error("❌ N8N ERROR:", error);
-    return "Connection Error: Unable to reach the Automation Backend.";
+    console.error("❌ CLIENT ERROR:", error);
+    return "Connection Error. The agent is unreachable.";
   }
 };
 
-// 4. PROMPT ENHANCER (Simplified)
-export const expandRoleToPrompt = async (key: string, role: string) => {
+// 3. PROMPT HELPER
+export const expandRoleToPrompt = async (role: string) => {
   return `You are a helpful ${role}.`;
 };
