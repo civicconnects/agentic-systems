@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Send, Bot, Mic, MicOff, UploadCloud, Play, Settings, Loader2, Volume2 } from 'lucide-react';
-// Make sure this path matches where you saved ai-engine.ts
+import { X, Send, Bot, Mic, MicOff, UploadCloud, Play, Settings, Loader2, Volume2, PhoneForwarded } from 'lucide-react';
 import { generateAIResponse, expandRoleToPrompt, extractTextFromFile } from '@/utils/ai-engine';
 
 interface Agent {
@@ -31,28 +30,45 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isTransferring, setIsTransferring] = useState(false); // 🆕 Transfer State
   
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+  const silenceTimer = useRef<any>(null);
 
-  // Initial Greeting
+  // 🛡️ TASK 3: STRICT CLEANUP ON UNMOUNT
   useEffect(() => {
+    // Initial Greeting
     if (!isCustomBuilder && messages.length === 0) {
       const greeting = agent.firstMessage || `Hello. I am ${agent.name}. How can I assist?`;
       setMessages([{ role: 'bot', text: greeting }]);
       if (agent.mode === 'voice') speakText(greeting);
     }
-  }, [agent]);
+
+    // Cleanup Function: Runs when component closes/unmounts
+    return () => {
+      console.log("🛑 CLEANUP: Stopping all audio threads.");
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Kill voice immediately
+      }
+      if (recognitionRef.current) {
+        recognitionRef.current.stop(); // Kill mic immediately
+      }
+      if (silenceTimer.current) {
+        clearTimeout(silenceTimer.current);
+      }
+    };
+  }, [agent]); // Only run on mount/agent change
 
   // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isTyping, isTransferring]);
 
   // Voice Output
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel(); // Stop previous speech
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 1.1; 
       utterance.onstart = () => setIsSpeaking(true);
@@ -61,12 +77,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
     }
   };
 
-  // Voice Input
-  // Inside ChatModal function...
-
-  // Add this Ref to track the silence timer
-  const silenceTimer = useRef<any>(null);
-
+  // 🎤 TASK 1: FIX MICROPHONE TIMEOUT (2.5s)
   const toggleListening = () => {
     if (isListening) {
       recognitionRef.current?.stop();
@@ -75,27 +86,26 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
-        recognitionRef.current.continuous = true; // CHANGED: Keep listening even after pauses
-        recognitionRef.current.interimResults = true; // CHANGED: See results as you speak
+        recognitionRef.current.continuous = true; 
+        recognitionRef.current.interimResults = true; 
 
         recognitionRef.current.onstart = () => setIsListening(true);
         
         recognitionRef.current.onresult = (event: any) => {
-          // Get the latest text
           const transcript = Array.from(event.results)
             .map((result: any) => result[0].transcript)
             .join('');
             
           setInput(transcript);
 
-          // AUTO-SEND LOGIC: Wait 2 seconds of silence, then send
+          // 🆕 UPDATED LOGIC: Wait 2.5 seconds (2500ms) before cutting off
           if (silenceTimer.current) clearTimeout(silenceTimer.current);
           
           silenceTimer.current = setTimeout(() => {
             recognitionRef.current?.stop();
             setIsListening(false);
-            handleSend(transcript); // Send the final text
-          }, 2000); // Wait 2 seconds
+            handleSend(transcript); 
+          }, 2500); // Increased from 1s/2s to 2.5s for better UX
         };
 
         recognitionRef.current.onend = () => {
@@ -112,80 +122,76 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
   const handleInitializeCustom = async () => {
     if (!customName || !customRole) return;
     setIsBuilding(true);
-    // Grab key freshly here too
-    const currentKey = localStorage.getItem('openai_key') || ""; 
 
     try {
-      let context = "";
       if (customFile) {
-        context = await extractTextFromFile(customFile);
+        const context = await extractTextFromFile(customFile);
         setFileContext(context);
       }
-
-      // Use the fresh key
-      // Fix: Key argument removed, N8N handles it now
-    const expandedSystemPrompt = await expandRoleToPrompt(customRole);
-
+      const expandedSystemPrompt = await expandRoleToPrompt(customRole);
       setIsBuilding(false);
       setView('chat');
       agent.name = customName;
       agent.systemInstruction = expandedSystemPrompt;
-      
       setMessages([{ 
         role: 'bot', 
         text: `System Online. I am ${customName}. My directives have been updated. Ready.` 
       }]);
-
     } catch (error) {
       console.error(error);
       setIsBuilding(false);
     }
   };
 
-  // --- THE FIXED HANDLE SEND FUNCTION ---
+  // 📞 TASK 2: TRANSFER SIMULATION LOGIC
   const handleSend = async (textOverride?: string) => {
     const userText = textOverride || input;
     if (!userText.trim()) return;
 
+    // Add User Message
     setMessages(prev => [...prev, { role: 'user', text: userText }]);
     setInput('');
+
+    // CHECK FOR TRANSFER TRIGGER
+    const lowerText = userText.toLowerCase();
+    if (lowerText.includes("transfer") || lowerText.includes("speak with") || lowerText.includes("speak to")) {
+        
+        // 1. Immediate Feedback
+        setIsTransferring(true);
+        const holdMsg = "Let me see if they are available. Please hold...";
+        speakText(holdMsg);
+        
+        // 2. The 5-Second Delay
+        setTimeout(() => {
+            setIsTransferring(false);
+            const failMsg = "I apologize, they are currently unavailable. Would you like to leave a message?";
+            
+            // 3. The Result
+            setMessages(prev => [...prev, { role: 'bot', text: failMsg }]);
+            speakText(failMsg);
+        }, 5000);
+
+        return; // ⛔ STOP HERE. Do not call the AI Engine.
+    }
+
+    // NORMAL AI FLOW
     setIsTyping(true);
-
-    // CRITICAL FIX: Grab the key from storage RIGHT NOW
-    // This ensures it works even if you just pasted it 1 second ago
-    const currentKey = localStorage.getItem('openai_key');
-
-    // DEBUG LOG (Check your console!)
-    console.log("🔑 Checking Key...", currentKey ? "Found!" : "Missing");
-
     const sysPrompt = agent.systemInstruction || "You are a helpful AI assistant.";
 
-    if (currentKey) {
-      // REAL AI MODE
-     try {
-    // Fix: Removed 'currentKey', now passing only 3 arguments
-    const reply = await generateAIResponse(
-      messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }), 
-      sysPrompt,
-      fileContext
-    );
-        
-        setIsTyping(false);
-        setMessages(prev => [...prev, { role: 'bot', text: reply }]);
-        if (agent.mode === 'voice') speakText(reply);
+    try {
+      const reply = await generateAIResponse(
+        messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }), 
+        sysPrompt,
+        fileContext
+      );
+      
+      setIsTyping(false);
+      setMessages(prev => [...prev, { role: 'bot', text: reply }]);
+      if (agent.mode === 'voice') speakText(reply);
 
-      } catch (err) {
-        setIsTyping(false);
-        setMessages(prev => [...prev, { role: 'bot', text: "Error connecting to AI. Please check your API Key." }]);
-      }
-    } else {
-      // DEMO MODE (Fallback)
-      setTimeout(() => {
-        setIsTyping(false);
-        const reply = "[DEMO MODE] I see you haven't entered an API Key yet. Click the 'Config' gear in the footer to enable my brain!";
-        setMessages(prev => [...prev, { role: 'bot', text: reply }]);
-        if (agent.mode === 'voice') speakText(reply);
-      }, 1000);
+    } catch (err) {
+      setIsTyping(false);
+      setMessages(prev => [...prev, { role: 'bot', text: "Error connecting to Agent Network." }]);
     }
   };
 
@@ -193,6 +199,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex items-center justify-center p-4 font-sans">
       <div className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col h-[700px] animate-in zoom-in-95 duration-200 overflow-hidden relative">
         
+        {/* Header */}
         <div className={`p-6 border-b border-slate-800 flex justify-between items-center ${isCustomBuilder ? 'bg-indigo-900/20' : agent.color || 'bg-slate-800'}`}>
           <div className="flex items-center gap-4">
             <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
@@ -212,6 +219,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
 
         {view === 'config' && (
           <div className="flex-1 p-8 flex flex-col justify-center space-y-8 bg-slate-950">
+             {/* ... Builder UI (No Changes Here) ... */}
             <div className="space-y-2">
               <label className="text-sm font-bold text-blue-400 uppercase tracking-wider">Step 1: Identity</label>
               <input value={customName} onChange={(e) => setCustomName(e.target.value)} placeholder="Name your agent" className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-4 text-white focus:border-blue-500 outline-none" />
@@ -247,7 +255,20 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
                   </div>
                 </div>
               ))}
+              
+              {/* TYPING INDICATOR */}
               {isTyping && <div className="flex justify-start"><div className="bg-slate-800 rounded-2xl px-4 py-3"><Loader2 className="w-4 h-4 animate-spin text-slate-500" /></div></div>}
+              
+              {/* 🆕 TRANSFER INDICATOR */}
+              {isTransferring && (
+                  <div className="flex justify-center my-4">
+                      <div className="bg-blue-900/30 border border-blue-500/30 text-blue-200 px-6 py-2 rounded-full flex items-center gap-3 animate-pulse">
+                          <PhoneForwarded className="w-4 h-4" />
+                          <span className="text-xs font-bold tracking-wider uppercase">Transferring Call...</span>
+                      </div>
+                  </div>
+              )}
+              
               <div ref={messagesEndRef} />
             </div>
 
