@@ -116,6 +116,63 @@ export default function Home() {
         </div>
       </section>
 
+      // src/app/page.tsx (Add this section after the Hero)
+
+{/* --- THE EVOLUTION OF WORK SECTION --- */}
+<section className="py-24 px-6 bg-slate-950 border-y border-slate-900">
+  <div className="max-w-7xl mx-auto">
+    
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      
+      {/* Left: The Problem (Dumb Automation) */}
+      <div className="relative group">
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-slate-800 blur-2xl opacity-20 rounded-3xl"></div>
+        <div className="relative bg-slate-900 border border-slate-800 p-10 rounded-3xl opacity-70 hover:opacity-100 transition-opacity">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+            <h3 className="text-xl font-bold text-slate-300 uppercase tracking-widest">The Old Way</h3>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-6">Why "Dumb Automation" is Holding You Back</h2>
+          <p className="text-slate-400 leading-relaxed mb-6">
+            For the last decade, businesses relied on brittle scripts and RPA. These bots follow strict "If-This-Then-That" rules. 
+          </p>
+          <p className="text-slate-400 leading-relaxed">
+            If a spreadsheet column moves one inch, <span className="text-red-400 font-semibold">the bot crashes.</span> It doesn't think; it just obeys. It requires constant human babysitting.
+          </p>
+        </div>
+      </div>
+
+      {/* Right: The Solution (Agentic AI) */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-blue-600 blur-[100px] opacity-20"></div>
+        <div className="relative bg-gradient-to-br from-blue-950 to-slate-900 border border-blue-500/30 p-10 rounded-3xl shadow-2xl">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+            <h3 className="text-xl font-bold text-blue-400 uppercase tracking-widest">The New Way</h3>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-6">Agentic Intelligence</h2>
+          <p className="text-blue-100/80 leading-relaxed mb-6">
+            Enter the era of Agentic Systems. Unlike dumb scripts, an AI Agent has <span className="text-white font-bold">Cognition</span>. It understands intent, not just keywords.
+          </p>
+          <p className="text-blue-100/80 leading-relaxed">
+            If a process breaks, it troubleshoots. If a client is angry, it adjusts its tone. We build digital employees that drive the car, not just tools that sit in the trunk.
+          </p>
+          
+          <div className="mt-8 flex gap-4">
+             <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs font-mono text-blue-300">
+                Cognition: ACTIVE
+             </div>
+             <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs font-mono text-blue-300">
+                Learning: ON
+             </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
       {/* Educational Narrative */}
       <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center relative">
