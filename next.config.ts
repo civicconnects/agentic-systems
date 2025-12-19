@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  trailingSlash: true, // THIS FIXES THE 404
+  // ❌ DELETED: output: 'export',  <-- This was the cause of the error
+  
+  // ✅ ADDED: This allows images to load from anywhere (optional but helpful)
   images: {
     unoptimized: true,
   },
