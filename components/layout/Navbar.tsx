@@ -1,67 +1,80 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Menu, X, PhoneCall, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Menu, X, Bot, ChevronRight } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'AI Services', href: '/ai-services' },
+    { name: 'Factory', href: '/factory' },
+    { name: 'Tutorials', href: '/tutorials' }, // 🆕 NEW LINK ADDED
+    { name: 'Contact', href: '/contact' },
+  ];
 
   return (
-    <nav className="border-b border-white/10 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          
-          {/* Logo */}
-          <a href="/" className="font-bold text-xl tracking-tighter text-white hover:opacity-80 transition-opacity flex items-center gap-2">
-            AGENTIC <span className="text-blue-500">SYSTEMS</span>
-          </a>
-
-          {/* DESKTOP MENU */}
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-            <a href="/factory" className="text-white hover:text-blue-400 transition-colors flex items-center gap-2 group">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              AI Factory
-            </a>
-            
-            {/* FIXED: Linking to /ai-services because that folder exists */}
-            <a href="/ai-services" className="hover:text-white transition-colors">AI Services</a>
-            <a href="/portfolio" className="hover:text-white transition-colors">Case Studies</a>
-            
-            <div className="h-4 w-px bg-white/10"></div>
-
-            <div className="flex items-center gap-2">
-              <PhoneCall className="w-4 h-4 text-blue-500" />
-              <span className="font-mono">918-409-2361</span>
-            </div>
-            
-            <a 
-              href="/contact" 
-              className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-full font-bold transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-            >
-              Book Strategy Call
-            </a>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4' : 'bg-transparent py-6'}`}>
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="bg-blue-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
+            <Bot className="w-6 h-6 text-white" />
           </div>
+          <span className="font-bold text-xl tracking-tight text-white">
+            AGENTIC <span className="text-blue-500">SYSTEMS</span>
+          </span>
+        </Link>
 
-          {/* MOBILE MENU BUTTON */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2">
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link 
+              key={link.name} 
+              href={link.href}
+              className={`text-sm font-medium transition-colors hover:text-blue-400 ${pathname === link.href ? 'text-blue-400' : 'text-slate-300'}`}
+            >
+              {link.name}
+            </Link>
+          ))}
+          <Link href="/factory" className="bg-white text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
+            Deploy Agent
+          </Link>
         </div>
 
-        {/* MOBILE MENU DROPDOWN */}
-        {isOpen && (
-          <div className="md:hidden pt-4 pb-6 space-y-2 border-t border-white/10 mt-4 animate-in slide-in-from-top-2 fade-in duration-200">
-            <a href="/factory" className="flex items-center gap-2 text-white bg-white/5 px-4 py-3 rounded-lg">
-              <Sparkles className="w-4 h-4 text-purple-400" /> AI Factory
-            </a>
-            <a href="/ai-services" className="block text-slate-300 hover:text-white px-4 py-3">AI Services</a>
-            <a href="/portfolio" className="block text-slate-300 hover:text-white px-4 py-3">Case Studies</a>
-            <div className="px-4 pt-2">
-              <a href="/contact" className="block text-center bg-blue-600 text-white px-4 py-3 rounded-lg font-bold">Book Strategy Call</a>
-            </div>
-          </div>
-        )}
+        {/* Mobile Toggle */}
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2">
+          {isOpen ? <X /> : <Menu />}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 md:hidden flex flex-col p-6 space-y-4 shadow-2xl">
+          {navLinks.map((link) => (
+            <Link 
+              key={link.name} 
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="flex items-center justify-between text-lg font-medium text-slate-300 hover:text-white border-b border-slate-800 pb-2"
+            >
+              {link.name} <ChevronRight className="w-4 h-4" />
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };
