@@ -107,7 +107,7 @@ export default function Home() {
           We architect AI that thinks, acts, and generates revenue.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-5">
-          <a href="#ecosystem" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+          <a href="/factory" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">
             Deploy Agents
           </a>
           <a href="/portfolio" className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors">
@@ -115,8 +115,6 @@ export default function Home() {
           </a>
         </div>
       </section>
-
-      // src/app/page.tsx (Add this section after the Hero)
 
 {/* --- THE EVOLUTION OF WORK SECTION --- */}
 <section className="py-24 px-6 bg-slate-950 border-y border-slate-900">
