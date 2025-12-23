@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // 👈 Back to Static Mode (Fixes the Build Error)
-  images: {
-    unoptimized: true,
-  },
+  // AWS Amplify handles optimization automatically, 
+  // so we don't need 'export' or 'unoptimized' anymore.
 };
 
 export default nextConfig;
