@@ -54,7 +54,12 @@ export const generateAIResponse = async (
       throw new Error(`n8n Error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
+    const rawData = await response.json();
+
+    // 🛠️ THE FIX: Handle if n8n sends an Array (List) instead of an Object
+    const data = Array.isArray(rawData) ? rawData[0] : rawData;
+
+    console.log("🔍 AI RESPONSE DEBUG:", data); // Check console to see what we got
 
     // Handle various response formats from n8n
     if (data.output) return data.output;
@@ -62,7 +67,8 @@ export const generateAIResponse = async (
     if (data.response) return data.response;
     if (data.message) return data.message;
 
-    return typeof data === 'string' ? data : "AI is processing your request...";
+    // Fallback if data is just a string
+    return typeof data === 'string' ? data : "AI is processing your request... (Response format unknown)";
 
   } catch (error) {
     console.error("❌ CONNECTION ERROR:", error);
