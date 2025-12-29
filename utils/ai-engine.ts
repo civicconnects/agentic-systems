@@ -69,7 +69,13 @@ export const generateAIResponse = async (
     if (data.message) return data.message;
     if (data.reply) return data.reply;
 
-    // 3. Deep check (sometimes n8n nests it in body)
+    // 3. n8n JSON wrapper check (Most common default)
+    if (data.json && data.json.output) return data.json.output;
+    if (data.json && data.json.text) return data.json.text;
+    if (data.json && data.json.response) return data.json.response;
+    if (data.json && data.json.message) return data.json.message;
+
+    // 4. Deep check (sometimes n8n nests it in body)
     if (data.body && data.body.text) return data.body.text;
     if (data.body && data.body.output) return data.body.output;
 
