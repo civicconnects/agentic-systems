@@ -16,7 +16,7 @@ interface Agent {
 export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: () => void }) {
   const isCustomBuilder = agent.id === 'custom_builder';
   const [view, setView] = useState(isCustomBuilder ? 'config' : 'chat');
-  
+
   // Builder State
   const [customName, setCustomName] = useState('');
   const [customRole, setCustomRole] = useState('');
@@ -31,13 +31,23 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false); // 🆕 Transfer State
-  
+
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const silenceTimer = useRef<any>(null);
+  const hasStartedRef = useRef(false); // 🆕 Singleton pattern to prevent double initialization
 
-  // 🛡️ TASK 3: STRICT CLEANUP ON UNMOUNT
+  // 🛡️ TASK 3: STRICT CLEANUP ON UNMOUNT + SINGLETON PATTERN
   useEffect(() => {
+    // 🚨 CRITICAL: Prevent double execution in React StrictMode
+    if (hasStartedRef.current) {
+      console.log("⚠️ PREVENTED: Voice agent already initialized");
+      return;
+    }
+
+    hasStartedRef.current = true;
+    console.log("✅ INITIALIZING: Voice agent starting for the first time");
+
     // Initial Greeting
     if (!isCustomBuilder && messages.length === 0) {
       const greeting = agent.firstMessage || `Hello. I am ${agent.name}. How can I assist?`;
@@ -57,8 +67,10 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       if (silenceTimer.current) {
         clearTimeout(silenceTimer.current);
       }
+      // Reset the flag when component unmounts
+      hasStartedRef.current = false;
     };
-  }, [agent]); // Only run on mount/agent change
+  }, []); // Empty dependency array - only run once on mount
 
   // Auto-scroll
   useEffect(() => {
@@ -70,7 +82,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel(); // Stop previous speech
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.1; 
+      utterance.rate = 1.1;
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => setIsSpeaking(false);
       window.speechSynthesis.speak(utterance);
@@ -86,32 +98,32 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
-        recognitionRef.current.continuous = true; 
-        recognitionRef.current.interimResults = true; 
+        recognitionRef.current.continuous = true;
+        recognitionRef.current.interimResults = true;
 
         recognitionRef.current.onstart = () => setIsListening(true);
-        
+
         recognitionRef.current.onresult = (event: any) => {
           const transcript = Array.from(event.results)
             .map((result: any) => result[0].transcript)
             .join('');
-            
+
           setInput(transcript);
 
           // 🆕 UPDATED LOGIC: Wait 2.5 seconds (2500ms) before cutting off
           if (silenceTimer.current) clearTimeout(silenceTimer.current);
-          
+
           silenceTimer.current = setTimeout(() => {
             recognitionRef.current?.stop();
             setIsListening(false);
-            handleSend(transcript); 
+            handleSend(transcript);
           }, 2500); // Increased from 1s/2s to 2.5s for better UX
         };
 
         recognitionRef.current.onend = () => {
-             setIsListening(false);
+          setIsListening(false);
         };
-        
+
         recognitionRef.current.start();
       } else {
         alert("Voice input not supported in this browser.");
@@ -133,9 +145,9 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       setView('chat');
       agent.name = customName;
       agent.systemInstruction = expandedSystemPrompt;
-      setMessages([{ 
-        role: 'bot', 
-        text: `System Online. I am ${customName}. My directives have been updated. Ready.` 
+      setMessages([{
+        role: 'bot',
+        text: `System Online. I am ${customName}. My directives have been updated. Ready.`
       }]);
     } catch (error) {
       console.error(error);
@@ -155,23 +167,23 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
     // CHECK FOR TRANSFER TRIGGER
     const lowerText = userText.toLowerCase();
     if (lowerText.includes("transfer") || lowerText.includes("speak with") || lowerText.includes("speak to")) {
-        
-        // 1. Immediate Feedback
-        setIsTransferring(true);
-        const holdMsg = "Let me see if they are available. Please hold...";
-        speakText(holdMsg);
-        
-        // 2. The 5-Second Delay
-        setTimeout(() => {
-            setIsTransferring(false);
-            const failMsg = "I apologize, they are currently unavailable. Would you like to leave a message?";
-            
-            // 3. The Result
-            setMessages(prev => [...prev, { role: 'bot', text: failMsg }]);
-            speakText(failMsg);
-        }, 5000);
 
-        return; // ⛔ STOP HERE. Do not call the AI Engine.
+      // 1. Immediate Feedback
+      setIsTransferring(true);
+      const holdMsg = "Let me see if they are available. Please hold...";
+      speakText(holdMsg);
+
+      // 2. The 5-Second Delay
+      setTimeout(() => {
+        setIsTransferring(false);
+        const failMsg = "I apologize, they are currently unavailable. Would you like to leave a message?";
+
+        // 3. The Result
+        setMessages(prev => [...prev, { role: 'bot', text: failMsg }]);
+        speakText(failMsg);
+      }, 5000);
+
+      return; // ⛔ STOP HERE. Do not call the AI Engine.
     }
 
     // NORMAL AI FLOW
@@ -180,11 +192,11 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
 
     try {
       const reply = await generateAIResponse(
-        messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }), 
+        messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }),
         sysPrompt,
         fileContext
       );
-      
+
       setIsTyping(false);
       setMessages(prev => [...prev, { role: 'bot', text: reply }]);
       if (agent.mode === 'voice') speakText(reply);
@@ -198,7 +210,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
   return (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex items-center justify-center p-4 font-sans">
       <div className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-3xl shadow-2xl flex flex-col h-[700px] animate-in zoom-in-95 duration-200 overflow-hidden relative">
-        
+
         {/* Header */}
         <div className={`p-6 border-b border-slate-800 flex justify-between items-center ${isCustomBuilder ? 'bg-indigo-900/20' : agent.color || 'bg-slate-800'}`}>
           <div className="flex items-center gap-4">
@@ -219,7 +231,7 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
 
         {view === 'config' && (
           <div className="flex-1 p-8 flex flex-col justify-center space-y-8 bg-slate-950">
-             {/* ... Builder UI (No Changes Here) ... */}
+            {/* ... Builder UI (No Changes Here) ... */}
             <div className="space-y-2">
               <label className="text-sm font-bold text-blue-400 uppercase tracking-wider">Step 1: Identity</label>
               <input value={customName} onChange={(e) => setCustomName(e.target.value)} placeholder="Name your agent" className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-4 text-white focus:border-blue-500 outline-none" />
@@ -255,34 +267,34 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
                   </div>
                 </div>
               ))}
-              
+
               {/* TYPING INDICATOR */}
               {isTyping && <div className="flex justify-start"><div className="bg-slate-800 rounded-2xl px-4 py-3"><Loader2 className="w-4 h-4 animate-spin text-slate-500" /></div></div>}
-              
+
               {/* 🆕 TRANSFER INDICATOR */}
               {isTransferring && (
-                  <div className="flex justify-center my-4">
-                      <div className="bg-blue-900/30 border border-blue-500/30 text-blue-200 px-6 py-2 rounded-full flex items-center gap-3 animate-pulse">
-                          <PhoneForwarded className="w-4 h-4" />
-                          <span className="text-xs font-bold tracking-wider uppercase">Transferring Call...</span>
-                      </div>
+                <div className="flex justify-center my-4">
+                  <div className="bg-blue-900/30 border border-blue-500/30 text-blue-200 px-6 py-2 rounded-full flex items-center gap-3 animate-pulse">
+                    <PhoneForwarded className="w-4 h-4" />
+                    <span className="text-xs font-bold tracking-wider uppercase">Transferring Call...</span>
                   </div>
+                </div>
               )}
-              
+
               <div ref={messagesEndRef} />
             </div>
 
             <div className="p-4 border-t border-slate-800 bg-slate-900">
               <div className="flex gap-3">
                 {(agent.mode === 'voice' || isCustomBuilder) && (
-                   <button onClick={toggleListening} className={`p-4 rounded-xl transition-all ${isListening ? 'bg-red-500/20 text-red-400 animate-pulse border border-red-500/50' : 'bg-slate-800 text-slate-400 hover:text-white'}`}>
-                     {isListening ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
-                   </button>
+                  <button onClick={toggleListening} className={`p-4 rounded-xl transition-all ${isListening ? 'bg-red-500/20 text-red-400 animate-pulse border border-red-500/50' : 'bg-slate-800 text-slate-400 hover:text-white'}`}>
+                    {isListening ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
+                  </button>
                 )}
                 <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Type your instruction..." className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-blue-500 outline-none" />
                 <button onClick={() => handleSend()} className="bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-xl"><Send className="w-5 h-5" /></button>
               </div>
-              {isSpeaking && <div className="text-center mt-2 text-[10px] text-green-500 animate-pulse flex justify-center gap-2"><Volume2 className="w-3 h-3"/> SPEAKING</div>}
+              {isSpeaking && <div className="text-center mt-2 text-[10px] text-green-500 animate-pulse flex justify-center gap-2"><Volume2 className="w-3 h-3" /> SPEAKING</div>}
             </div>
           </>
         )}
