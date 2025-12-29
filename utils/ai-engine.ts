@@ -36,9 +36,7 @@ export const generateAIResponse = async (
   const lastMessage = messages[messages.length - 1].content || messages[messages.length - 1].text;
 
   try {
-    console.log("📡 ENGINE: Connecting to n8n AI...");
-
-    const response = await fetch(N8N_WEBHOOK_URL, {
+    const response = await fetch("https://n8n.civicconnects.com/webhook/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -49,41 +47,14 @@ export const generateAIResponse = async (
       })
     });
 
-    if (!response.ok) {
-      throw new Error(`n8n Error: ${response.status} ${response.statusText}`);
-    }
-
     const rawData = await response.json();
 
-    // 🔍 DEBUG: Look at your Browser Console (F12) to see this log!
-    console.log("🔥 FULL N8N RESPONSE:", JSON.stringify(rawData, null, 2));
-
-    // 1. Unwrap Array (n8n often returns [ { data } ])
-    const data = Array.isArray(rawData) ? rawData[0] : rawData;
-
-    // 2. Check for standard keys
-    if (typeof data === 'string') return data; // It might be just "Hello"
-    if (data.output) return data.output;
-    if (data.text) return data.text;
-    if (data.response) return data.response;
-    if (data.message) return data.message;
-    if (data.reply) return data.reply;
-
-    // 3. n8n JSON wrapper check (Most common default)
-    if (data.json && data.json.output) return data.json.output;
-    if (data.json && data.json.text) return data.json.text;
-    if (data.json && data.json.response) return data.json.response;
-    if (data.json && data.json.message) return data.json.message;
-
-    // 4. Deep check (sometimes n8n nests it in body)
-    if (data.body && data.body.text) return data.body.text;
-    if (data.body && data.body.output) return data.body.output;
-
-    return "Error: Unknown response format. Please check Console (F12) for '🔥 FULL N8N RESPONSE'";
+    // 🔍 DEBUG MODE: Return the raw JSON string directly to the Chat Window
+    // This allows us to see EXACTLY what n8n is sending without opening the console.
+    return "DEBUG_DATA: " + JSON.stringify(rawData, null, 2);
 
   } catch (error) {
-    console.error("❌ CONNECTION ERROR:", error);
-    return "Unable to connect to AI. Please check your connection and try again.";
+    return "❌ Connection Error: " + error.message;
   }
 };
 
