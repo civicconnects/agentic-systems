@@ -38,7 +38,6 @@ export const generateAIResponse = async (
   try {
     console.log("📡 ENGINE: Connecting to n8n AI...");
 
-    // 🚀 Direct POST to n8n webhook with expected payload structure
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,19 +55,25 @@ export const generateAIResponse = async (
 
     const rawData = await response.json();
 
-    // 🛠️ THE FIX: Handle if n8n sends an Array (List) instead of an Object
+    // 🔍 DEBUG: Look at your Browser Console (F12) to see this log!
+    console.log("🔥 FULL N8N RESPONSE:", JSON.stringify(rawData, null, 2));
+
+    // 1. Unwrap Array (n8n often returns [ { data } ])
     const data = Array.isArray(rawData) ? rawData[0] : rawData;
 
-    console.log("🔍 AI RESPONSE DEBUG:", data); // Check console to see what we got
-
-    // Handle various response formats from n8n
+    // 2. Check for standard keys
+    if (typeof data === 'string') return data; // It might be just "Hello"
     if (data.output) return data.output;
     if (data.text) return data.text;
     if (data.response) return data.response;
     if (data.message) return data.message;
+    if (data.reply) return data.reply;
 
-    // Fallback if data is just a string
-    return typeof data === 'string' ? data : "AI is processing your request... (Response format unknown)";
+    // 3. Deep check (sometimes n8n nests it in body)
+    if (data.body && data.body.text) return data.body.text;
+    if (data.body && data.body.output) return data.body.output;
+
+    return "Error: Unknown response format. Please check Console (F12) for '🔥 FULL N8N RESPONSE'";
 
   } catch (error) {
     console.error("❌ CONNECTION ERROR:", error);
