@@ -16,6 +16,7 @@ export default function Home() {
       name: "The Sentinel",
       role: "Senior HR Director",
       icon: <Shield className="w-6 h-6 text-white" />,
+      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&h=256", // Alan
       pain: "Compliance risks.",
       roi: "70% less admin.",
       desc: "Handles onboarding & policy Q&A.",
@@ -28,6 +29,7 @@ export default function Home() {
       name: "The Architect",
       role: "Senior Content Editor",
       icon: <PenTool className="w-6 h-6 text-white" />,
+      avatar: "https://images.unsplash.com/photo-1573496359-136d47552640?auto=format&fit=crop&w=256&h=256", // Susan
       pain: "Slow content.",
       roi: "10x output.",
       desc: "Researches & writes content on brand.",
@@ -40,6 +42,7 @@ export default function Home() {
       name: "The Closer",
       role: "VP of Sales",
       icon: <BarChart className="w-6 h-6 text-white" />,
+      avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&h=256", // Mike
       pain: "Leads dying.",
       roi: "2x conversion.",
       desc: "Qualifies & books meetings 24/7.",
@@ -52,6 +55,7 @@ export default function Home() {
       name: "Voice Ops",
       role: "Logistics Dispatcher",
       icon: <Mic className="w-6 h-6 text-white" />,
+      avatar: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=256&h=256", // Voice Ops (Generic professional)
       pain: "Manual dialing.",
       roi: "10k calls/day.",
       desc: "Hyper-realistic voice outreach.",
@@ -65,6 +69,7 @@ export default function Home() {
       name: "AI Concierge",
       role: "Senior Automation Engineer",
       icon: <MessageSquare className="w-6 h-6 text-white" />,
+      avatar: "https://images.unsplash.com/photo-1573496359-136d47552640?auto=format&fit=crop&w=256&h=256", // Susan (Concierge)
       pain: "Missed leads.",
       roi: "100% capture.",
       desc: "Converts visitors & books calls.",
@@ -91,6 +96,7 @@ Rules:
       name: "The Analyst",
       role: "Senior Ops Manager",
       icon: <Users className="w-6 h-6 text-white" />,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&h=256", // Analyst
       pain: "Data silos.",
       roi: "Instant clarity.",
       desc: "Predicts bottlenecks in workflows.",
@@ -254,22 +260,40 @@ Rules:
               <div
                 key={agent.id}
                 onClick={() => setActiveAgent(agent)}
-                className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all cursor-pointer hover:border-blue-500/50 relative overflow-hidden"
+                className="group relative bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-blue-500/50 hover:bg-slate-800/50 transition-all cursor-pointer overflow-hidden"
               >
-                <div className={`absolute top-0 left-0 w-1 h-full ${agent.color}`}></div>
-                <div className="flex justify-between items-start mb-4">
-                  <div className={`${agent.color} w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
-                    {agent.icon}
+                {/* Hover Gradient */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${agent.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
+
+                <div className="relative flex items-center gap-4">
+                  {/* Avatar Section */}
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-slate-700 group-hover:border-blue-500 transition-colors shadow-lg">
+                      {agent.avatar ? (
+                        <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className={`w-full h-full ${agent.color} flex items-center justify-center`}>
+                          {agent.icon}
+                        </div>
+                      )}
+                    </div>
+                    {/* Online Status Dot */}
+                    <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-slate-900 rounded-full"></div>
                   </div>
-                  <span className="text-xs font-mono text-slate-500 bg-slate-950 px-2 py-1 rounded">ONLINE</span>
+
+                  {/* Text Content */}
+                  <div className="flex-1 text-left">
+                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{agent.name}</h3>
+                    <p className="text-sm font-medium text-slate-400 mb-1">{agent.role}</p>
+                    <p className="text-xs text-slate-500 line-clamp-1">{agent.desc}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-white">{agent.name}</h3>
-                <p className="text-blue-400 text-xs font-bold uppercase mb-3">{agent.role}</p>
-                <p className="text-sm text-slate-400 mb-4">{agent.desc}</p>
-                <button className="w-full mt-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 group-hover:border-blue-500/50">
-                  {agent.mode === 'voice' ? <Mic className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
-                  {agent.name} Demo
-                </button>
+
+                {/* Bottom CTA similar to screenshot */}
+                <div className="mt-4 pt-4 border-t border-slate-800/50 flex justify-between items-center">
+                  <span className="text-blue-500 text-sm font-medium hover:underline">Try For Free</span>
+                  <ArrowRight className="w-4 h-4 text-blue-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" />
+                </div>
               </div>
             ))}
           </div>

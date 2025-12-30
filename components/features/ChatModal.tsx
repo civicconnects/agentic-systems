@@ -13,6 +13,7 @@ interface Agent {
   firstMessage?: string;
   mode?: 'text' | 'voice';
   color?: string;
+  avatar?: string;
 }
 
 export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: () => void }) {
@@ -204,8 +205,12 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
       if (agent.mode === 'voice') speakText(reply);
 
     } catch (err) {
+      console.error("AI Engine Error:", err);
       setIsTyping(false);
-      setMessages(prev => [...prev, { role: 'bot', text: "Error connecting to Agent Network." }]);
+      setMessages(prev => [...prev, {
+        role: 'bot',
+        text: `⚠️ Connection Error: ${err instanceof Error ? err.message : "Unknown error"}. check console for details.`
+      }]);
     }
   };
 
@@ -216,8 +221,14 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
         {/* Header */}
         <div className={`p-6 border-b border-slate-800 flex justify-between items-center ${isCustomBuilder ? 'bg-indigo-900/20' : agent.color || 'bg-slate-800'}`}>
           <div className="flex items-center gap-4">
-            <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
-              {isCustomBuilder ? <Settings className="w-8 h-8 text-white" /> : <Bot className="w-8 h-8 text-white" />}
+            <div className="bg-white/10 p-1 rounded-xl backdrop-blur-sm overflow-hidden w-12 h-12 flex items-center justify-center border border-white/20">
+              {isCustomBuilder ? (
+                <Settings className="w-8 h-8 text-white" />
+              ) : agent.avatar ? (
+                <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover rounded-lg" />
+              ) : (
+                <Bot className="w-8 h-8 text-white" />
+              )}
             </div>
             <div>
               <h3 className="font-bold text-xl text-white">{isCustomBuilder ? (customName || "Agent Builder") : agent.name}</h3>
