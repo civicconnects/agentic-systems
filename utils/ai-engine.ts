@@ -49,12 +49,25 @@ export const generateAIResponse = async (
 
     const rawData = await response.json();
 
-    // 🔍 DEBUG MODE: Return the raw JSON string directly to the Chat Window
-    // This allows us to see EXACTLY what n8n is sending without opening the console.
-    return "DEBUG_DATA: " + JSON.stringify(rawData, null, 2);
+    // Handle different possible response formats from n8n
+    if (rawData.response) {
+      return rawData.response;
+    } else if (rawData.message) {
+      return rawData.message;
+    } else if (rawData.output) {
+      return rawData.output;
+    } else if (rawData.text) {
+      return rawData.text;
+    } else if (typeof rawData === 'string') {
+      return rawData;
+    } else {
+      // If response is empty or unexpected format, return helpful error
+      console.error('Unexpected n8n response format:', rawData);
+      return "⚠️ The AI service returned an unexpected response format. Please check the n8n webhook configuration.\n\nReceived: " + JSON.stringify(rawData, null, 2);
+    }
 
   } catch (error) {
-    return "❌ Connection Error: " + error.message;
+    return "❌ Connection Error: " + (error instanceof Error ? error.message : String(error));
   }
 };
 

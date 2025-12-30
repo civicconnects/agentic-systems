@@ -5,6 +5,13 @@ import { HelpCircle, MessageSquare } from 'lucide-react';
 
 export default function SiteTour() {
   const [driver, setDriver] = useState<any>(null);
+  const [hasSeenTour, setHasSeenTour] = useState(false);
+
+  // Check localStorage only on client-side to prevent hydration errors
+  useEffect(() => {
+    const tourSeen = localStorage.getItem('tourSeen');
+    setHasSeenTour(tourSeen === 'true');
+  }, []);
 
   useEffect(() => {
     // Check if window.driver is loaded (from the CDN script)
@@ -15,53 +22,53 @@ export default function SiteTour() {
           animate: true,
           steps: [
             // STEP 1: WELCOME
-            { 
-              element: 'body', 
-              popover: { 
-                title: 'Welcome to Agentic Systems', 
-                description: 'Your new AI Workforce awaits. Let us give you a quick 30-second tour of the facility.', 
-                side: "left", 
-                align: 'start' 
+            {
+              element: 'body',
+              popover: {
+                title: 'Welcome to Agentic Systems',
+                description: 'Your new AI Workforce awaits. Let us give you a quick 30-second tour of the facility.',
+                side: "left",
+                align: 'start'
               }
             },
-            
+
             // STEP 2: THE AGENTS (Home Page)
-            { 
-              element: '#agent-grid', 
-              popover: { 
-                title: 'The Specialists', 
-                description: 'These are pre-trained AI employees (HR, Sales, Ops). You can click them to run a live demo right now.', 
-                side: "top" 
+            {
+              element: '#agent-grid',
+              popover: {
+                title: 'The Specialists',
+                description: 'These are pre-trained AI employees (HR, Sales, Ops). You can click them to run a live demo right now.',
+                side: "top"
               }
             },
-            
+
             // STEP 3: CUSTOM BUILDER (Navbar)
-            { 
-              element: '#custom-builder-link', 
-              popover: { 
-                title: 'The AI Factory', 
-                description: 'Need something unique? Click here to build a custom agent trained on YOUR proprietary data.', 
-                side: "bottom" 
+            {
+              element: '#custom-builder-link',
+              popover: {
+                title: 'The AI Factory',
+                description: 'Need something unique? Click here to build a custom agent trained on YOUR proprietary data.',
+                side: "bottom"
               }
             },
-            
+
             // STEP 4: TUTORIALS (Navbar)
-            { 
-              element: '#tutorials-nav', 
-              popover: { 
-                title: 'Learning Center', 
-                description: 'New to AI? Download our PDF guides or watch video walkthroughs here.', 
-                side: "bottom" 
+            {
+              element: '#tutorials-nav',
+              popover: {
+                title: 'Learning Center',
+                description: 'New to AI? Download our PDF guides or watch video walkthroughs here.',
+                side: "bottom"
               }
             },
-            
+
             // STEP 5: THE CONCIERGE (Floating Widget)
-            { 
-              element: '#chat-widget', 
-              popover: { 
-                title: 'The Concierge', 
-                description: 'Need help navigating? Our Receptionist Agent is always here. Just click to chat!', 
-                side: "left" 
+            {
+              element: '#chat-widget',
+              popover: {
+                title: 'The Concierge',
+                description: 'Need help navigating? Our Receptionist Agent is always here. Just click to chat!',
+                side: "left"
               }
             }
           ]
@@ -69,12 +76,12 @@ export default function SiteTour() {
 
         setDriver(driverObj);
 
-        // 🚀 AUTO-START LOGIC
-        const hasSeenTour = localStorage.getItem('tourSeen');
+        // 🚀 AUTO-START LOGIC - only run if tour hasn't been seen
         if (!hasSeenTour) {
           setTimeout(() => {
             driverObj.drive();
             localStorage.setItem('tourSeen', 'true');
+            setHasSeenTour(true);
           }, 3000); // Wait 3 seconds before starting
         }
       }
@@ -89,7 +96,7 @@ export default function SiteTour() {
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [hasSeenTour]);
 
   const startTour = () => {
     if (driver) driver.drive();
@@ -101,7 +108,7 @@ export default function SiteTour() {
       <div id="tour-trigger" onClick={startTour} className="hidden"></div>
 
       {/* 🛎️ THE CONCIERGE WIDGET (Step 5 Target) */}
-      <div 
+      <div
         id="chat-widget"
         className="fixed bottom-6 right-6 z-40 bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-full shadow-2xl cursor-pointer transition-transform hover:scale-110 flex items-center justify-center group"
         onClick={() => alert("This would open the Receptionist Chat Agent.")}
