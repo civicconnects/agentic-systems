@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, Bot, Mic, MicOff, UploadCloud, Play, Settings, Loader2, Volume2, PhoneForwarded } from 'lucide-react';
 import { generateAIResponse, expandRoleToPrompt, extractTextFromFile } from '@/utils/ai-engine';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Agent {
   id: string | number;
@@ -263,7 +265,24 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] rounded-2xl px-6 py-4 text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700'}`}>
-                    {msg.text}
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                        ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-2" {...props} />,
+                        ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-2" {...props} />,
+                        li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                        code: ({ node, inline, ...props }: any) =>
+                          inline ?
+                            <code className="bg-black/20 px-1.5 py-0.5 rounded text-xs font-mono" {...props} /> :
+                            <code className="block bg-black/30 p-2 rounded my-2 text-xs font-mono overflow-x-auto" {...props} />,
+                        strong: ({ node, ...props }) => <strong className="font-bold" {...props} />,
+                        em: ({ node, ...props }) => <em className="italic" {...props} />,
+                        a: ({ node, ...props }) => <a className="underline hover:text-blue-300 transition-colors" {...props} />,
+                      }}
+                    >
+                      {msg.text}
+                    </ReactMarkdown>
                   </div>
                 </div>
               ))}
