@@ -143,6 +143,4 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
       </div>
     </>
   );
-    </>
-  );
 }
