@@ -29,7 +29,7 @@ export default function Home() {
       name: "The Architect",
       role: "Senior Content Editor",
       icon: <PenTool className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1573496359-136d47552640?auto=format&fit=crop&w=256&h=256", // Susan
+      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256", // Susan (Proper Headshot)
       pain: "Slow content.",
       roi: "10x output.",
       desc: "Researches & writes content on brand.",
@@ -42,7 +42,7 @@ export default function Home() {
       name: "The Closer",
       role: "VP of Sales",
       icon: <BarChart className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&h=256", // Mike
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&h=256", // Mike (Proper Headshot)
       pain: "Leads dying.",
       roi: "2x conversion.",
       desc: "Qualifies & books meetings 24/7.",
@@ -55,7 +55,7 @@ export default function Home() {
       name: "Voice Ops",
       role: "Logistics Dispatcher",
       icon: <Mic className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=256&h=256", // Voice Ops (Generic professional)
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&h=256", // Voice Ops (Professional Headshot)
       pain: "Manual dialing.",
       roi: "10k calls/day.",
       desc: "Hyper-realistic voice outreach.",
@@ -69,7 +69,7 @@ export default function Home() {
       name: "AI Concierge",
       role: "Senior Automation Engineer",
       icon: <MessageSquare className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1573496359-136d47552640?auto=format&fit=crop&w=256&h=256", // Susan (Concierge)
+      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256", // Susan (Concierge - Same as Architect)
       pain: "Missed leads.",
       roi: "100% capture.",
       desc: "Converts visitors & books calls.",
@@ -96,7 +96,7 @@ Rules:
       name: "The Analyst",
       role: "Senior Ops Manager",
       icon: <Users className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&h=256", // Analyst
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&h=256", // Analyst (Proper Headshot)
       pain: "Data silos.",
       roi: "Instant clarity.",
       desc: "Predicts bottlenecks in workflows.",

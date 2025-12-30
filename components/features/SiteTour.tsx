@@ -107,8 +107,12 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
   };
 
   const handleChatClick = () => {
+    console.log("🖱️ Concierge Widget Clicked");
     if (onChatOpen) {
+      console.log("✅ Calling onChatOpen callback");
       onChatOpen();
+    } else {
+      console.error("❌ onChatOpen prop is missing in SiteTour");
     }
   };
 
@@ -120,14 +124,25 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
       {/* 🛎️ THE CONCIERGE WIDGET (Step 5 Target) */}
       <div
         id="chat-widget"
-        className="fixed bottom-6 right-6 z-40 bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-full shadow-2xl cursor-pointer transition-transform hover:scale-110 flex items-center justify-center group"
+        className="fixed bottom-6 right-6 z-40 p-1 rounded-full shadow-2xl cursor-pointer transition-transform hover:scale-110 flex items-center justify-center group bg-gradient-to-br from-pink-500 to-purple-600"
         onClick={handleChatClick}
       >
-        <MessageSquare className="w-6 h-6" />
-        <span className="absolute right-full mr-3 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          AI Concierge
+        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/50 relative">
+          <img
+            src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256"
+            alt="AI Concierge"
+            className="w-full h-full object-cover"
+          />
+          {/* Online Dot */}
+          <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-pink-600 rounded-full"></div>
+        </div>
+
+        <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-slate-700 shadow-xl">
+          Talk to the Concierge
         </span>
       </div>
+    </>
+  );
     </>
   );
 }
