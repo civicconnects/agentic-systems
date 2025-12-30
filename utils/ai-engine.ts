@@ -51,7 +51,18 @@ export const generateAIResponse = async (
       body: JSON.stringify(payload)
     });
 
-    const rawData = await response.json();
+    console.log(`📥 N8N Response Status: ${response.status} ${response.statusText}`);
+
+    const rawText = await response.text();
+    console.log("📦 Raw N8N Body:", rawText);
+
+    let rawData;
+    try {
+      rawData = JSON.parse(rawText);
+    } catch (e) {
+      console.error("❌ Failed to parse N8N JSON:", e);
+      return rawText || "Error: Empty response from AI server.";
+    }
 
     // Handle different possible response formats from n8n
     if (rawData.response) {
@@ -64,6 +75,8 @@ export const generateAIResponse = async (
       return rawData.text;
     } else if (typeof rawData === 'string') {
       return rawData;
+    } else if (rawData[0] && rawData[0].output) { // Handle array format sometimes returned by N8N
+      return rawData[0].output;
     } else {
       // If response is empty or unexpected format, return helpful error
       console.error('Unexpected n8n response format:', rawData);
