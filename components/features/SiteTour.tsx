@@ -122,12 +122,13 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
       <div id="tour-trigger" onClick={startTour} className="hidden"></div>
 
       {/* 🛎️ THE CONCIERGE WIDGET (Step 5 Target) */}
-      <div
+      {/* 🛎️ THE CONCIERGE WIDGET (Step 5 Target) */}
+      <button
         id="chat-widget"
-        className="fixed bottom-6 right-6 z-40 p-1 rounded-full shadow-2xl cursor-pointer transition-transform hover:scale-110 flex items-center justify-center group bg-gradient-to-br from-pink-500 to-purple-600"
+        className="fixed bottom-6 right-6 z-[9999] p-1 rounded-full shadow-2xl cursor-pointer transition-transform hover:scale-110 flex items-center justify-center group bg-gradient-to-br from-pink-500 to-purple-600 outline-none border-none"
         onClick={handleChatClick}
       >
-        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/50 relative">
+        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/50 relative pointer-events-none">
           <img
             src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256"
             alt="AI Concierge"
@@ -137,10 +138,10 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
           <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-pink-600 rounded-full"></div>
         </div>
 
-        <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-slate-700 shadow-xl">
+        <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-slate-700 shadow-xl pointer-events-none">
           Talk to the Concierge
         </span>
-      </div>
+      </button>
     </>
   );
 }

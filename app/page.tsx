@@ -338,9 +338,16 @@ Rules:
       <Footer />
       {activeAgent && <ChatModal agent={activeAgent} onClose={() => setActiveAgent(null)} />}
       <SiteTour onChatOpen={() => {
-        // Open the Front Desk (Receptionist) agent
+        console.log("🚀 Page.tsx: onChatOpen callback triggered");
+        // Open the AI Concierge agent (ID 5)
         const frontDeskAgent = agents.find(a => a.id === 5);
-        if (frontDeskAgent) setActiveAgent(frontDeskAgent);
+        if (frontDeskAgent) {
+          console.log("✅ Page.tsx: Found Agent 5", frontDeskAgent.name);
+          setActiveAgent(frontDeskAgent);
+        } else {
+          console.error("❌ Page.tsx: Agent 5 NOT FOUND in agents array", agents);
+          alert("Error: AI Concierge agent configuration missing.");
+        }
       }} />
     </main>
   );
