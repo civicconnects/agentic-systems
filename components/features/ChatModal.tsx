@@ -194,8 +194,16 @@ export default function ChatModal({ agent, onClose }: { agent: Agent, onClose: (
     const sysPrompt = agent.systemInstruction || "You are a helpful AI assistant.";
 
     try {
+      // Format history for the AI Engine
+      const history = messages.map(m => ({
+        role: m.role,
+        content: m.text || m.content // Handle both 'text' and 'content' keys
+      }));
+
+      console.log("📤 Sending formatted history:", history);
+
       const reply = await generateAIResponse(
-        messages.map(m => ({ role: m.role, content: m.text })).concat({ role: 'user', content: userText }),
+        [...history, { role: 'user', content: userText }],
         sysPrompt,
         fileContext
       );

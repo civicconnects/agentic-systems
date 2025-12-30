@@ -36,15 +36,19 @@ export const generateAIResponse = async (
   const lastMessage = messages[messages.length - 1].content || messages[messages.length - 1].text;
 
   try {
+    const payload = {
+      message: lastMessage,
+      sessionId: currentSessionId,
+      systemPrompt: finalSystemPrompt,
+      history: messages
+    };
+
+    console.log("🚀 Sending Payload to N8N:", JSON.stringify(payload, null, 2));
+
     const response = await fetch("https://n8n.civicconnects.com/webhook/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: lastMessage,
-        sessionId: currentSessionId,
-        systemPrompt: finalSystemPrompt,
-        history: messages
-      })
+      body: JSON.stringify(payload)
     });
 
     const rawData = await response.json();
