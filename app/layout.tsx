@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SiteTour from "@/components/features/SiteTour"; // 👈 IMPORT THE TOUR COMPONENT
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,14 +18,15 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* 🚗 DRIVER.JS CSS */}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
       </head>
       <body className={inter.className}>
         {children}
-        
+
         {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
-        <SiteTour />
-        
+        {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
+        {/* SiteTour removed to prevent duplicate widget with missing props. It is handled in page.tsx */}
+
         {/* 🚗 DRIVER.JS SCRIPT */}
         <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js" defer></script>
       </body>
