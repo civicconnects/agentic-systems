@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { HelpCircle, MessageSquare } from 'lucide-react';
 
-export default function SiteTour() {
+interface SiteTourProps {
+  onChatOpen?: () => void;
+}
+
+export default function SiteTour({ onChatOpen }: SiteTourProps) {
   const [driver, setDriver] = useState<any>(null);
   const [hasSeenTour, setHasSeenTour] = useState(false);
 
@@ -102,6 +106,12 @@ export default function SiteTour() {
     if (driver) driver.drive();
   };
 
+  const handleChatClick = () => {
+    if (onChatOpen) {
+      onChatOpen();
+    }
+  };
+
   return (
     <>
       {/* 🚀 GLOBAL EVENT LISTENER FOR FOOTER BUTTON */}
@@ -111,7 +121,7 @@ export default function SiteTour() {
       <div
         id="chat-widget"
         className="fixed bottom-6 right-6 z-40 bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-full shadow-2xl cursor-pointer transition-transform hover:scale-110 flex items-center justify-center group"
-        onClick={() => alert("This would open the Receptionist Chat Agent.")}
+        onClick={handleChatClick}
       >
         <MessageSquare className="w-6 h-6" />
         <span className="absolute right-full mr-3 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
