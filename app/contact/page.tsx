@@ -15,7 +15,7 @@ export default function Contact() {
     const formData = new FormData(e.target);
     // This access key is for the public free tier of Web3Forms. 
     // It works instantly but you might want to get your own free key at web3forms.com later.
-    formData.append("access_key", "98580280-b787-4425-a6b4-e723e8192bbf"); 
+    formData.append("access_key", "98580280-b787-4425-a6b4-e723e8192bbf");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -35,7 +35,7 @@ export default function Contact() {
 
   return (
     <main className="min-h-screen flex flex-col bg-slate-950 text-white">
-      
+
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -50,14 +50,14 @@ export default function Contact() {
 
       <section className="flex-1 py-20 px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
+
           {/* Left Column: Form */}
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/20 border border-blue-800 text-blue-400 text-xs font-semibold uppercase tracking-wide mb-6">
               Now Taking New Clients
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Start Your <br/>
+              Start Your <br />
               <span className="text-blue-500">Automation Journey</span>
             </h1>
             <p className="text-slate-400 text-lg mb-8">
@@ -69,7 +69,7 @@ export default function Contact() {
                 <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
                 <h3 className="text-2xl font-bold text-white mb-2">Message Received!</h3>
                 <p className="text-slate-400">Our agents are processing your request. Talk soon.</p>
-                <button 
+                <button
                   onClick={() => setIsSuccess(false)}
                   className="mt-6 text-sm text-green-400 hover:text-green-300 underline"
                 >
@@ -77,34 +77,36 @@ export default function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6 bg-slate-900/50 p-8 rounded-3xl border border-slate-800">
-                {/* We need an access key from Web3Forms. You can leave this placeholder for testing or get a free one. */}
-                <input type="hidden" name="access_key" value="98580280-b787-4425-a6b4-e723e8192bbfE" /> 
-                
+              <form onSubmit={handleSubmit} className="space-y-6 bg-slate-900/50 p-8 rounded-3xl border border-slate-800 backdrop-blur-sm relative overflow-hidden group">
+                {/* Subtle gradient glow */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10 transition-opacity opacity-50 group-hover:opacity-100"></div>
+
+                <input type="hidden" name="access_key" value={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY} />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-400">Full Name</label>
-                    <input required type="text" name="name" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors" placeholder="John Doe" />
+                    <input required type="text" name="name" className="w-full bg-slate-950/50 border border-slate-700/50 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:bg-slate-900 transition-all text-white" placeholder="John Doe" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-400">Email Address</label>
-                    <input required type="email" name="email" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors" placeholder="john@company.com" />
+                    <input required type="email" name="email" className="w-full bg-slate-950/50 border border-slate-700/50 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:bg-slate-900 transition-all text-white" placeholder="john@company.com" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-400">Phone Number</label>
-                  <input type="tel" name="phone" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors" placeholder="(555) 000-0000" />
+                  <input type="tel" name="phone" className="w-full bg-slate-950/50 border border-slate-700/50 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:bg-slate-900 transition-all text-white" placeholder="(555) 000-0000" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-400">How can we help?</label>
-                  <textarea required name="message" rows={4} className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors" placeholder="I need a voice agent for my dental practice..."></textarea>
+                  <textarea required name="message" rows={4} className="w-full bg-slate-950/50 border border-slate-700/50 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:bg-slate-900 transition-all text-white resize-none" placeholder="I need a voice agent for my dental practice..."></textarea>
                 </div>
 
-                <button 
+                <button
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
                 >
                   {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                   {isSubmitting ? 'Sending...' : 'Send Request'}
@@ -114,14 +116,31 @@ export default function Contact() {
           </div>
 
           {/* Right Column: Calendly */}
-          <div className="bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl h-[750px]">
-             <iframe 
-              src="https://calendly.com/dwhitesvp/30min?hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3b82f6" 
-              width="100%" 
-              height="100%" 
-              frameBorder="0"
-              title="Select a Date & Time - Calendly"
-            ></iframe>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-3xl blur-xl -z-10"></div>
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl h-[750px] flex flex-col">
+              <div className="bg-slate-950/50 border-b border-slate-800 p-6 flex justify-between items-center backdrop-blur-md">
+                <div>
+                  <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+                    <Calendar className="w-4 h-4" /> Priority Access
+                  </div>
+                  <h3 className="font-bold text-white text-lg">Book a Strategy Call</h3>
+                </div>
+                <div className="bg-green-500/10 text-green-400 text-xs px-2 py-1 rounded border border-green-500/20 animate-pulse">
+                  Detailed Quote
+                </div>
+              </div>
+
+              <div className="flex-1 bg-slate-900">
+                <iframe
+                  src="https://calendly.com/dwhitesvp/30min?hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3b82f6"
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  title="Select a Date & Time - Calendly"
+                ></iframe>
+              </div>
+            </div>
           </div>
 
         </div>
