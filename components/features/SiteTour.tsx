@@ -71,7 +71,7 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
               element: '#chat-widget',
               popover: {
                 title: 'The Concierge',
-                description: 'Need help navigating? Our Receptionist Agent is always here. Just click to chat!',
+                description: 'Need help? Our AI Concierge is always here to assist and book strategy calls. Just click to chat!',
                 side: "left"
               }
             }
@@ -125,7 +125,7 @@ export default function SiteTour({ onChatOpen }: SiteTourProps) {
       >
         <MessageSquare className="w-6 h-6" />
         <span className="absolute right-full mr-3 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          Ask Receptionist
+          AI Concierge
         </span>
       </div>
     </>
