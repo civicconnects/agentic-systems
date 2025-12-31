@@ -312,40 +312,8 @@ Rules:
       {/* OPERATIONS FLOW */}
       <OperationsFlow />
 
-      {/* PRICING SECTION */}
-      <section className="py-24 px-6 bg-slate-900/30 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">Transparent Pricing</h2>
-            <p className="text-slate-400">Choose the model that fits your growth stage.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <PricingCard
-              name="Pilot"
-              price="$2,500"
-              period="one-time"
-              desc="Perfect for a single automation workflow or MVP."
-              features={["1 Custom N8N Workflow", "CRM Integration", "Data Scraping Setup", "2 Weeks Support"]}
-            />
-            <PricingCard
-              name="Growth Partner"
-              price="$4,500"
-              period="/ month"
-              desc="We become your dedicated AI department."
-              featured={true}
-              features={["Unlimited N8N Workflows", "2 AI Voice Agents (Vapi)", "Weekly Strategy Calls", "24/7 Server Monitoring", "Priority Support"]}
-            />
-            <PricingCard
-              name="Enterprise"
-              price="Custom"
-              period=""
-              desc="Full-scale multi-agent systems and custom apps."
-              features={["Custom Mobile/Web App", "Autonomous Agent Swarms", "On-Premise Deployment", "SLA Guarantees", "Dedicated Engineer"]}
-            />
-          </div>
-        </div>
-      </section>
+      {/* CONSULTATIVE PRICING */}
+      <ConsultantPricing />
 
       <Footer />
       {activeAgent && <ChatModal agent={activeAgent} onClose={() => setActiveAgent(null)} />}
