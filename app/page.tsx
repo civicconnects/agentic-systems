@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import ChatModal from '@/components/features/ChatModal';
 import SiteTour from '@/components/features/SiteTour';
+import CallCenterFlow from '@/components/features/CallCenterFlow';
 
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<any>(null);
@@ -299,6 +300,9 @@ Rules:
           </div>
         </div>
       </section>
+
+      {/* CALL CENTER AUTOMATION FLOW */}
+      <CallCenterFlow />
 
       {/* PRICING SECTION */}
       <section className="py-24 px-6 bg-slate-900/30 border-t border-slate-800">
