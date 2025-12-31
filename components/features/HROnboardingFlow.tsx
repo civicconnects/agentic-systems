@@ -51,9 +51,13 @@ const HROnboardingFlow = () => {
 
     return (
         <div className="max-w-5xl mx-auto py-20 px-6 font-sans">
-            <div className="text-center mb-16">
-                <h2 className="text-4xl font-black text-slate-900 mb-4">6 Ways AI Scales Your Workforce</h2>
-                <p className="text-slate-500 uppercase tracking-widest text-xs font-bold">Innovation Roadmap for Lead Generation</p>
+            <div className="text-center mb-16 px-4">
+                <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter">
+                    AI HR: The Next Generation
+                </h2>
+                <p className="text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed">
+                    Innovative AI solutions engineered to boost workplace productivity and drive growth. A complete ecosystem for the modern workforce.
+                </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center bg-slate-50 rounded-[3rem] p-12 border border-slate-200">
