@@ -87,8 +87,8 @@ const HROnboardingFlow = () => {
                                     className={`absolute w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 z-20 shadow-md
                     ${active ? 'bg-orange-600 text-white scale-125 ring-4 ring-orange-200 shadow-xl' : 'bg-white text-slate-400 hover:text-orange-600 border border-slate-200'}`}
                                     style={{
-                                        top: `calc(50% - 32px + ${Math.sin((angle * Math.PI) / 180) * radius}px)`,
-                                        left: `calc(50% - 32px + ${Math.cos((angle * Math.PI) / 180) * radius}px)`
+                                        top: `calc(50% - 32px + ${(Math.sin((angle * Math.PI) / 180) * radius).toFixed(2)}px)`,
+                                        left: `calc(50% - 32px + ${(Math.cos((angle * Math.PI) / 180) * radius).toFixed(2)}px)`
                                     }}
                                 >
                                     {React.cloneElement(item.icon, { size: 28 })}
