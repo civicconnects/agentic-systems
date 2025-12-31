@@ -1,155 +1,141 @@
-import React from 'react';
-import { UserPlus, Cpu, User, FileText, Mail, Clock, Shield, Zap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, MessageSquare, Users, Scale, Zap, BarChart3, ChevronRight } from 'lucide-react';
 
 const HROnboardingFlow = () => {
+    const [activeTab, setActiveTab] = useState(0);
+
+    const strategies = [
+        {
+            title: "Automated Screening",
+            icon: <Search />,
+            desc: "Algorithms screen resumes & social profiles to find talent instantly.",
+            stat: "95% Accuracy",
+            detail: "Reduces manual screening time by up to 75%."
+        },
+        {
+            title: "AI-Driven Chatbots",
+            icon: <MessageSquare />,
+            desc: "Instant cultural & skill triage for every applicant 24/7.",
+            stat: "140% Apps",
+            detail: "Brother Intl. saw a 140% application increase in 3 weeks."
+        },
+        {
+            title: "Self-Serve Application",
+            icon: <Users />,
+            desc: "Manage massive talent pools without adding HR headcount.",
+            stat: "Zero Friction",
+            detail: "Automation handles high-volume intake seamlessly."
+        },
+        {
+            title: "Objective Meritocracy",
+            icon: <Scale />,
+            desc: "Data-driven hiring that removes human perception bias.",
+            stat: "Fair Talent",
+            detail: "Increased diversity through blind data shortlisting."
+        },
+        {
+            title: "Candidate Experience",
+            icon: <Zap />,
+            desc: "Personalized, instant communication for every candidate.",
+            stat: "Fast Response",
+            detail: "Eliminates the 'Recruitment Black Hole'."
+        },
+        {
+            title: "Strategic Focus",
+            icon: <BarChart3 />,
+            desc: "Automates the 'Grunt Work' so HR can focus on relationships.",
+            stat: "25% Faster",
+            detail: "Reduces time-to-fill positions by a quarter."
+        }
+    ];
+
     return (
-        <section className="py-20 bg-slate-950 font-sans overflow-hidden">
-            <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-5xl mx-auto py-20 px-6 font-sans">
+            <div className="text-center mb-16">
+                <h2 className="text-4xl font-black text-slate-900 mb-4">6 Ways AI Scales Your Workforce</h2>
+                <p className="text-slate-500 uppercase tracking-widest text-xs font-bold">Innovation Roadmap for Lead Generation</p>
+            </div>
 
-                {/* HEADER SECTION */}
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                        The Onboarding Magnitude
-                    </h2>
-                    <p className="text-slate-400 font-medium text-lg">Comparing Friction vs. Agentic Velocity</p>
-                </div>
+            <div className="grid md:grid-cols-2 gap-12 items-center bg-slate-50 rounded-[3rem] p-12 border border-slate-200">
 
-                {/* MANUAL PATH - THE FRICTION */}
-                <div className="mb-12 relative">
-                    <div className="absolute -left-8 top-0 h-full flex items-center">
-                        <span className="text-red-500 font-black text-sm uppercase tracking-widest [writing-mode:vertical-lr] rotate-180">
-                            Manual Legacy
-                        </span>
-                    </div>
+                {/* LEFT: THE INTERACTIVE WHEEL */}
+                <div className="relative w-80 h-80 mx-auto">
+                    {/* Rotating Ring Decor */}
+                    <div className="absolute inset-0 border-4 border-dashed border-slate-200 rounded-full animate-spin-slow opacity-50" />
 
-                    <div className="relative bg-slate-800/50 rounded-[2.5rem] border-2 border-slate-700 p-10">
-                        <div className="flex justify-between items-center relative">
-
-                            {/* Connection Line */}
-                            <div className="absolute top-1/2 left-0 right-0 h-[2px] border-t-2 border-dashed border-slate-600 -translate-y-1/2 -z-10" />
-
-                            {[
-                                { icon: <FileText size={32} />, label: "Resume Pile", day: "Day 1" },
-                                { icon: <Mail size={32} />, label: "Email Chasing", day: "Day 5" },
-                                { icon: <Clock size={32} />, label: "BG Check Lag", day: "Day 12" },
-                                { icon: <Clock size={32} />, label: "BG Check Lag", day: "Day 12" },
-                                { icon: <Shield size={32} />, label: "IT Provisioning", day: "Day 38" }
-                            ].map((step, i) => (
-                                <div key={i} className="flex flex-col items-center bg-slate-800/50 px-4 relative z-10">
-                                    <div className="w-20 h-20 rounded-full bg-slate-700 border-2 border-slate-600 flex items-center justify-center text-slate-400">
-                                        {step.icon}
-                                    </div>
-                                    <span className="mt-3 text-xs font-bold text-slate-300 uppercase text-center">{step.label}</span>
-                                    <span className="text-orange-400 text-xs font-bold mt-1">{step.day}</span>
-                                </div>
-                            ))}
-
-                            <div className="flex flex-col items-center ml-6">
-                                <div className="text-3xl font-black text-orange-500">21+</div>
-                                <div className="text-3xl font-black text-orange-500">21 DAYS</div>
-                                <span className="text-xs text-orange-400 uppercase mt-1">TO START</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* DIVIDER */}
-                <div className="flex items-center justify-center my-12 relative">
-                    <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-slate-600 to-transparent" />
-                    <div className="relative bg-orange-600 px-8 py-3 rounded-full font-black text-sm text-white shadow-[0_0_30px_rgba(234,88,12,0.6)] animate-bounce">
-                        SAVE 20 DAYS OF PRODUCTIVITY
-                    </div>
-                </div>
-
-                {/* AGENTIC PATH - THE POWER */}
-                <div className="relative">
-                    <div className="absolute -left-8 top-0 h-full flex items-center">
-                        <span className="text-orange-500 font-black text-sm uppercase tracking-widest [writing-mode:vertical-lr] rotate-180">
-                            Agentic Factory
-                        </span>
-                    </div>
-
-                    <div className="relative bg-orange-950/30 rounded-[2.5rem] border-2 border-orange-800/50 p-10">
-
-                        {/* Animated Conveyor Belt Border */}
-                        <div className="absolute bottom-12 left-10 right-10 h-1 bg-orange-900/30 rounded-full overflow-hidden">
-                            <div className="absolute inset-0 border-t-2 border-dashed border-orange-500/40" />
-                            <div className="conveyor-dots h-full w-[200%]"
+                    {strategies.map((item, i) => {
+                        const angle = (i * 360) / strategies.length;
+                        const active = activeTab === i;
+                        return (
+                            <button
+                                key={i}
+                                onMouseEnter={() => setActiveTab(i)}
+                                className={`absolute w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 z-20 shadow-lg
+                  ${active ? 'bg-orange-600 text-white scale-125 ring-4 ring-orange-100' : 'bg-white text-slate-400 hover:text-orange-500'}`}
                                 style={{
-                                    backgroundImage: 'radial-gradient(circle, #ea580c 2px, transparent 2px)',
-                                    backgroundSize: '40px 40px'
-                                }} />
+                                    top: `calc(50% - 28px + ${Math.sin((angle * Math.PI) / 180) * 140}px)`,
+                                    left: `calc(50% - 28px + ${Math.cos((angle * Math.PI) / 180) * 140}px)`
+                                }}
+                            >
+                                {React.cloneElement(item.icon, { size: 24 })}
+                            </button>
+                        );
+                    })}
+
+                    {/* Center Hub */}
+                    <div className="absolute inset-0 m-auto w-32 h-32 bg-white rounded-full shadow-2xl flex flex-col items-center justify-center border-4 border-orange-500">
+                        <span className="text-orange-600 font-black text-2xl leading-none">HR</span>
+                        <span className="text-slate-900 font-bold text-[10px] uppercase">Engine</span>
+                    </div>
+                </div>
+
+                {/* RIGHT: THE CONTENT DYNAMIC CARD */}
+                <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-5 text-slate-900">
+                        {strategies[activeTab].icon}
+                    </div>
+
+                    <div className="mb-6">
+                        <span className="bg-orange-100 text-orange-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                            Action Point {activeTab + 1}
+                        </span>
+                        <h3 className="text-2xl font-black text-slate-900 mt-2">{strategies[activeTab].title}</h3>
+                    </div>
+
+                    <p className="text-slate-600 mb-6 leading-relaxed">
+                        {strategies[activeTab].desc}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                        <div className="bg-slate-50 p-4 rounded-2xl border-l-4 border-orange-500">
+                            <span className="block text-2xl font-black text-orange-600">{strategies[activeTab].stat}</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase">Impact Metric</span>
                         </div>
-
-                        <div className="flex justify-between items-center relative z-10">
-
-                            {/* START */}
-                            <div className="flex flex-col items-center">
-                                <div className="w-24 h-24 rounded-2xl bg-slate-800 border-2 border-orange-600/50 flex items-center justify-center text-orange-400">
-                                    <div className="text-center">
-                                        <div className="text-2xl font-black">32</div>
-                                    </div>
-                                </div>
-                                <span className="mt-3 text-xs font-bold text-slate-300 uppercase">Application In</span>
-                            </div>
-
-                            {/* SOVEREIGN AI ENGINE */}
-                            <div className="relative flex-1 flex justify-center">
-                                <div className="relative">
-                                    {/* Pulsing Glow */}
-                                    <div className="absolute inset-0 bg-orange-500 blur-[60px] opacity-30 animate-pulse" />
-
-                                    {/* Main AI Circle */}
-                                    <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 border-4 border-orange-300/30 flex flex-col items-center justify-center shadow-2xl">
-                                        <Cpu size={56} className="text-white mb-2 animate-spin-slow" />
-                                        <span className="text-xs font-black text-white uppercase tracking-wider">Sovereign AI</span>
-                                    </div>
-
-                                    {/* Callout Labels */}
-                                    <div className="absolute -top-8 -right-12 bg-orange-900/80 border border-orange-600 px-3 py-1.5 rounded-lg text-xs text-orange-200 font-mono whitespace-nowrap">
-                                        Auto-IT Setup
-                                    </div>
-                                    <div className="absolute -bottom-8 -left-12 bg-orange-900/80 border border-orange-600 px-3 py-1.5 rounded-lg text-xs text-orange-200 font-mono whitespace-nowrap">
-                                        Policy Training AI
-                                    </div>
-                                    <div className="absolute top-1/2 -right-20 bg-orange-900/80 border border-orange-600 px-3 py-1.5 rounded-lg text-xs text-orange-200 font-mono whitespace-nowrap -translate-y-1/2">
-                                        lo 24 HO-33
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* END RESULT */}
-                            <div className="flex flex-col items-center">
-                                <div className="w-24 h-24 rounded-full bg-orange-600 border-4 border-orange-400/30 flex items-center justify-center text-white shadow-[0_0_30px_rgba(234,88,12,0.5)]">
-                                    <User size={48} />
-                                </div>
-                                <span className="mt-3 text-xs font-bold text-orange-400 uppercase">Employee Ready</span>
-                                <div className="text-2xl font-black text-white mt-1">{'<'} 24 HOURS</div>
-                            </div>
+                        <div className="p-4 rounded-2xl flex items-center">
+                            <p className="text-xs text-slate-500 font-medium italic">
+                                {strategies[activeTab].detail}
+                            </p>
                         </div>
                     </div>
+
+                    <button className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group hover:bg-orange-600 transition-colors">
+                        Implement This Solution <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
                 </div>
 
             </div>
 
-            {/* CSS ANIMATIONS */}
+            {/* CSS FOR SLOW SPIN */}
             <style>{`
-        @keyframes conveyor-dots {
-          0% { background-position: 0 0; }
-          100% { background-position: 80px 0; }
-        }
-        .conveyor-dots {
-          animation: conveyor-dots 3s linear infinite;
-        }
         .animate-spin-slow {
-          animation: spin 8s linear infinite;
+          animation: spin 20s linear infinite;
         }
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
       `}</style>
-        </section>
+        </div>
     );
 };
 
