@@ -50,9 +50,11 @@ const HROnboardingFlow = () => {
     ];
 
     return (
-        <div className="max-w-5xl mx-auto py-20 px-6 font-sans">
-            <div className="text-center mb-16 px-4">
-                <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter">
+        <div className="max-w-7xl mx-auto py-24 px-6 font-sans">
+
+            {/* HEADER SECTION - Fixed Contrast & Spacing */}
+            <div className="text-center mb-20">
+                <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tighter">
                     AI HR: The Next Generation
                 </h2>
                 <p className="text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed">
@@ -60,70 +62,77 @@ const HROnboardingFlow = () => {
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center bg-slate-50 rounded-[3rem] p-12 border border-slate-200">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center bg-slate-50 rounded-[3rem] p-12 lg:p-16 border border-slate-200 shadow-sm">
 
                 {/* LEFT: THE INTERACTIVE WHEEL */}
-                <div className="relative w-80 h-80 mx-auto">
+                <div className="relative w-80 h-80 lg:w-96 lg:h-96 mx-auto">
                     {/* Rotating Ring Decor */}
-                    <div className="absolute inset-0 border-4 border-dashed border-slate-200 rounded-full animate-spin-slow opacity-50" />
+                    <div className="absolute inset-0 border-[3px] border-dashed border-slate-300 rounded-full animate-spin-slow opacity-60" />
 
                     {strategies.map((item, i) => {
                         const angle = (i * 360) / strategies.length;
                         const active = activeTab === i;
+                        // Adjusted radius for better fit
+                        const radius = 170; // Wider spread for legibility
+
                         return (
                             <button
                                 key={i}
                                 onMouseEnter={() => setActiveTab(i)}
-                                className={`absolute w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 z-20 shadow-lg
-                  ${active ? 'bg-orange-600 text-white scale-125 ring-4 ring-orange-100' : 'bg-white text-slate-400 hover:text-orange-500'}`}
+                                className={`absolute w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 z-20 shadow-md
+                  ${active ? 'bg-orange-600 text-white scale-110 ring-4 ring-orange-200 shadow-xl' : 'bg-white text-slate-400 hover:text-orange-600 border border-slate-200'}`}
                                 style={{
-                                    top: `calc(50% - 28px + ${Math.sin((angle * Math.PI) / 180) * 140}px)`,
-                                    left: `calc(50% - 28px + ${Math.cos((angle * Math.PI) / 180) * 140}px)`
+                                    top: `calc(50% - 32px + ${Math.sin((angle * Math.PI) / 180) * radius}px)`,
+                                    left: `calc(50% - 32px + ${Math.cos((angle * Math.PI) / 180) * radius}px)`
                                 }}
                             >
-                                {React.cloneElement(item.icon, { size: 24 })}
+                                {React.cloneElement(item.icon, { size: 28 })}
                             </button>
                         );
                     })}
 
                     {/* Center Hub */}
-                    <div className="absolute inset-0 m-auto w-32 h-32 bg-white rounded-full shadow-2xl flex flex-col items-center justify-center border-4 border-orange-500">
-                        <span className="text-orange-600 font-black text-2xl leading-none">HR</span>
-                        <span className="text-slate-900 font-bold text-[10px] uppercase">Engine</span>
+                    <div className="absolute inset-0 m-auto w-40 h-40 bg-white rounded-full shadow-2xl flex flex-col items-center justify-center border-8 border-slate-50 z-10 relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-orange-50 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative z-10 text-center">
+                            <span className="block text-orange-600 font-black text-3xl leading-none tracking-tighter">AGI</span>
+                            <span className="text-slate-900 font-bold text-xs uppercase tracking-widest mt-1 block">Engine</span>
+                        </div>
                     </div>
                 </div>
 
                 {/* RIGHT: THE CONTENT DYNAMIC CARD */}
-                <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-5 text-slate-900">
-                        {strategies[activeTab].icon}
+                <div className="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-xl border border-slate-100 relative overflow-hidden h-full flex flex-col justify-center">
+
+                    <div className="absolute top-0 right-0 p-8 opacity-[0.03] text-slate-900 transform scale-150">
+                        {React.cloneElement(strategies[activeTab].icon, { size: 120 })}
                     </div>
 
-                    <div className="mb-6">
-                        <span className="bg-orange-100 text-orange-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                            Action Point {activeTab + 1}
+                    <div className="mb-6 relative z-10">
+                        <span className="bg-orange-100 text-orange-700 text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest inline-block mb-4">
+                            Capability {activeTab + 1}
                         </span>
-                        <h3 className="text-2xl font-black text-slate-900 mt-2">{strategies[activeTab].title}</h3>
+                        <h3 className="text-3xl font-black text-slate-900 leading-tight">{strategies[activeTab].title}</h3>
                     </div>
 
-                    <p className="text-slate-600 mb-6 leading-relaxed">
+                    <p className="text-lg text-slate-600 mb-8 leading-relaxed font-medium">
                         {strategies[activeTab].desc}
                     </p>
 
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="bg-slate-50 p-4 rounded-2xl border-l-4 border-orange-500">
-                            <span className="block text-2xl font-black text-orange-600">{strategies[activeTab].stat}</span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase">Impact Metric</span>
+                    <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                        <div className="bg-slate-50 p-5 rounded-2xl border-l-4 border-orange-500">
+                            <span className="block text-3xl font-black text-orange-600 mb-1">{strategies[activeTab].stat}</span>
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Key Metric</span>
                         </div>
-                        <div className="p-4 rounded-2xl flex items-center">
-                            <p className="text-xs text-slate-500 font-medium italic">
-                                {strategies[activeTab].detail}
+                        <div className="p-5 rounded-2xl border border-slate-100 flex items-center bg-white shadow-sm">
+                            <p className="text-sm text-slate-600 font-medium italic">
+                                "{strategies[activeTab].detail}"
                             </p>
                         </div>
                     </div>
 
-                    <button className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group hover:bg-orange-600 transition-colors">
-                        Implement This Solution <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    <button className="w-full bg-slate-900 text-white py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-2 group hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/25">
+                        Deploy Capability <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>
 
@@ -132,7 +141,7 @@ const HROnboardingFlow = () => {
             {/* CSS FOR SLOW SPIN */}
             <style>{`
         .animate-spin-slow {
-          animation: spin 20s linear infinite;
+          animation: spin 30s linear infinite;
         }
         @keyframes spin {
           from { transform: rotate(0deg); }
