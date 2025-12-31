@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ChatModal from '@/components/features/ChatModal';
+import CustomAgentBuilder from '@/components/features/CustomAgentBuilder';
 import { Mail, Video, Users, ArrowRight, CheckCircle, Zap, HeartHandshake, PhoneCall, TrendingUp, Settings, Database, Upload, Rocket } from 'lucide-react';
 
 export default function AIServices() {
@@ -12,7 +13,7 @@ export default function AIServices() {
   return (
     <main className="min-h-screen bg-slate-950 text-white selection:bg-blue-500/30">
       <Navbar />
-      
+
       {/* Header */}
       <section className="pt-32 pb-20 px-6 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/20 border border-blue-800 text-blue-400 text-xs font-semibold uppercase tracking-wide mb-6">
@@ -25,9 +26,9 @@ export default function AIServices() {
       </section>
 
       <div className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
-        
+
         {/* Category 1: Communication */}
-        <ServiceCategory 
+        <ServiceCategory
           title="Communication Managers"
           icon={<Mail className="w-8 h-8 text-blue-400" />}
           desc="Agents that handle high-volume inbound and outbound messaging."
@@ -39,7 +40,7 @@ export default function AIServices() {
         />
 
         {/* Category 2: Content */}
-        <ServiceCategory 
+        <ServiceCategory
           title="Content Engines"
           icon={<Video className="w-8 h-8 text-purple-400" />}
           desc="Autonomous creators that maintain your brand presence."
@@ -51,7 +52,7 @@ export default function AIServices() {
         />
 
         {/* Category 3: Department Builders */}
-        <ServiceCategory 
+        <ServiceCategory
           title="Department Builders"
           icon={<Users className="w-8 h-8 text-green-400" />}
           desc="Full-stack autonomous teams for complex operations."
@@ -70,15 +71,15 @@ export default function AIServices() {
       {/* CUSTOMIZE AGENTS SECTION */}
       <section className="py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] -z-10"></div>
-        
+
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-bold uppercase tracking-widest mb-6">
             <Settings className="w-3 h-3" /> The AI Forge
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Customize Agents</h2>
           <h3 className="text-xl text-slate-400 font-light mb-8">Build your own custom agents at your fingertips.</h3>
-          
+
           <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
             Can't find exactly what you need? Our AI Forge allows you to build a hyper-specific agent tailored to your unique internal data and proprietary workflows.
           </p>
@@ -101,7 +102,7 @@ export default function AIServices() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={() => setShowBuilder(true)}
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_30px_rgba(37,99,235,0.3)] hover:scale-105"
           >
@@ -114,10 +115,7 @@ export default function AIServices() {
 
       {/* Builder Modal */}
       {showBuilder && (
-        <ChatModal 
-            agent={{ id: 'custom_builder', name: 'Agent Forge', role: 'System Builder' }} 
-            onClose={() => setShowBuilder(false)} 
-        />
+        <CustomAgentBuilder onClose={() => setShowBuilder(false)} />
       )}
     </main>
   );
