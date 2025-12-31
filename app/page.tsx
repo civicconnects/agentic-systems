@@ -8,6 +8,7 @@ import ChatModal from '@/components/features/ChatModal';
 import SiteTour from '@/components/features/SiteTour';
 import CallCenterFlow from '@/components/features/CallCenterFlow';
 import HROnboardingFlow from '@/components/features/HROnboardingFlow';
+import ConsultantPricing from '@/components/features/ConsultantPricing';
 import OperationsFlow from '@/components/features/OperationsFlow';
 
 export default function Home() {
