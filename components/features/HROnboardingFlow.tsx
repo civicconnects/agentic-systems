@@ -1,84 +1,105 @@
 import React from 'react';
-import { UserPlus, FileSearch, Clock, ShieldCheck, Rocket, ArrowRight, AlertTriangle, Zap, CheckCircle2, Users, Briefcase } from 'lucide-react';
+import { UserPlus, UserCheck, Cpu, Clock, AlertTriangle, FileSearch, Users } from 'lucide-react';
 
 const HROnboardingFlow = () => {
     return (
-        <section className="py-20 bg-slate-50/50 font-sans overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6">
+        <div className="py-20 bg-slate-950 font-sans overflow-hidden">
+            <div className="max-w-6xl mx-auto px-6">
                 {/* Section Header */}
                 <div className="mb-16 text-center">
-                    <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
                         HR Department: From Paperwork to Performance.
                     </h2>
-                    <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+                    <p className="text-xl text-slate-400 max-w-2xl mx-auto">
                         Eliminate manual follow-ups for IT, Badging, and Training.
                     </p>
                 </div>
 
-                {/* The Flow Container */}
-                <div className="relative flex flex-col md:flex-row items-center justify-between gap-4 p-8 bg-white rounded-[2rem] border border-slate-100 shadow-xl">
-
-                    {/* STEP 1: Manual Intake */}
-                    <div className="flex flex-col items-center group">
-                        <div className="w-16 h-16 rounded-full bg-slate-100 border-2 border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-slate-400 transition-colors">
-                            <Briefcase size={28} />
-                        </div>
-                        <span className="mt-3 text-sm font-bold text-slate-500 uppercase tracking-wider">Manual Intake</span>
-                        <span className="text-[10px] text-slate-400 italic">Job Req & Background</span>
+                {/* LEGACY PATH - THE PAIN */}
+                <div className="relative mb-8">
+                    <div className="absolute -left-4 top-0 border-l-4 border-red-500 h-full pl-4 flex items-center">
+                        <span className="uppercase tracking-[0.3em] text-[10px] font-bold text-red-500 [writing-mode:vertical-lr] rotate-180">Legacy Process</span>
                     </div>
 
-                    <ArrowRight className="hidden md:block text-slate-300 animate-pulse" />
+                    <div className="flex justify-between items-center px-10 bg-red-500/5 rounded-3xl py-10 border border-red-500/20">
+                        <div className="flex flex-col items-center">
+                            <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-red-400 border border-red-500/50">
+                                <UserPlus size={32} />
+                            </div>
+                            <span className="text-xs mt-3 font-black uppercase text-slate-300">New Hire</span>
+                        </div>
 
-                    {/* STEP 2: Coordination Chaos (The Friction Point) */}
-                    <div className="flex flex-col items-center relative">
-                        <div className="w-24 h-24 rounded-2xl bg-red-50 border-2 border-red-200 flex flex-col items-center justify-center text-red-600 shadow-inner relative">
-                            <Users size={32} />
-                            <div className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-black px-2 py-1 rounded-full flex items-center gap-1 animate-pulse">
-                                <AlertTriangle size={10} /> DELAY
+                        <div className="flex-1 flex flex-col items-center justify-center gap-4 px-10">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-red-400 border border-red-500/30">
+                                    <FileSearch size={24} />
+                                </div>
+                                <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-red-400 border border-red-500/30">
+                                    <Users size={24} />
+                                </div>
+                                <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-red-400 border border-red-500/30 animate-pulse">
+                                    <AlertTriangle size={24} />
+                                </div>
+                            </div>
+                            <div className="text-center">
+                                <span className="text-[10px] text-red-400 font-bold uppercase tracking-wider">Manual Coordination</span>
+                                <p className="text-xs text-slate-500 mt-1">IT • Badges • Parking • Training</p>
                             </div>
                         </div>
-                        <div className="mt-3 text-center">
-                            <span className="block text-sm font-black text-red-800 uppercase">Coordination Chaos</span>
-                            <span className="text-[10px] text-red-500 font-bold">IT • Badges • Parking • Lunches</span>
-                            <span className="block text-[10px] text-red-400 font-medium italic mt-1">Average 4-day lag per dept.</span>
+
+                        <div className="flex flex-col items-center ml-8">
+                            <div className="text-red-500 font-black text-2xl uppercase tracking-tighter">21+ DAYS</div>
+                            <span className="text-[10px] text-red-400">TO START</span>
                         </div>
                     </div>
+                </div>
 
-                    <ArrowRight className="hidden md:block text-slate-300 animate-pulse" />
+                {/* THE DIVIDER / MAGNITUDE GAP */}
+                <div className="flex items-center justify-center my-10">
+                    <div className="h-[1px] bg-gradient-to-r from-transparent via-orange-500 to-transparent w-full absolute" />
+                    <div className="relative bg-orange-600 px-6 py-2 rounded-full font-black text-sm shadow-[0_0_30px_rgba(255,87,34,0.6)] animate-bounce text-white">
+                        SAVE 20 DAYS OF PRODUCTIVITY
+                    </div>
+                </div>
 
-                    {/* STEP 3: THE SOVEREIGN ORCHESTRATOR */}
-                    <div className="relative flex flex-col items-center group scale-110">
-                        {/* Dopamine Glow Effect */}
-                        <div className="absolute inset-0 bg-orange-500 blur-3xl opacity-20 group-hover:opacity-40 transition-opacity animate-pulse" />
-
-                        <div className="relative w-28 h-28 rounded-3xl bg-orange-600 flex flex-col items-center justify-center text-white shadow-[0_10px_30px_rgba(234,88,12,0.4)] transform group-hover:-translate-y-2 transition-transform duration-300 border-2 border-orange-400">
-                            <Zap size={44} className="mb-1" fill="white" />
-                            <span className="text-[9px] font-black tracking-tighter uppercase">AGENTIC ORCHESTRATOR</span>
-                        </div>
-                        <div className="mt-4 text-center">
-                            <span className="block text-md font-black text-slate-900">Sovereign Routing</span>
-                            <span className="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full font-bold">AUTO-PROVISION</span>
-                            <span className="block text-[10px] text-slate-500 font-bold mt-1">85% overhead reduction</span>
-                        </div>
+                {/* AGENTIC PATH - THE POWER */}
+                <div className="relative group">
+                    <div className="absolute -left-4 top-0 border-l-4 border-orange-500 h-full pl-4 flex items-center">
+                        <span className="uppercase tracking-[0.3em] text-[10px] font-bold text-orange-500 [writing-mode:vertical-lr] rotate-180">Agentic Factory</span>
                     </div>
 
-                    <ArrowRight className="hidden md:block text-orange-500" />
-
-                    {/* STEP 4: Ready to Perform (Dopamine Pop) */}
-                    <div className="flex flex-col items-center">
-                        <div className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-[0_0_20px_rgba(16,185,129,0.4)] animate-bounce">
-                            <CheckCircle2 size={40} />
+                    <div className="flex justify-between items-center px-10 bg-orange-500/5 rounded-3xl py-10 border border-orange-500/20">
+                        <div className="flex flex-col items-center">
+                            <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-orange-400 border border-orange-500/50">
+                                <UserPlus size={32} />
+                            </div>
+                            <span className="text-xs mt-3 font-black uppercase text-slate-300">Application In</span>
                         </div>
-                        <div className="mt-3 text-center">
-                            <span className="block text-sm font-black text-emerald-800 uppercase">Ready to Perform</span>
-                            <span className="text-lg font-black text-slate-900 tracking-tighter">DAY 1</span>
-                            <span className="block text-[10px] text-emerald-500 font-bold italic">Fully Integrated</span>
+
+                        <div className="flex-1 flex items-center justify-center px-10">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-orange-500 blur-[40px] opacity-40 animate-pulse" />
+                                <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-orange-400 to-orange-700 flex flex-col items-center justify-center shadow-2xl border-4 border-white/20">
+                                    <Cpu size={48} className="text-white" />
+                                    <span className="text-[10px] font-black text-white mt-1 uppercase tracking-tighter">Sovereign AI</span>
+                                </div>
+                                {/* Emerging Beams */}
+                                <div className="absolute -top-10 -right-10 text-[9px] bg-slate-800 border border-orange-500/50 p-2 rounded text-orange-300 font-mono">Auto-IT Setup</div>
+                                <div className="absolute -bottom-10 -left-10 text-[9px] bg-slate-800 border border-orange-500/50 p-2 rounded text-orange-300 font-mono">Policy Training AI</div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col items-center">
+                            <div className="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center text-white shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+                                <UserCheck size={32} />
+                            </div>
+                            <span className="text-xs mt-3 font-black uppercase text-orange-400 tracking-widest">Employee Ready</span>
+                            <div className="mt-1 text-2xl font-black text-white">{'<'} 24 HOURS</div>
                         </div>
                     </div>
-
                 </div>
             </div>
-        </section>
+        </div>
     );
 };
 
