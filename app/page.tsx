@@ -7,6 +7,7 @@ import Navbar from '@/components/layout/Navbar';
 import ChatModal from '@/components/features/ChatModal';
 import SiteTour from '@/components/features/SiteTour';
 import CallCenterFlow from '@/components/features/CallCenterFlow';
+import HROnboardingFlow from '@/components/features/HROnboardingFlow';
 
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<any>(null);
@@ -303,6 +304,9 @@ Rules:
 
       {/* CALL CENTER AUTOMATION FLOW */}
       <CallCenterFlow />
+
+      {/* HR ONBOARDING FLOW */}
+      <HROnboardingFlow />
 
       {/* PRICING SECTION */}
       <section className="py-24 px-6 bg-slate-900/30 border-t border-slate-800">
