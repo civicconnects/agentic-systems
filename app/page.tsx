@@ -8,6 +8,7 @@ import ChatModal from '@/components/features/ChatModal';
 import SiteTour from '@/components/features/SiteTour';
 import CallCenterFlow from '@/components/features/CallCenterFlow';
 import HROnboardingFlow from '@/components/features/HROnboardingFlow';
+import OperationsFlow from '@/components/features/OperationsFlow';
 
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState<any>(null);
@@ -307,6 +308,9 @@ Rules:
 
       {/* HR ONBOARDING FLOW */}
       <HROnboardingFlow />
+
+      {/* OPERATIONS FLOW */}
+      <OperationsFlow />
 
       {/* PRICING SECTION */}
       <section className="py-24 px-6 bg-slate-900/30 border-t border-slate-800">
