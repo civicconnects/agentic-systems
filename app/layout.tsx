@@ -20,7 +20,7 @@ export default function RootLayout({
         {/* 🚗 DRIVER.JS CSS */}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-slate-950 text-white selection:bg-blue-500/30`}>
         {children}
 
         {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}

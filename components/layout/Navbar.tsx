@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X, Bot, ChevronRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -19,7 +20,8 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'AI Services', href: '/ai-services' },
-    { name: 'Factory', href: '/factory' },
+    { name: 'Rent an Agent', href: '/rent-an-agent' },
+    { name: 'AI Factory', href: '/factory' },
     { name: 'Tutorials', href: '/tutorials' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -27,22 +29,25 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        
-        {/* Logo */}
+
+        {/* Logo - CSS Filters used to ensure visibility (White Mode) on Dark Navbar */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="bg-blue-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
-            <Bot className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-bold text-xl tracking-tight text-white">
-            AGENTIC <span className="text-blue-500">SYSTEMS</span>
-          </span>
+          <Image
+            src="/logo.png"
+            alt="AI Hub Agency"
+            width={250}
+            height={150}
+            className="h-[100px] w-auto object-contain group-hover:scale-105 transition-transform"
+            quality={100}
+            priority
+          />
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
+            <Link
+              key={link.name}
               href={link.href}
               // 🎯 TARGET ID FOR TOUR STEP 4
               id={link.name === 'Tutorials' ? 'tutorials-nav' : undefined}
@@ -51,8 +56,8 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <Link 
-            href="/factory" 
+          <Link
+            href="/factory"
             // 🎯 TARGET ID FOR TOUR STEP 3
             id="custom-builder-link"
             className="bg-white text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors"
@@ -71,8 +76,8 @@ const Navbar = () => {
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 md:hidden flex flex-col p-6 space-y-4 shadow-2xl">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
+            <Link
+              key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
               className="flex items-center justify-between text-lg font-medium text-slate-300 hover:text-white border-b border-slate-800 pb-2"

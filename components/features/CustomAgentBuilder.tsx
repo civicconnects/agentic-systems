@@ -4,16 +4,18 @@ import { generateAIResponse } from '@/utils/ai-engine';
 
 interface CustomAgentBuilderProps {
     onClose: () => void;
+    initialAgentName?: string;
+    initialAgentRole?: string;
 }
 
-const CustomAgentBuilder: React.FC<CustomAgentBuilderProps> = ({ onClose }) => {
+const CustomAgentBuilder: React.FC<CustomAgentBuilderProps> = ({ onClose, initialAgentName = '', initialAgentRole = '' }) => {
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const chatEndRef = useRef<HTMLDivElement>(null);
 
     // Agent Config State
-    const [agentName, setAgentName] = useState('');
-    const [agentRole, setAgentRole] = useState('');
+    const [agentName, setAgentName] = useState(initialAgentName);
+    const [agentRole, setAgentRole] = useState(initialAgentRole);
     const [knowledgeBase, setKnowledgeBase] = useState('');
     const [fileName, setFileName] = useState('');
 
@@ -233,8 +235,8 @@ const CustomAgentBuilder: React.FC<CustomAgentBuilderProps> = ({ onClose }) => {
                                                 </div>
                                             )}
                                             <div className={`p-5 rounded-2xl max-w-[85%] text-sm leading-relaxed shadow-sm ${isUser
-                                                    ? 'bg-blue-600 text-white rounded-br-none shadow-blue-900/20'
-                                                    : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700'
+                                                ? 'bg-blue-600 text-white rounded-br-none shadow-blue-900/20'
+                                                : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700'
                                                 }`}>
                                                 {msg.content}
                                             </div>
