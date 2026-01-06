@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +22,23 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
       </head>
       <body className={`${inter.className} bg-slate-950 text-white selection:bg-blue-500/30`}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-JPGPTNHVLF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-JPGPTNHVLF');
+          `}
+        </Script>
         {children}
 
         {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
-        {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
+
         {/* SiteTour removed to prevent duplicate widget with missing props. It is handled in page.tsx */}
 
         {/* 🚗 DRIVER.JS SCRIPT */}
