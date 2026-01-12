@@ -33,7 +33,7 @@ export default function Home() {
       name: "The Architect",
       role: "Senior Content Editor",
       icon: <PenTool className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=256&h=256", // The Architect (Male)
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&h=256", // The Architect (New Male)
       pain: "Slow content.",
       roi: "10x output.",
       desc: "Researches & writes content on brand.",
@@ -73,7 +73,7 @@ export default function Home() {
       name: "AI Concierge",
       role: "Senior Automation Engineer",
       icon: <MessageSquare className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256", // Susan (Concierge - Same as Architect)
+      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&h=256", // AI Concierge (Different Female)
       pain: "Missed leads.",
       roi: "100% capture.",
       desc: "Converts visitors & books calls.",
