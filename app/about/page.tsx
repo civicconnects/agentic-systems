@@ -251,8 +251,18 @@ export default function AboutPage() {
                             <p className="text-purple-200 font-medium text-sm mb-6">Your private digital butler.</p>
 
                             <p className="text-slate-400 text-sm mb-8">
-                                A bespoke service for VIPs. We build privacy-first systems designed to manage the logistics of high-performance living, J.A.R.V.I.S. style.
+                                A bespoke service for VIPs. We build privacy-first systems designed to manage the logistics of high-performance living, A.T.L.A.S. style.
                             </p>
+
+                            <div className="mb-6 p-4 bg-purple-900/10 rounded-xl border border-purple-500/20">
+                                <p className="text-xs font-bold text-center text-purple-300 italic mb-2">"Let A.T.L.A.S. carry the weight of your world."</p>
+                                <ul className="space-y-1 text-xs text-slate-400">
+                                    <li><strong className="text-purple-400">A</strong>utomated <strong className="text-purple-400">T</strong>echnology (Hardware)</li>
+                                    <li><strong className="text-purple-400">L</strong>ogistics (Movement)</li>
+                                    <li><strong className="text-purple-400">A</strong>dministration (Business)</li>
+                                    <li><strong className="text-purple-400">S</strong>ystem</li>
+                                </ul>
+                            </div>
 
                             <ul className="space-y-3 mb-8">
                                 <li className="flex items-center gap-3 text-slate-300 text-sm">

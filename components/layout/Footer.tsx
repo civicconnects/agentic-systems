@@ -32,7 +32,7 @@ const Footer = () => {
                   Start Interactive Tour
                 </button>
               </li>
-              <li><a href="/" className="hover:text-blue-400 transition-colors">Home</a></li>
+              <li><a href="/about" className="hover:text-blue-400 transition-colors">About</a></li>
               <li><a href="/ai-services" className="hover:text-blue-400 transition-colors">AI Services</a></li>
               <li><a href="/portfolio" className="hover:text-blue-400 transition-colors">Case Studies</a></li>
               <li><a href="/contact" className="hover:text-blue-400 transition-colors">Contact</a></li>

@@ -12,7 +12,7 @@ export default function ResidentialFactoryPage() {
 
       {/* 1. HERO SECTION (REBRANDED) */}
       <section className="relative pt-32 pb-12 px-6 overflow-hidden flex flex-col items-center text-center">
-        
+
         {/* Abstract Tech Background */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/20 blur-[120px] rounded-full"></div>
@@ -28,14 +28,14 @@ export default function ResidentialFactoryPage() {
           <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">
             Customized Home AI System
           </h1>
-          
+
           {/* J.A.R.V.I.S. with Glow Effect */}
           <h2 className="text-5xl md:text-8xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 drop-shadow-[0_0_30px_rgba(34,211,238,0.5)] font-mono mb-8">
-            J.A.R.V.I.S.
+            A.T.L.A.S.
           </h2>
-          
+
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed border-t border-slate-800 pt-8">
-            <span className="text-cyan-400 font-bold">Just A Rather Very Intelligent System.</span><br/>
+            <span className="text-cyan-400 font-bold">Automated Technology & Logistics Administration System.</span><br />
             Your smart, private digital assistant designed to manage daily life.
           </p>
         </div>
@@ -44,14 +44,14 @@ export default function ResidentialFactoryPage() {
       {/* 2. EDUCATIONAL CONTENT SECTION */}
       <section className="py-12 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
-          
+
           {/* Glass Card Container */}
           <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl">
-            
+
             {/* Intro */}
             <div className="mb-12 border-l-4 border-cyan-500 pl-6">
               <p className="text-lg text-slate-300 italic leading-relaxed">
-                "A personal J.A.R.V.I.S. (inspired by Iron Man’s AI assistant) is essentially designed to act as your smart, private digital assistant. Here’s what it means in practical terms:"
+                "A personal A.T.L.A.S. (inspired by Iron Man’s AI assistant) is essentially designed to act as your smart, private digital assistant. Here’s what it means in practical terms:"
               </p>
             </div>
 
@@ -62,7 +62,7 @@ export default function ResidentialFactoryPage() {
                 Definition
               </h3>
               <p className="text-slate-400 leading-relaxed">
-                A personal J.A.R.V.I.S. is an AI tailored for individual or household use that integrates with your devices, smart home systems, and apps to manage daily life. Unlike generic bots, it knows the context of <em>your</em> home.
+                A personal A.T.L.A.S. is an AI tailored for individual or household use that integrates with your devices, smart home systems, and apps to manage daily life. Unlike generic bots, it knows the context of <em>your</em> home.
               </p>
             </div>
 
@@ -125,7 +125,7 @@ export default function ResidentialFactoryPage() {
                 Difference from Commercial AI
               </h3>
               <p className="text-slate-300 mb-4">
-                Residential/personal J.A.R.V.I.S. focuses on <span className="text-white font-semibold">you, your family, and your home</span>.
+                Residential/personal A.T.L.A.S. focuses on <span className="text-white font-semibold">you, your family, and your home</span>.
               </p>
               <p className="text-slate-300">
                 It runs in a <span className="text-white font-semibold">privacy-first mode</span> — unlike shared or cloud-only business AI tools which often harvest data for training.
@@ -135,7 +135,7 @@ export default function ResidentialFactoryPage() {
             {/* Closing CTA */}
             <div className="text-center pt-8 border-t border-slate-800">
               <p className="text-lg text-slate-300 mb-6">
-                If you’d like, I can outline exactly what tech and software you’d need to start building your own personal J.A.R.V.I.S. at home.
+                If you’d like, I can outline exactly what tech and software you’d need to start building your own personal A.T.L.A.S. at home.
               </p>
               <button className="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-cyan-900/20 flex items-center gap-2 mx-auto">
                 <MessageSquare className="w-5 h-5" />
