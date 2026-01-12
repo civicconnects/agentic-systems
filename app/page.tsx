@@ -33,7 +33,7 @@ export default function Home() {
       name: "The Architect",
       role: "Senior Content Editor",
       icon: <PenTool className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256", // Susan (Proper Headshot)
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=256&h=256", // The Architect (Male)
       pain: "Slow content.",
       roi: "10x output.",
       desc: "Researches & writes content on brand.",
