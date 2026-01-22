@@ -12,7 +12,7 @@ export default function FactoryGatewayPage() {
       <Navbar />
 
       <section className="flex-1 flex flex-col justify-center items-center px-6 pt-32 pb-20 relative overflow-hidden">
-        
+
         {/* Background Ambient Glow */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/10 via-slate-950 to-slate-950 pointer-events-none"></div>
 
@@ -25,14 +25,14 @@ export default function FactoryGatewayPage() {
             Choose Your <span className="text-blue-500">Intelligence.</span>
           </h1>
           <p className="text-xl text-slate-400">
-            We build sovereign AI systems for homes and enterprises. <br className="hidden md:block"/>
+            We build sovereign AI systems for homes and enterprises. <br className="hidden md:block" />
             Select your deployment environment below.
           </p>
         </div>
 
         {/* THE SPLIT CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto w-full relative z-10">
-          
+
           {/* OPTION 1: RESIDENTIAL */}
           <Link href="/factory/residential" className="group relative bg-slate-900/50 border border-slate-800 hover:border-blue-500/50 rounded-3xl p-10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-900/20 block text-left">
             <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
@@ -41,7 +41,7 @@ export default function FactoryGatewayPage() {
             </div>
             <h2 className="text-3xl font-bold text-white mb-4">Residential AI</h2>
             <p className="text-slate-400 mb-8 leading-relaxed">
-              For individuals and smart homes. Build a personal J.A.R.V.I.S. that manages your family schedule, home automation, and personal data privately.
+              For individuals and smart homes. Build a personal A.T.L.A.S. that manages your family schedule, home automation, and personal data privately.
             </p>
             <div className="flex items-center text-blue-400 font-bold group-hover:gap-2 transition-all">
               Enter Residential Zone <ArrowRight className="w-5 h-5 ml-2" />
