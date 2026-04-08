@@ -54,6 +54,7 @@ export function useAudit() {
         ]
       };
 
+      // 1. Send to Instantly for CRM/Sequencing
       await fetch("https://api.instantly.ai/api/v2/leads/add", {
         method: "POST",
         headers: { 
@@ -62,6 +63,25 @@ export function useAudit() {
         },
         body: JSON.stringify(leadData)
       });
+
+      // 2. Send to Web3Forms for Admin Notification
+      const notificationData = new FormData();
+      notificationData.append("access_key", "98580280-b787-4425-a6b4-e723e8192bbf");
+      notificationData.append("subject", `New Audit Completed: ${contactInfo.name} (${auditResults.totalScore}/100)`);
+      notificationData.append("from_name", "Real Estate Audit Tool");
+      notificationData.append("name", contactInfo.name);
+      notificationData.append("email", contactInfo.email);
+      notificationData.append("phone", contactInfo.phone || "Not provided");
+      notificationData.append("brokerage", contactInfo.brokerage || "Not provided");
+      notificationData.append("score", auditResults.totalScore.toString());
+      notificationData.append("annual_loss", `$${auditResults.annualLoss.toLocaleString()}`);
+      notificationData.append("top_recommendations", auditResults.topRecommendations.join(", "));
+
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: notificationData
+      });
+
     } catch (error) {
       console.error("Failed to submit lead:", error);
     }

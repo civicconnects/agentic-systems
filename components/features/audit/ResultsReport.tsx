@@ -119,10 +119,12 @@ export default function ResultsReport({ results, contact, onRestart }: ResultsRe
             </div>
 
             <a 
-              href="https://ai-hub.agency/contact"
+              href="https://calendly.com/dwhitesvp/30min"
               className="relative z-10 w-full bg-white text-blue-600 font-bold py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-lg shadow-black/10 group/btn"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Get Custom Solution
+              Book Priority Call
               <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
             </a>
           </div>
