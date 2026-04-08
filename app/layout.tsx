@@ -43,6 +43,7 @@ export default function RootLayout({
             document.head.appendChild(o)}initApollo();
           `}
         </Script>
+        <Script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="13THgdVnI79gisJiy" data-version="062024" strategy="afterInteractive" />
         {children}
 
         {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
