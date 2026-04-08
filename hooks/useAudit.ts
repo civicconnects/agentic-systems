@@ -54,14 +54,11 @@ export function useAudit() {
         ]
       };
 
-      // 1. Send to Instantly for CRM/Sequencing
-      await fetch("https://api.instantly.ai/api/v2/leads/add", {
+      // 1. Send to Instantly for CRM/Sequencing (via our secure bridge)
+      await fetch("/api/submit-lead", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": "Bearer NDdlZDBmYjktM2JmYS00Nzc1LTgxZGYtMTc2ZDEzOGI4ZGE1Omx1aldvT0VndVpXQw=="
-        },
-        body: JSON.stringify(leadData)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contact: contactInfo, results: auditResults })
       });
 
       // 2. Send to Web3Forms for Admin Notification
