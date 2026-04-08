@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export', // Removed to enable backend API routes on Cloudflare
+  output: 'export', // Restored for reliable Cloudflare Pages deployment
   images: {
     unoptimized: true,
     qualities: [75, 100],

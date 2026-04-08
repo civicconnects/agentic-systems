@@ -31,10 +31,36 @@ export function useAudit() {
 
   const submitLead = useCallback(async (contactInfo: ContactInfo, auditResults: AuditResults) => {
     try {
-      await fetch("/api/audit/submit-lead", {
+      // Direct client-side call to Instantly (compatible with static export)
+      const leadData = {
+        campaign_id: "dca8bbe6-e285-47d0-a0c2-31ba892e0eba",
+        skip_if_in_any_campaign: true,
+        leads: [
+          {
+            email: contactInfo.email,
+            first_name: contactInfo.name.split(" ")[0] || "Lead",
+            last_name: contactInfo.name.split(" ").slice(1).join(" ") || "",
+            company_name: contactInfo.brokerage || "",
+            phone: contactInfo.phone || "",
+            custom_variables: {
+              audit_score: auditResults.totalScore.toString(),
+              grade: auditResults.grade,
+              monthly_loss: auditResults.monthlyLoss.toLocaleString(),
+              annual_loss: auditResults.annualLoss.toLocaleString(),
+              leads_lost: auditResults.leadsLostPerMonth.toString(),
+              recommendations: auditResults.topRecommendations.join(" | ")
+            }
+          }
+        ]
+      };
+
+      await fetch("https://api.instantly.ai/api/v2/leads/add", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contact: contactInfo, results: auditResults })
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer NDdlZDBmYjktM2JmYS00Nzc1LTgxZGYtMTc2ZDEzOGI4ZGE1Omx1aldvT0VndVpXQw=="
+        },
+        body: JSON.stringify(leadData)
       });
     } catch (error) {
       console.error("Failed to submit lead:", error);
