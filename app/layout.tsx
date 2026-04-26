@@ -20,21 +20,21 @@ export default function RootLayout({
       <head>
         {/* 🚗 DRIVER.JS CSS */}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
+
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D381GYJ6F3"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-D381GYJ6F3');
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.className} bg-slate-950 text-white selection:bg-blue-500/30`} suppressHydrationWarning>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-D381GYJ6F3"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-D381GYJ6F3');
-          `}
-        </Script>
         <Script id="apollo-tracing" strategy="afterInteractive">
           {`
             function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
