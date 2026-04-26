@@ -23,7 +23,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-slate-950 text-white selection:bg-blue-500/30`} suppressHydrationWarning>
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-JPGPTNHVLF"
+          src="https://www.googletagmanager.com/gtag/js?id=G-D381GYJ6F3"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -32,7 +32,7 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'G-JPGPTNHVLF');
+            gtag('config', 'G-D381GYJ6F3');
           `}
         </Script>
         <Script id="apollo-tracing" strategy="afterInteractive">
@@ -44,6 +44,16 @@ export default function RootLayout({
           `}
         </Script>
         <Script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="13THgdVnI79gisJiy" data-version="062024" strategy="afterInteractive" />
+        <Script id="mautic-tracking" strategy="afterInteractive">
+          {`
+            (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+                w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+                m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','http://mautic.ai-hub.agency/mtc.js','mt');
+
+            mt('send', 'pageview');
+          `}
+        </Script>
         {children}
 
         {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
