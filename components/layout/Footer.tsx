@@ -58,7 +58,7 @@ const Footer = () => {
             <h4 className="text-white font-semibold mb-4">Contact</h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-center gap-3"><Phone className="w-4 h-4 text-blue-500" /> 918-409-2361</li>
-              <li className="flex items-center gap-3"><Mail className="w-4 h-4 text-blue-500" /> hello@ai-hub.agency</li>
+              <li className="flex items-center gap-3"><Mail className="w-4 h-4 text-blue-500" /> info@ai-hub.agency</li>
               <li className="flex items-center gap-3"><MapPin className="w-4 h-4 text-blue-500" /> Dallas, Texas</li>
             </ul>
           </div>

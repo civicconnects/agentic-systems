@@ -33,7 +33,7 @@ export default function Privacy() {
 
           <section>
             <h2 className="text-xl font-bold text-white mb-4">5. Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, please contact us at hello@ai-hub.agency.</p>
+            <p>If you have any questions about this Privacy Policy, please contact us at info@ai-hub.agency.</p>
           </section>
         </div>
       </section>
