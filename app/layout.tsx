@@ -6,8 +6,16 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Agentic Systems | Sovereign AI Architecture",
-  description: "Build your own autonomous AI workforce.",
+  title: "AI Hub Sentinel | Cybersecurity Monitoring for Medical and Dental Practices",
+  description: "AI-assisted cybersecurity monitoring and HIPAA Security Rule readiness support for dental offices, medical clinics, and healthcare practices.",
+  metadataBase: new URL("https://www.ai-hub.agency"),
+  openGraph: {
+    title: "AI Hub Sentinel | Cybersecurity Monitoring for Medical and Dental Practices",
+    description: "Cybersecurity visibility and HIPAA Security Rule readiness support for healthcare practices.",
+    url: "https://www.ai-hub.agency",
+    siteName: "AI Hub Agency",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -18,12 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* 🚗 DRIVER.JS CSS */}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
-
         {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D381GYJ6F3"></script>
-        <script
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-D381GYJ6F3" strategy="afterInteractive" />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -55,13 +62,6 @@ export default function RootLayout({
           `}
         </Script>
         {children}
-
-        {/* 🚗 THE TOUR LOGIC & GLOBAL WIDGET */}
-
-        {/* SiteTour removed to prevent duplicate widget with missing props. It is handled in page.tsx */}
-
-        {/* 🚗 DRIVER.JS SCRIPT */}
-        <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js" defer></script>
       </body>
     </html>
   );

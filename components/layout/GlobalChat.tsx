@@ -6,7 +6,7 @@ import { generateAIResponse } from '@/utils/ai-engine';
 export default function GlobalChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'bot', text: "Welcome to Agentic Systems. I am The Concierge. How can I direct you today?" }
+    { role: 'bot', text: "Welcome to AI Hub Agency. I can help you find Sentinel, the HIPAA Cyber Risk Pre-Assessment, or healthcare practice automation information." }
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -21,7 +21,7 @@ export default function GlobalChat() {
 
     try {
       // Use the AI engine to get real responses from n8n
-      const systemPrompt = "You are The Concierge, a helpful AI assistant for Agentic Systems. You help visitors navigate the website, answer questions about services (Voice Agents, N8N Automation, Custom Swarms), pricing, and case studies. Be professional, concise, and helpful.";
+      const systemPrompt = "You are a helpful AI Hub Agency site assistant. Help visitors navigate AI Hub Sentinel, HIPAA Cyber Risk Pre-Assessment, AI Receptionist, and healthcare website automation pages. Do not provide legal advice, do not guarantee HIPAA compliance, and remind users not to submit patient information or PHI.";
 
       const conversationHistory = messages.map(m => ({
         role: m.role === 'bot' ? 'assistant' : 'user',

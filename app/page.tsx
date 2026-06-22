@@ -1,357 +1,357 @@
-"use client";
+import Link from "next/link";
+import {
+  Activity,
+  AlertTriangle,
+  ArrowRight,
+  CheckCircle2,
+  ClipboardCheck,
+  FileText,
+  HeartPulse,
+  MonitorCheck,
+  ServerCog,
+  ShieldCheck,
+  Stethoscope,
+} from "lucide-react";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 
-import React, { useState } from 'react';
-import { Bot, Shield, Users, PenTool, BarChart, MessageSquare, Mic, Check, ArrowRight, Sparkles, Zap, Brain, Globe, Layers, AlertTriangle, Cpu } from 'lucide-react';
-import Footer from '@/components/layout/Footer';
-import Navbar from '@/components/layout/Navbar';
-import ChatModal from '@/components/features/ChatModal';
-import SiteTour from '@/components/features/SiteTour';
-import CallCenterFlow from '@/components/features/CallCenterFlow';
-import HROnboardingFlow from '@/components/features/HROnboardingFlow';
-import ConsultantPricing from '@/components/features/ConsultantPricing';
-import OperationsFlow from '@/components/features/OperationsFlow';
+const problems = [
+  "Patient scheduling delays",
+  "Billing interruptions",
+  "Imaging or chart access issues",
+  "Medical and dental record exposure",
+  "Email and communication disruption",
+  "Staff productivity loss",
+  "Patient trust concerns",
+  "Practice revenue impact",
+];
+
+const dependentSystems = [
+  "Patient records",
+  "Scheduling",
+  "Billing",
+  "Imaging",
+  "Email",
+  "Workstations and connected devices",
+  "Ransomware risk",
+  "HIPAA Security Rule readiness",
+];
+
+const sentinelCards = [
+  {
+    title: "Monitor Device Health",
+    copy: "Know which computers, workstations, servers, and connected devices may need attention.",
+    icon: MonitorCheck,
+  },
+  {
+    title: "Review Suspicious Activity",
+    copy: "Surface unusual security events so they can be reviewed by people who understand practice operations.",
+    icon: Activity,
+  },
+  {
+    title: "Identify Security Gaps",
+    copy: "Find areas that may need stronger controls, documentation, patching, access management, or corrective action.",
+    icon: AlertTriangle,
+  },
+  {
+    title: "Support HIPAA Security Readiness",
+    copy: "Use HHS SRA-guided discussions to organize risk findings, safeguards, and next steps.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Translate Findings Into Plain English",
+    copy: "Give doctors, office managers, and leadership a practical explanation of what matters.",
+    icon: FileText,
+  },
+];
+
+const audiences = [
+  "Independent dental offices",
+  "Multi-location dental groups",
+  "Orthodontists",
+  "Pediatric dentists",
+  "Oral surgeons",
+  "Medical clinics",
+  "Specialty practices",
+  "Healthcare organizations without internal cybersecurity staff",
+];
+
+const tiers = [
+  {
+    name: "Sentinel Foundation",
+    features: [
+      "Initial risk pre-assessment",
+      "Device and environment visibility review",
+      "Monthly security summary",
+      "Priority findings",
+      "Recommended next actions",
+    ],
+  },
+  {
+    name: "Sentinel Watch",
+    features: [
+      "Everything in Foundation",
+      "Ongoing device monitoring",
+      "Security alert review",
+      "Device health reporting",
+      "Escalation of notable findings",
+      "Quarterly readiness review",
+    ],
+  },
+  {
+    name: "Sentinel HIPAA Readiness",
+    features: [
+      "Everything in Sentinel Watch",
+      "HHS SRA-guided readiness workflow",
+      "Risk documentation support",
+      "Corrective action tracking",
+      "Leadership reporting",
+      "Security improvement roadmap",
+    ],
+  },
+];
 
 export default function Home() {
-  const [activeAgent, setActiveAgent] = useState<any>(null);
-
-  const agents = [
-    {
-      id: 1,
-      name: "The Sentinel",
-      role: "Senior HR Director",
-      icon: <Shield className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&h=256", // Alan
-      pain: "Compliance risks.",
-      roi: "70% less admin.",
-      desc: "Handles onboarding & policy Q&A.",
-      color: "bg-emerald-600",
-      systemInstruction: "You are the Senior HR Director. You are professional, compliant, and empathetic. Your goal is to solve employee conflicts and explain benefits.",
-      firstMessage: "Hello. I am The Sentinel, your HR Director. How can I assist with policy, benefits, or onboarding today?"
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "AI Hub Agency",
+    url: "https://www.ai-hub.agency",
+    telephone: "918-409-2361",
+    email: "info@ai-hub.agency",
+    areaServed: "United States",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Dallas",
+      addressRegion: "TX",
+      addressCountry: "US",
     },
-    {
-      id: 2,
-      name: "The Architect",
-      role: "Senior Content Editor",
-      icon: <PenTool className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&h=256", // The Architect (New Male)
-      pain: "Slow content.",
-      roi: "10x output.",
-      desc: "Researches & writes content on brand.",
-      color: "bg-orange-600",
-      systemInstruction: "You are a Senior Editor. You care about tone, SEO, and brand voice. You hate passive voice.",
-      firstMessage: "Greetings. I am The Architect. Give me a topic, and I will craft a viral blog post or tweet thread in seconds."
-    },
-    {
-      id: 3,
-      name: "The Closer",
-      role: "VP of Sales",
-      icon: <BarChart className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&h=256", // Mike (Proper Headshot)
-      pain: "Leads dying.",
-      roi: "2x conversion.",
-      desc: "Qualifies & books meetings 24/7.",
-      color: "bg-blue-600",
-      systemInstruction: "You are the VP of Sales. You are high-energy, persuasive, and always looking to qualify leads or close deals.",
-      firstMessage: "Hey there! I'm The Closer. Let's not waste time—are you looking to double your pipeline this quarter, or triple it?"
-    },
-    {
-      id: 4,
-      name: "Voice Ops",
-      role: "Logistics Dispatcher",
-      icon: <Mic className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=256&h=256", // Voice Ops (Professional Headshot)
-      pain: "Manual dialing.",
-      roi: "10k calls/day.",
-      desc: "Hyper-realistic voice outreach.",
-      color: "bg-purple-600",
-      mode: "voice", // VOICE MODE ENABLED
-      systemInstruction: "You are a Logistics Dispatcher. You are calm, rapid-fire, and precise.",
-      firstMessage: "Voice Ops connected. Lines are open. What is your routing status?"
-    },
-    {
-      id: 5,
-      name: "AI Concierge",
-      role: "Senior Automation Engineer",
-      icon: <MessageSquare className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&h=256", // AI Concierge (Different Female)
-      pain: "Missed leads.",
-      roi: "100% capture.",
-      desc: "Converts visitors & books calls.",
-      color: "bg-pink-600",
-      mode: "voice", // VOICE MODE ENABLED
-      systemInstruction: `You are "The Architect," a senior automation engineer for Agentic Systems.
-
-Objective: Convert website visitors into booked strategy calls by demonstrating expertise in AI automation.
-
-Your Knowledge Base:
-• We Build: AI Voice Agents (Vapi), N8N Workflows, and Autonomous Multi-Agent Systems.
-• Pricing: We do not offer cookie-cutter plans. All projects are custom-engineered based on complexity and scope. Costs vary depending on the number of agents and workflow depth. We provide a detailed quote after the Strategy Call.
-• Tone: Professional, concise, authoritative, and slightly futuristic.
-
-Rules:
-1. Be Concise: Keep answers under 3 sentences unless specifically asked for a deep dive.
-2. Drive Action: Always gently guide the user to "Book a Strategy Call" for complex questions or pricing inquiries.
-3. No Fluff: Do not use phrases like "I hope this finds you well." Get straight to the value.
-4. Handling Unknowns: If you don't know an answer, say: "That requires a specific architectural review. Let's discuss it on a strategy call."`,
-      firstMessage: "Welcome to Agentic Systems. I'm The Architect. What automation challenge brings you here today?"
-    },
-    {
-      id: 6,
-      name: "The Analyst",
-      role: "Senior Ops Manager",
-      icon: <Users className="w-6 h-6 text-white" />,
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&h=256", // Analyst (Proper Headshot)
-      pain: "Data silos.",
-      roi: "Instant clarity.",
-      desc: "Predicts bottlenecks in workflows.",
-      color: "bg-cyan-600",
-      systemInstruction: "You are a Senior Ops Manager. You are data-driven, concise, and focused on efficiency/KPIs.",
-      firstMessage: "Operations online. I am The Analyst. Upload your dataset or ask me about workflow optimization. I'm ready."
-    }
-  ];
+    serviceType: [
+      "Healthcare cybersecurity monitoring",
+      "HIPAA Security Rule readiness support",
+      "Healthcare Voice AI",
+      "Healthcare website and automation builds",
+    ],
+  };
 
   return (
-    <main className="min-h-screen flex flex-col bg-slate-950 text-slate-200">
+    <main className="min-h-screen bg-white text-slate-900">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 text-center overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -z-10"></div>
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-300 text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-md">
-          <Sparkles className="w-3 h-3 text-purple-400" /> The Era of the Agentic Enterprise
-        </div>
-        <h1 className="text-5xl md:text-8xl font-black tracking-tight text-white mb-8">
-          Build Your <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400">
-            Digital Workforce
-          </span>
-        </h1>
-        <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-          Don't just automate tasks. Deploy autonomous Departments. <br />
-          We architect AI that thinks, acts, and generates revenue.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-5">
-          <a href="/factory" className="bg-white text-slate-950 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-            Deploy Agents
-          </a>
-          <a href="/portfolio" className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors">
-            See Proof
-          </a>
-        </div>
-      </section>
+      <section className="relative overflow-hidden bg-[#082033] pt-32 text-white">
+        <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(8,32,51,0.96),rgba(8,32,51,0.84)),url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center" />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-20 pt-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <p className="mb-5 inline-flex rounded-full border border-teal-200/30 bg-white/10 px-4 py-2 text-sm font-semibold text-teal-100">
+              AI Hub Sentinel | For Medical and Dental Practices
+            </p>
+            <p className="mb-4 text-lg font-bold text-teal-200">
+              Cybersecurity Monitoring and HIPAA Security Readiness for Medical and Dental Practices
+            </p>
+            <h1 className="max-w-4xl text-4xl font-bold leading-tight tracking-normal md:text-6xl">
+              Cybersecurity Monitoring and HIPAA Security Readiness for Your Practice
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-blue-50 md:text-xl">
+              AI Hub Sentinel helps doctors, dentists, and office managers identify cybersecurity risks, protect patient operations, and use an HHS SRA-guided process to organize HIPAA security priorities before a cyber incident disrupts the practice.
+            </p>
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+              <Link href="/hipaa-cyber-risk-pre-assessment" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 transition hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
+                Book a HIPAA Cyber Risk Pre-Assessment <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link href="/ai-hub-sentinel" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/30 px-6 py-3 font-bold text-white transition hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/30">
+                See What Sentinel Monitors
+              </Link>
+            </div>
+            <p className="mt-8 max-w-2xl text-sm font-medium text-blue-100">
+              Start with a HIPAA Cyber Risk Pre-Assessment, then get plain-English findings and next steps.
+            </p>
+          </div>
 
-      {/* --- THE EVOLUTION OF WORK SECTION --- */}
-      <section className="py-24 px-6 bg-slate-950 border-y border-slate-900">
-        <div className="max-w-7xl mx-auto">
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-            {/* Left: The Problem (Dumb Automation) */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-slate-800 blur-2xl opacity-20 rounded-3xl"></div>
-              <div className="relative bg-slate-900 border border-slate-800 p-10 rounded-3xl opacity-70 hover:opacity-100 transition-opacity">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
-                  <h3 className="text-xl font-bold text-slate-300 uppercase tracking-widest">The Old Way</h3>
+          <div className="rounded-lg border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur">
+            <div className="rounded-md bg-white p-5 text-slate-900">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                <div>
+                  <p className="text-sm font-semibold text-teal-700">Sentinel Readiness Snapshot</p>
+                  <h2 className="text-2xl font-bold">Priority View</h2>
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-6">Why "Dumb Automation" is Holding You Back</h2>
-                <p className="text-slate-400 leading-relaxed mb-6">
-                  For the last decade, businesses relied on brittle scripts and RPA. These bots follow strict "If-This-Then-That" rules.
-                </p>
-                <p className="text-slate-400 leading-relaxed">
-                  If a spreadsheet column moves one inch, <span className="text-red-400 font-semibold">the bot crashes.</span> It doesn't think; it just obeys. It requires constant human babysitting.
-                </p>
+                <ShieldCheck className="h-10 w-10 text-teal-700" />
+              </div>
+              <div className="mt-5 space-y-4">
+                {["Know where your practice may be exposed", "Get clearer visibility into device risks", "Review suspicious activity", "Organize HIPAA security priorities"].map((item, index) => (
+                  <div key={item} className="flex items-center gap-4 rounded-md bg-slate-50 p-4">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-800">{index + 1}</div>
+                    <span className="font-semibold">{item}</span>
+                  </div>
+                ))}
               </div>
             </div>
-
-            {/* Right: The Solution (Agentic AI) */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-600 blur-[100px] opacity-20"></div>
-              <div className="relative bg-gradient-to-br from-blue-950 to-slate-900 border border-blue-500/30 p-10 rounded-3xl shadow-2xl">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
-                  <h3 className="text-xl font-bold text-blue-400 uppercase tracking-widest">The New Way</h3>
-                </div>
-                <h2 className="text-3xl font-bold text-white mb-6">Agentic Intelligence</h2>
-                <p className="text-blue-100/80 leading-relaxed mb-6">
-                  Enter the era of Agentic Systems. Unlike dumb scripts, an AI Agent has <span className="text-white font-bold">Cognition</span>. It understands intent, not just keywords.
-                </p>
-                <p className="text-blue-100/80 leading-relaxed">
-                  If a process breaks, it troubleshoots. If a client is angry, it adjusts its tone. We build digital employees that drive the car, not just tools that sit in the trunk.
-                </p>
-
-                <div className="mt-8 flex gap-4">
-                  <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs font-mono text-blue-300">
-                    Cognition: ACTIVE
-                  </div>
-                  <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs font-mono text-blue-300">
-                    Learning: ON
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
 
-      {/* Educational Narrative */}
-      <section className="py-24 px-6 bg-slate-900/30 border-y border-slate-800 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center relative">
-
-          <div className="w-full md:w-1/2 space-y-10 relative z-10">
-            <div>
-              <div className="inline-flex items-center gap-2 text-blue-400 font-bold uppercase tracking-wider text-sm mb-4">
-                <Zap className="w-4 h-4" /> The Competitive Edge
-              </div>
-              <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-                Smart vs. Dumb <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Automation</span>
-              </h2>
-            </div>
-
-            <div className="space-y-8 text-lg text-slate-400 leading-relaxed">
-              <div className="flex gap-4">
-                <div className="bg-red-500/10 p-3 rounded-xl h-fit"><AlertTriangle className="w-6 h-6 text-red-400" /></div>
-                <div>
-                  <strong className="text-white block mb-2 text-xl">The Old Way is crumbling.</strong>
-                  Traditional automation (RPA) is brittle. It follows rigid rules and breaks the moment anything changes. It requires constant human oversight.
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="bg-blue-500/10 p-3 rounded-xl h-fit"><Brain className="w-6 h-6 text-blue-400" /></div>
-                <div>
-                  <strong className="text-white block mb-2 text-xl">Agentic Systems are antifragile.</strong>
-                  They possess "Contextual Awareness." They understand intent, reason through problems, and create their own plans. If one path is blocked, they find another.
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="bg-green-500/10 p-3 rounded-xl h-fit"><BarChart className="w-6 h-6 text-green-400" /></div>
-                <div>
-                  <strong className="text-white block mb-2 text-xl">The ROI is immediate.</strong>
-                  Businesses incorporating AI Departments see a <span className="text-white font-bold">40% reduction in overhead</span> in 90 days.
-                </div>
-              </div>
-            </div>
+      <section className="bg-white px-6 py-16">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="font-semibold text-teal-700">AI Hub Sentinel</p>
+            <h2 className="mt-3 text-3xl font-bold md:text-5xl">AI Hub Sentinel Is Built to Help Protect the Systems Your Practice Depends On</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-700">
+              Know where your practice may be exposed, protect patient operations, and get clearer visibility into device risks and suspicious activity before problems interrupt the day.
+            </p>
           </div>
-
-          {/* Abstract Visual */}
-          <div className="w-full md:w-1/2 relative h-[600px] flex items-center justify-center">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-600/30 to-purple-600/30 rounded-full blur-[120px] animate-pulse"></div>
-            <div className="relative w-full h-full max-w-md max-h-md border border-blue-500/20 rounded-3xl p-8 backdrop-blur-sm bg-slate-900/50 flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-              <Cpu className="w-64 h-64 text-blue-500/50 animate-spin-slow [animation-duration:20s]" />
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* AGENT GRID */}
-      <section id="agent-grid" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 flex justify-between items-end">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-2">The Ecosystem</h2>
-              <p className="text-slate-400">Select an agent to initialize simulation.</p>
-            </div>
-            <a href="/ai-services" className="hidden md:flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors font-bold text-sm">
-              View Full Catalog <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {agents.map((agent) => (
-              <div
-                key={agent.id}
-                onClick={() => setActiveAgent(agent)}
-                className="group relative bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-blue-500/50 hover:bg-slate-800/50 transition-all cursor-pointer overflow-hidden"
-              >
-                {/* Hover Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${agent.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-
-                <div className="relative flex items-center gap-4">
-                  {/* Avatar Section */}
-                  <div className="relative">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-slate-700 group-hover:border-blue-500 transition-colors shadow-lg">
-                      {agent.avatar ? (
-                        <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className={`w-full h-full ${agent.color} flex items-center justify-center`}>
-                          {agent.icon}
-                        </div>
-                      )}
-                    </div>
-                    {/* Online Status Dot */}
-                    <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-slate-900 rounded-full"></div>
-                  </div>
-
-                  {/* Text Content */}
-                  <div className="flex-1 text-left">
-                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{agent.name}</h3>
-                    <p className="text-sm font-medium text-slate-400 mb-1">{agent.role}</p>
-                    <p className="text-xs text-slate-500 line-clamp-1">{agent.desc}</p>
-                  </div>
-                </div>
-
-                {/* Bottom CTA similar to screenshot */}
-                <div className="mt-4 pt-4 border-t border-slate-800/50 flex justify-between items-center">
-                  <span className="text-blue-500 text-sm font-medium hover:underline">Try For Free</span>
-                  <ArrowRight className="w-4 h-4 text-blue-500 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" />
-                </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {dependentSystems.map((system) => (
+              <div key={system} className="flex items-center gap-3 rounded-md border border-slate-200 bg-slate-50 p-4 font-semibold">
+                <ServerCog className="h-5 w-5 shrink-0 text-teal-700" />
+                {system}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CALL CENTER AUTOMATION FLOW */}
-      <CallCenterFlow />
+      <section className="bg-slate-50 px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="font-semibold text-teal-700">Practice Problems</p>
+            <h2 className="mt-3 text-3xl font-bold md:text-5xl">Cybersecurity Problems Do Not Wait Until Your Practice Is Ready</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-700">
+              Small healthcare teams depend on connected systems every day. AI Hub Sentinel helps leadership see where cybersecurity risk may be building before an issue creates avoidable disruption.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {problems.map((problem) => (
+              <div key={problem} className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+                <CheckCircle2 className="mb-4 h-6 w-6 text-teal-700" />
+                <p className="font-semibold">{problem}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* HR ONBOARDING FLOW */}
-      <HROnboardingFlow />
+      <section id="sentinel" className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="font-semibold text-teal-700">What AI Hub Sentinel Does</p>
+            <h2 className="mt-3 text-3xl font-bold md:text-5xl">Get Plain-English Findings and Next Steps</h2>
+          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
+            {sentinelCards.map(({ title, copy, icon: Icon }) => (
+              <article key={title} className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+                <Icon className="h-8 w-8 text-blue-800" />
+                <h3 className="mt-5 text-xl font-bold">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* OPERATIONS FLOW */}
-      <OperationsFlow />
+      <section className="bg-[#0b2a3f] px-6 py-20 text-white">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <HeartPulse className="h-10 w-10 text-teal-300" />
+            <h2 className="mt-5 text-3xl font-bold md:text-5xl">Start With a Clearer Picture of Your HIPAA Security Risks</h2>
+          </div>
+          <div className="space-y-5 text-lg leading-8 text-blue-50">
+            <p>
+              Risk analysis is a foundational part of HIPAA Security Rule efforts. Sentinel helps practices identify systems, devices, common risk areas, safeguards, and action priorities.
+            </p>
+            <p>
+              The workflow is guided by HHS Security Risk Assessment framework concepts so teams can discuss risk in a practical, organized way.
+            </p>
+            <p className="rounded-md border border-teal-200/30 bg-white/10 p-5 text-base font-semibold">
+              AI Hub Sentinel supports cybersecurity readiness and risk-management efforts. It does not provide legal advice and does not guarantee HIPAA compliance.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* CONSULTATIVE PRICING */}
-      <ConsultantPricing />
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <p className="font-semibold text-teal-700">Who We Help</p>
+          <h2 className="mt-3 text-3xl font-bold md:text-5xl">Built for Practice Teams Without Time for Security Confusion</h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {audiences.map((audience) => (
+              <div key={audience} className="rounded-md border border-slate-200 bg-slate-50 p-5 font-semibold">
+                {audience}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <p className="font-semibold text-teal-700">How It Works</p>
+          <h2 className="mt-3 text-3xl font-bold md:text-5xl">From Pre-Assessment to Practical Next Steps</h2>
+          <div className="mt-10 grid gap-5 md:grid-cols-5">
+            {[
+              "Book a HIPAA Cyber Risk Pre-Assessment",
+              "Complete a practice security intake",
+              "Review priority cybersecurity and readiness areas",
+              "Receive a plain-English risk summary and next-step recommendations",
+              "Choose Sentinel monitoring and support that fits the practice",
+            ].map((step, index) => (
+              <div key={step} className="rounded-md border border-slate-200 bg-white p-5">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-blue-800 font-bold text-white">{index + 1}</div>
+                <p className="font-semibold leading-6">{step}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="font-semibold text-teal-700">Sentinel Service Tiers</p>
+              <h2 className="mt-3 text-3xl font-bold md:text-5xl">Monitoring and Readiness Support Options</h2>
+            </div>
+            <p className="max-w-md text-slate-700">Pricing is provided after a practice-specific review so the scope reflects your environment.</p>
+          </div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {tiers.map((tier) => (
+              <article key={tier.name} className="rounded-md border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-2xl font-bold text-blue-950">{tier.name}</h3>
+                <ul className="mt-6 space-y-3">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex gap-3 text-slate-700">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#082033] px-6 py-20 text-white">
+        <div className="mx-auto max-w-7xl">
+          <p className="font-semibold text-teal-300">More Ways AI Hub Helps Practices Operate Better</p>
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <article className="rounded-md border border-white/15 bg-white/10 p-6">
+              <Stethoscope className="h-8 w-8 text-teal-300" />
+              <h3 className="mt-5 text-2xl font-bold">AI Receptionist / Voice AI</h3>
+              <p className="mt-3 leading-7 text-blue-50">Help answer calls, route patients, capture appointment requests, and reduce missed-call problems.</p>
+            </article>
+            <article className="rounded-md border border-white/15 bg-white/10 p-6">
+              <ClipboardCheck className="h-8 w-8 text-teal-300" />
+              <h3 className="mt-5 text-2xl font-bold">Website and Automation Builds</h3>
+              <p className="mt-3 leading-7 text-blue-50">Build stronger patient-facing websites, intake workflows, scheduling automation, follow-up systems, and operational tools.</p>
+            </article>
+          </div>
+          <Link href="/website-and-automation-builds" className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 transition hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
+            Explore Practice Automation Services <ArrowRight className="h-5 w-5" />
+          </Link>
+        </div>
+      </section>
 
       <Footer />
-      {activeAgent && <ChatModal agent={activeAgent} onClose={() => setActiveAgent(null)} />}
-      <SiteTour onChatOpen={() => {
-        console.log("🚀 Page.tsx: onChatOpen callback triggered");
-        // Open the AI Concierge agent (ID 5)
-        const frontDeskAgent = agents.find(a => a.id === 5);
-        if (frontDeskAgent) {
-          console.log("✅ Page.tsx: Found Agent 5", frontDeskAgent.name);
-          setActiveAgent(frontDeskAgent);
-        } else {
-          console.error("❌ Page.tsx: Agent 5 NOT FOUND in agents array", agents);
-          alert("Error: AI Concierge agent configuration missing.");
-        }
-      }} />
     </main>
   );
-}
-
-function PricingCard({ name, price, period, desc, features, featured = false }: any) {
-  return (
-    <div className={`relative p-8 rounded-2xl border flex flex-col ${featured ? 'bg-slate-900 border-blue-500 shadow-2xl shadow-blue-900/20' : 'bg-slate-950 border-slate-800'}`}>
-      {featured && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Most Popular</div>}
-      <div className="mb-8">
-        <h3 className="text-xl font-bold text-white mb-2">{name}</h3>
-        <p className="text-slate-400 text-sm mb-6">{desc}</p>
-        <div className="flex items-baseline gap-1"><span className="text-4xl font-bold text-white">{price}</span><span className="text-slate-500">{period}</span></div>
-      </div>
-      <div className="flex-1 space-y-4 mb-8">
-        {features.map((f: any, i: any) => (
-          <div key={i} className="flex items-center gap-3 text-sm text-slate-300">
-            <Check className={`w-5 h-5 ${featured ? 'text-blue-500' : 'text-slate-600'}`} />
-            {f}
-          </div>
-        ))}
-      </div>
-      <a href="/contact" className={`w-full py-3 rounded-lg font-bold text-center transition-colors ${featured ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-slate-800 hover:bg-slate-700 text-white'}`}>Choose Plan</a>
-    </div>
-  )
 }

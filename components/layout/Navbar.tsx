@@ -1,158 +1,96 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Menu, X, Bot, ChevronRight, ChevronDown } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const Navbar = () => {
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "AI Hub Sentinel", href: "/ai-hub-sentinel" },
+  { name: "HIPAA Cyber Risk Pre-Assessment", href: "/hipaa-cyber-risk-pre-assessment" },
+  { name: "AI Receptionist", href: "/ai-receptionist" },
+  { name: "Website and Automation Builds", href: "/website-and-automation-builds" },
+  { name: "Who We Help", href: "/who-we-help" },
+  { name: "Resources", href: "/resources" },
+  { name: "About", href: "/about" },
+];
+
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [contactDropdownOpen, setContactDropdownOpen] = useState(false);
-  // Add a timeout ref to handle the delay
-  const dropdownTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
-
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 12);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'AI Services', href: '/ai-services' },
-    { name: 'Rent an Agent', href: '/rent-an-agent' },
-    { name: 'AI Factory', href: '/factory' },
-  ];
-
-  const contactDropdownLinks = [
-    { name: 'Contact Us', href: '/contact', id: undefined },
-    { name: 'About', href: '/about', id: undefined },
-    { name: 'Tutorials', href: '/tutorials', id: 'tutorials-nav' }, // Kept ID for tour
-  ];
-
-  // Handler to open dropdown
-  const handleMouseEnter = () => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current);
-    }
-    setContactDropdownOpen(true);
-  };
-
-  // Handler to close dropdown with delay
-  const handleMouseLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setContactDropdownOpen(false);
-    }, 150); // 150ms delay
-  };
-
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-
-        {/* Logo - CSS Filters used to ensure visibility (White Mode) on Dark Navbar */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/logo.png"
-            alt="AI Hub Agency"
-            width={250}
-            height={150}
-            className="h-[100px] w-auto object-contain group-hover:scale-105 transition-transform"
-            quality={100}
-            priority
-          />
+    <header className={`fixed inset-x-0 top-0 z-50 transition ${scrolled ? "bg-white/95 shadow-sm backdrop-blur" : "bg-white/90 backdrop-blur"}`}>
+      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3" aria-label="Primary navigation">
+        <Link href="/" className="flex min-h-12 items-center gap-3 rounded-md focus:outline-none focus:ring-4 focus:ring-teal-200">
+          <Image src="/logo.png" alt="AI Hub Agency" width={170} height={80} className="h-14 w-auto object-contain" priority />
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-5 xl:flex">
           {navLinks.map((link) => (
             <Link
-              key={link.name}
+              key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-blue-400 ${pathname === link.href ? 'text-blue-400' : 'text-slate-300'}`}
+              className={`rounded-md text-sm font-semibold transition hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "text-teal-700" : "text-slate-700"}`}
             >
               {link.name}
             </Link>
           ))}
+        </div>
 
-          {/* Contact Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <button
-              className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-blue-400 ${pathname.includes('/contact') || pathname.includes('/about') || pathname.includes('/tutorials') ? 'text-blue-400' : 'text-slate-300'}`}
-            >
-              Contact <ChevronDown className="w-4 h-4" />
-            </button>
-
-            {contactDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 bg-slate-900 border border-slate-800 rounded-xl shadow-xl overflow-hidden py-2 flex flex-col animate-in fade-in slide-in-from-top-2 duration-200">
-                {contactDropdownLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    id={link.id}
-                    className={`px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors text-left ${pathname === link.href ? 'text-blue-400 bg-slate-800/50' : ''}`}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <Link
-            href="/factory"
-            // 🎯 TARGET ID FOR TOUR STEP 3
-            id="custom-builder-link"
-            className="bg-white text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors"
-          >
-            Deploy Agent
+        <div className="hidden items-center gap-3 xl:flex">
+          <Link href="/contact" className="rounded-md px-4 py-3 text-sm font-bold text-slate-800 hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200">
+            Contact
+          </Link>
+          <Link href="/hipaa-cyber-risk-pre-assessment" className="rounded-md bg-blue-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
+            Book Pre-Assessment
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2">
-          {isOpen ? <X /> : <Menu />}
+        <button
+          type="button"
+          onClick={() => setIsOpen((open) => !open)}
+          className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-md border border-slate-200 text-slate-900 focus:outline-none focus:ring-4 focus:ring-teal-200 xl:hidden"
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
-      </div>
+      </nav>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 md:hidden flex flex-col p-6 space-y-4 shadow-2xl h-[calc(100vh-100px)] overflow-y-auto">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-between text-lg font-medium text-slate-300 hover:text-white border-b border-slate-800 pb-2"
-            >
-              {link.name} <ChevronRight className="w-4 h-4" />
-            </Link>
-          ))}
-          {/* Mobile Contact Dropdown Items (Flattened) */}
-          <div className="pt-2 pb-2">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Contact & Resources</p>
-            {contactDropdownLinks.map((link) => (
+        <div id="mobile-menu" className="border-t border-slate-200 bg-white px-6 py-4 shadow-lg xl:hidden">
+          <div className="mx-auto flex max-w-7xl flex-col gap-2">
+            {navLinks.map((link) => (
               <Link
-                key={link.name}
+                key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-between text-lg font-medium text-slate-300 hover:text-white border-b border-slate-800 pb-2 mb-2"
+                className={`rounded-md px-3 py-3 font-semibold focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "bg-teal-50 text-teal-800" : "text-slate-800"}`}
               >
-                {link.name} <ChevronRight className="w-4 h-4" />
+                {link.name}
               </Link>
             ))}
+            <Link href="/contact" onClick={() => setIsOpen(false)} className="rounded-md px-3 py-3 font-semibold text-slate-800 focus:outline-none focus:ring-4 focus:ring-teal-200">
+              Contact
+            </Link>
+            <Link href="/hipaa-cyber-risk-pre-assessment" onClick={() => setIsOpen(false)} className="mt-2 rounded-md bg-blue-900 px-4 py-3 text-center font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
+              Book Pre-Assessment
+            </Link>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
-};
-
-export default Navbar;
+}

@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://ai-hub.agency/sitemap.xml',
+    sitemap: 'https://www.ai-hub.agency/sitemap.xml',
   };
 }

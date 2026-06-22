@@ -1,39 +1,39 @@
-import React from 'react';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
+import type { Metadata } from "next";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | AI Hub Agency",
+  description: "Privacy information for AI Hub Agency healthcare cybersecurity and practice automation inquiries.",
+};
 
 export default function Privacy() {
   return (
-    <main className="min-h-screen flex flex-col bg-slate-950 text-slate-300">
+    <main className="min-h-screen bg-white text-slate-900">
       <Navbar />
-      <section className="max-w-4xl mx-auto px-6 py-20">
-        <h1 className="text-4xl font-bold text-white mb-8">Privacy Policy</h1>
-        <p className="mb-4 text-sm text-slate-500">Last Updated: {new Date().toLocaleDateString()}</p>
-        
-        <div className="space-y-8 leading-relaxed">
+      <section className="mx-auto max-w-4xl px-6 py-36">
+        <h1 className="text-4xl font-bold">Privacy Policy</h1>
+        <p className="mt-3 text-sm text-slate-600">Last updated: June 22, 2026</p>
+        <div className="mt-10 space-y-8 leading-7 text-slate-700">
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">1. Information We Collect</h2>
-            <p>Agentic Systems collects information you provide directly to us, such as when you book a strategy call, sign up for our services, or communicate with us. This may include your name, email address, phone number, and company details.</p>
+            <h2 className="text-xl font-bold text-slate-950">Information We Collect</h2>
+            <p className="mt-3">AI Hub Agency collects practice-level contact information you provide, such as name, practice name, role, practice type, number of locations, approximate device count, current IT provider, main concern, email, phone, preferred contact time, and message details.</p>
           </section>
-
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">2. How We Use Information</h2>
-            <p>We use your information to: provide, maintain, and improve our automation services; communicate with you about products, services, and events; and monitor and analyze trends and usage.</p>
+            <h2 className="text-xl font-bold text-slate-950">Do Not Submit PHI</h2>
+            <p className="mt-3">Website forms are not intended for patient information or protected health information. Please do not submit patient names, record details, treatment information, appointment details tied to a patient, or other PHI through this website.</p>
           </section>
-
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">3. Data Security</h2>
-            <p>We take reasonable measures to help protect information about you from loss, theft, misuse and unauthorized access, disclosure, alteration and destruction.</p>
+            <h2 className="text-xl font-bold text-slate-950">How We Use Information</h2>
+            <p className="mt-3">We use submitted information to respond to inquiries, evaluate fit for AI Hub Sentinel, discuss cybersecurity readiness, and improve practice-focused services.</p>
           </section>
-
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">4. Third-Party Tools</h2>
-            <p>We use third-party services (such as Calendly for scheduling and Vapi for voice processing). Please review their privacy policies to understand how they handle your data.</p>
+            <h2 className="text-xl font-bold text-slate-950">Security</h2>
+            <p className="mt-3">We use reasonable administrative and technical safeguards for submitted business contact information. No website transmission or storage system can be guaranteed completely secure.</p>
           </section>
-
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">5. Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, please contact us at info@ai-hub.agency.</p>
+            <h2 className="text-xl font-bold text-slate-950">Contact</h2>
+            <p className="mt-3">Questions about this policy can be sent to info@ai-hub.agency.</p>
           </section>
         </div>
       </section>

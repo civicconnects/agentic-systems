@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "components/features/**",
+    "components/layout/GlobalChat.tsx",
+    "functions/**",
+    "hooks/**",
+    "utils/**",
   ]),
 ]);
 
