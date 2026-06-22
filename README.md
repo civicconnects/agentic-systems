@@ -5,9 +5,15 @@ Branch: `redesign/sentinel-healthcare`
 ## Current Gate Status
 
 - Founder homepage UAT: approved.
-- Production deployment: blocked until explicit Founder final approval.
-- Production branch merge: blocked until explicit Founder final approval.
-- Current remaining work: full-site QA and Founder final deployment approval.
+- Founder final UAT: approved.
+- Production deployment: complete.
+- Production branch merge: complete.
+- Live URL: `https://www.ai-hub.agency/`.
+- Rollback tag: `production-backup-20260622-pre-sentinel`.
+- Production deployment commits:
+  - `c29a598` - approved Sentinel healthcare redesign.
+  - `8b95e4d` - Cloudflare redirects artifact.
+  - `f6e70f3` - framework-level production redirects.
 
 ## Redesign Positioning
 
@@ -41,4 +47,17 @@ npm run build
 
 ## Deployment Rule
 
-Do not deploy to `www.ai-hub.agency`, merge to production, or replace the live site until Founder final approval is explicitly given.
+Founder final approval was given before production deployment on June 22, 2026. Future production changes still require explicit approval before deployment.
+
+## Post-Deployment Validation
+
+Validated live production:
+
+- Homepage.
+- AI Hub Sentinel page.
+- HIPAA Cyber Risk Pre-Assessment page.
+- Contact form surface and no-PHI notice.
+- Main navigation.
+- Footer links.
+- Sitemap and robots.
+- HTTP `301` redirects from retired routes.
