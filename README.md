@@ -56,28 +56,83 @@ Founder final approval was given before production deployment on June 22, 2026. 
 - Adapted thank-you route: `/thank-you-pre-assessment`.
 - Thank-you page is `noindex, nofollow` and is guarded behind a browser submission flag set only after a successful preview form submission.
 - The ZIP phone number `918-409-2361` matches the phone number already used on the site.
-- The current `/request-pre-assessment` and `/contact` forms remain preview-only and do not deliver leads to a production destination.
+- The `/request-pre-assessment` form is self-contained in this AI Hub website project and sends one internal notification email when configured.
+- This funnel does not connect to the Cold Caller CRM or any external application.
+
+## Pre-Assessment Email Delivery
+
+`POST /api/preassessment-lead` accepts the pre-assessment form fields and sends one internal notification email through Resend.
+
+Form fields:
+
+- `first_name`
+- `last_name`
+- `practice_name`
+- `work_email`
+- `phone`
+- `practice_type`
+- `locations`
+- `city`
+- `state`
+- `best_time`
+- `concern`
+- `no_phi_consent`
+- Honeypot: `company_website`
+- Tracking metadata: UTM fields, `gclid`, `landing_page`, and `submitted_at`
+
+Delivery behavior:
+
+- Required fields are validated server-side.
+- Text fields are sanitized before email delivery.
+- Honeypot submissions are rejected.
+- Basic in-memory rate limiting protects the public form.
+- A successful response is returned only after Resend accepts the email.
+- No patient information or PHI is requested, stored, or intentionally transmitted.
+- No browser code receives API keys or Resend credentials.
+
+Email destination:
+
+- Internal notification recipient defaults to `info@ai-hub.agency`.
+- Override with `PREASSESSMENT_NOTIFICATION_TO` only when Founder-approved.
+
+Required environment variables:
+
+- `RESEND_API_KEY`
+- `PREASSESSMENT_NOTIFICATION_FROM`
+- `PREASSESSMENT_NOTIFICATION_TO`
+
+Optional environment variables:
+
+- `PREASSESSMENT_RATE_LIMIT_WINDOW_MS`
+- `PREASSESSMENT_RATE_LIMIT_MAX`
+- `RESEND_API_URL` for local mock testing
 
 Local testing instructions:
 
 1. Run `npm run dev -- --hostname 127.0.0.1 --port 3000`.
-2. Open `/request-pre-assessment`.
-3. Confirm required fields and the no-PHI checkbox block incomplete submission.
-4. Submit valid preview data and confirm the browser reaches `/thank-you-pre-assessment`.
-5. Open `/thank-you-pre-assessment` directly in a clean session and confirm the guarded state appears.
+2. For local delivery testing, set `RESEND_API_URL` to a local mock endpoint and use non-production placeholder secret values.
+3. Open `/request-pre-assessment`.
+4. Confirm required fields and the no-PHI checkbox block incomplete submission.
+5. Submit valid test data and confirm the browser reaches `/thank-you-pre-assessment` only after the mock email endpoint accepts delivery.
+6. Open `/thank-you-pre-assessment` directly in a clean session and confirm the guarded state appears.
 
 Production deployment prerequisites:
 
 - Founder approval for production deployment.
-- Founder approval for a future lead delivery destination.
+- Verified Resend sender/domain.
+- Production `RESEND_API_KEY` installed as a server-side secret.
+- Production `PREASSESSMENT_NOTIFICATION_FROM` installed as a server-side variable.
+- Production `PREASSESSMENT_NOTIFICATION_TO` set to `info@ai-hub.agency` unless Founder approves otherwise.
 - Confirmed no PHI is requested, stored, or transmitted.
 
 Failure behavior and recovery:
 
 - Incomplete or invalid form entries remain on `/request-pre-assessment` and use browser validation.
-- Honeypot submissions show an inline error and do not redirect.
-- There is no production storage, email, webhook, or third-party lead delivery in this branch.
-- Do not wire delivery until Founder approval identifies the website-owned destination and required guardrails.
+- Server validation failures return `400` and keep the visitor on the form.
+- Rate-limited submissions return `429` and keep the visitor on the form.
+- Resend failures return `500` and keep the visitor on the form.
+- Honeypot submissions return `400`, show an inline error, and do not redirect.
+- Direct thank-you page access remains guarded unless a form submission succeeds first.
 
 ## Post-Deployment Validation
 

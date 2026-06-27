@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import ThankYouPreAssessmentClient from "./ThankYouPreAssessmentClient";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Thank You | AI Hub Sentinel",
@@ -10,6 +13,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ThankYouPreAssessmentPage() {
-  return <ThankYouPreAssessmentClient />;
+export default async function ThankYouPreAssessmentPage() {
+  const cookieStore = await cookies();
+  const initialAllowed = cookieStore.get("sentinelPreAssessmentSubmitted")?.value === "true";
+
+  return <ThankYouPreAssessmentClient initialAllowed={initialAllowed} />;
 }

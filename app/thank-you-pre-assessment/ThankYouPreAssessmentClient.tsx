@@ -6,18 +6,45 @@ import { CheckCircle2, Phone } from "lucide-react";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 
-export default function ThankYouPreAssessmentClient() {
-  const isAllowed = useSyncExternalStore(
-    () => () => {},
-    () => sessionStorage.getItem("sentinelPreAssessmentSubmitted") === "true",
-    () => false,
-  );
+type ThankYouPreAssessmentClientProps = {
+  initialAllowed: boolean;
+};
+
+function subscribeToSubmissionFlag(onStoreChange: () => void) {
+  queueMicrotask(onStoreChange);
+  return () => {};
+}
+
+function getSubmissionFlag() {
+  const cookie = typeof document.cookie === "string" ? document.cookie : "";
+  let storageAllowed = false;
+  try {
+    storageAllowed =
+      window.sessionStorage?.getItem("sentinelPreAssessmentSubmitted") === "true" ||
+      window.localStorage?.getItem("sentinelPreAssessmentSubmitted") === "true";
+  } catch {
+    storageAllowed = false;
+  }
+
+  return storageAllowed || cookie.split("; ").includes("sentinelPreAssessmentSubmitted=true");
+}
+
+export default function ThankYouPreAssessmentClient({ initialAllowed }: ThankYouPreAssessmentClientProps) {
+  const browserAllowed = useSyncExternalStore(subscribeToSubmissionFlag, getSubmissionFlag, () => false);
+  const isAllowed = initialAllowed || browserAllowed;
 
   useEffect(() => {
     if (isAllowed) {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: "sentinel_thank_you_view" });
-      sessionStorage.removeItem("sentinelPreAssessmentSubmitted");
+      try {
+        window.sessionStorage?.removeItem("sentinelPreAssessmentSubmitted");
+        window.localStorage?.removeItem("sentinelPreAssessmentSubmitted");
+      } catch {
+        // Storage can be unavailable in restricted browser contexts.
+      }
+      document.cookie = "sentinelPreAssessmentSubmitted=; Max-Age=0; Path=/thank-you-pre-assessment; SameSite=Lax";
+      document.cookie = "sentinelPreAssessmentSubmitted=; Max-Age=0; Path=/; SameSite=Lax";
     }
   }, [isAllowed]);
 
