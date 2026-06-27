@@ -7,6 +7,7 @@
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
     "preview:cloudflare": "opennextjs-cloudflare build && wrangler dev",
+    "deploy:preview-worker": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "deploy:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint"
