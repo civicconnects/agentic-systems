@@ -32,7 +32,7 @@ const faqs = [
   ["Is this a HIPAA certification?", "No. This is a risk-visibility and pre-assessment service designed to help identify potential gaps and priorities. It is not a legal opinion, certification, or guarantee of HIPAA compliance."],
   ["Do I need to provide patient information?", "No. Do not submit patient information, protected health information, medical records, or sensitive patient details through this form."],
   ["Is there a cost for the pre-assessment?", "The initial HIPAA compliance and cyber-risk pre-assessment is offered at no cost for qualified practices."],
-  ["What happens after I submit the form?", "An AI Hub Sentinel team member reviews the request and contacts the practice to discuss the next step after delivery is accepted by the approved lead destination."],
+  ["What happens after I submit the form?", "An AI Hub Sentinel team member reviews the request and contacts the practice to discuss the next step once production delivery is approved."],
 ];
 
 export default function PreAssessmentRequestClient() {
@@ -47,31 +47,21 @@ export default function PreAssessmentRequestClient() {
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
 
-    const payload = Object.fromEntries(new FormData(form).entries());
-    const utmFields = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"];
-    for (const field of utmFields) payload[field] = searchParams.get(field) || "";
-    payload.landing_page = window.location.href;
-    payload.submitted_at = new Date().toISOString();
+    const formData = new FormData(form);
+    if (formData.get("company_website")) {
+      setStatus("We could not validate this request. Please call AI Hub Sentinel directly at 918-409-2361.");
+      return;
+    }
 
     setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/preassessment-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) throw new Error("Lead delivery was not accepted.");
-
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "sentinel_preassessment_submit" });
-      sessionStorage.setItem("sentinelPreAssessmentSubmitted", "true");
-      window.location.assign("/thank-you-pre-assessment");
-    } catch (error) {
-      console.error(error);
-      setStatus("We could not send your request right now. Please call AI Hub Sentinel directly at 918-409-2361.");
-      setIsSubmitting(false);
-    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "sentinel_preassessment_preview_submit",
+      utm_source: searchParams.get("utm_source") || "",
+      utm_campaign: searchParams.get("utm_campaign") || "",
+    });
+    sessionStorage.setItem("sentinelPreAssessmentSubmitted", "true");
+    window.location.assign("/thank-you-pre-assessment");
   }
 
   function trackPhone(location: string) {
