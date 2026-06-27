@@ -35,8 +35,6 @@ export default function ThankYouPreAssessmentClient({ initialAllowed }: ThankYou
 
   useEffect(() => {
     if (isAllowed) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "sentinel_thank_you_view" });
       try {
         window.sessionStorage?.removeItem("sentinelPreAssessmentSubmitted");
         window.localStorage?.removeItem("sentinelPreAssessmentSubmitted");

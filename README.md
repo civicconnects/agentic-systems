@@ -106,6 +106,7 @@ Optional environment variables:
 - `PREASSESSMENT_RATE_LIMIT_WINDOW_MS`
 - `PREASSESSMENT_RATE_LIMIT_MAX`
 - `RESEND_API_URL` for local mock testing
+- `NEXT_PUBLIC_PREASSESSMENT_GOOGLE_ADS_CONVERSION_SEND_TO` for direct Google Ads conversion events when an approved conversion ID/label is available
 
 Local testing instructions:
 
@@ -123,6 +124,7 @@ Production deployment prerequisites:
 - Production `RESEND_API_KEY` installed as a server-side secret.
 - Production `PREASSESSMENT_NOTIFICATION_FROM` installed as a server-side variable.
 - Production `PREASSESSMENT_NOTIFICATION_TO` set to `info@ai-hub.agency` unless Founder approves otherwise.
+- Optional approved Google Ads conversion `send_to` value installed as `NEXT_PUBLIC_PREASSESSMENT_GOOGLE_ADS_CONVERSION_SEND_TO`, or a GTM trigger configured from the `sentinel_preassessment_form_success` dataLayer event.
 - Confirmed no PHI is requested, stored, or transmitted.
 
 Failure behavior and recovery:
