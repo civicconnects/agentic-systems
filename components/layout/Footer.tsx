@@ -19,7 +19,7 @@ export default function Footer() {
           <h3 className="font-bold text-white">Sentinel</h3>
           <ul className="mt-4 space-y-3 text-sm">
             <li><Link className="hover:text-teal-300" href="/ai-hub-sentinel">AI Hub Sentinel</Link></li>
-            <li><Link className="hover:text-teal-300" href="/hipaa-cyber-risk-pre-assessment">HIPAA Cyber Risk Pre-Assessment</Link></li>
+            <li><Link className="hover:text-teal-300" href="/request-pre-assessment">HIPAA Cyber Risk Pre-Assessment</Link></li>
             <li><Link className="hover:text-teal-300" href="/resources">Healthcare Resources</Link></li>
           </ul>
         </div>

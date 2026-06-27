@@ -156,7 +156,7 @@ export default function Home() {
               AI Hub Sentinel helps doctors, dentists, and office managers identify cybersecurity risks, protect patient operations, and use an HHS SRA-guided process to organize HIPAA security priorities before a cyber incident disrupts the practice.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <Link href="/hipaa-cyber-risk-pre-assessment" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 transition hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
+              <Link href="/request-pre-assessment" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 transition hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
                 Book a HIPAA Cyber Risk Pre-Assessment <ArrowRight className="h-5 w-5" />
               </Link>
               <Link href="/ai-hub-sentinel" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/30 px-6 py-3 font-bold text-white transition hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/30">

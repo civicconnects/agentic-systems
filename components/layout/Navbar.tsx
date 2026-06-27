@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "AI Hub Sentinel", href: "/ai-hub-sentinel" },
-  { name: "HIPAA Cyber Risk Pre-Assessment", href: "/hipaa-cyber-risk-pre-assessment" },
+  { name: "HIPAA Cyber Risk Pre-Assessment", href: "/request-pre-assessment" },
   { name: "AI Receptionist", href: "/ai-receptionist" },
   { name: "Website and Automation Builds", href: "/website-and-automation-builds" },
   { name: "Who We Help", href: "/who-we-help" },
@@ -52,7 +52,7 @@ export default function Navbar() {
           <Link href="/contact" className="rounded-md px-4 py-3 text-sm font-bold text-slate-800 hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200">
             Contact
           </Link>
-          <Link href="/hipaa-cyber-risk-pre-assessment" className="rounded-md bg-blue-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
+          <Link href="/request-pre-assessment" className="rounded-md bg-blue-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
             Book Pre-Assessment
           </Link>
         </div>
@@ -85,7 +85,7 @@ export default function Navbar() {
             <Link href="/contact" onClick={() => setIsOpen(false)} className="rounded-md px-3 py-3 font-semibold text-slate-800 focus:outline-none focus:ring-4 focus:ring-teal-200">
               Contact
             </Link>
-            <Link href="/hipaa-cyber-risk-pre-assessment" onClick={() => setIsOpen(false)} className="mt-2 rounded-md bg-blue-900 px-4 py-3 text-center font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
+            <Link href="/request-pre-assessment" onClick={() => setIsOpen(false)} className="mt-2 rounded-md bg-blue-900 px-4 py-3 text-center font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
               Book Pre-Assessment
             </Link>
           </div>

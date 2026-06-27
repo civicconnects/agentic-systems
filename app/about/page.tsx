@@ -35,7 +35,7 @@ export default function AboutPage() {
             <p className="rounded-md border border-slate-200 bg-slate-50 p-5 font-semibold">
               AI Hub Sentinel supports cybersecurity readiness and risk-management efforts. It does not provide legal advice and does not guarantee HIPAA compliance.
             </p>
-            <Link href="/hipaa-cyber-risk-pre-assessment" className="inline-flex min-h-12 items-center gap-2 rounded-md bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
+            <Link href="/request-pre-assessment" className="inline-flex min-h-12 items-center gap-2 rounded-md bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
               Book a HIPAA Cyber Risk Pre-Assessment <ArrowRight className="h-5 w-5" />
             </Link>
           </div>

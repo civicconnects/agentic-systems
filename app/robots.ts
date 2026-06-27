@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/private/',
+      disallow: ['/private/', '/thank-you-pre-assessment'],
     },
     sitemap: 'https://www.ai-hub.agency/sitemap.xml',
   };

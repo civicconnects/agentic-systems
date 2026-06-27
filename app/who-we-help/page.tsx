@@ -43,7 +43,7 @@ export default function WhoWeHelpPage() {
           ))}
         </div>
         <div className="mx-auto mt-12 max-w-3xl text-center">
-          <Link href="/hipaa-cyber-risk-pre-assessment" className="inline-flex min-h-12 items-center gap-2 rounded-md bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
+          <Link href="/request-pre-assessment" className="inline-flex min-h-12 items-center gap-2 rounded-md bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
             Book a HIPAA Cyber Risk Pre-Assessment <ArrowRight className="h-5 w-5" />
           </Link>
         </div>

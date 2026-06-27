@@ -49,7 +49,7 @@ export default function PreAssessmentPage() {
           <p className="mt-6 max-w-3xl text-lg leading-8 text-blue-50">
             Start with a guided conversation about cybersecurity visibility, device risks, HIPAA Security Rule readiness priorities, and practical next steps.
           </p>
-          <Link href="/contact" className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
+          <Link href="/request-pre-assessment" className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
             Request Your HIPAA Cyber Risk Pre-Assessment <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
@@ -99,7 +99,7 @@ export default function PreAssessmentPage() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold md:text-5xl">Ready to Start?</h2>
           <p className="mt-5 text-lg leading-8 text-slate-700">Use the healthcare contact form to request a pre-assessment. Please do not include patient information or protected health information.</p>
-          <Link href="/contact" className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-md bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
+          <Link href="/request-pre-assessment" className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-md bg-blue-900 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
             Open Booking Form <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
