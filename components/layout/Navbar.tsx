@@ -2,19 +2,22 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "AI Hub Sentinel", href: "/ai-hub-sentinel" },
-  { name: "HIPAA Cyber Risk Pre-Assessment", href: "/request-pre-assessment" },
+  { name: "SentinelTech", href: "/ai-hub-sentinel" },
   { name: "AI Receptionist", href: "/ai-receptionist" },
-  { name: "Website and Automation Builds", href: "/website-and-automation-builds" },
-  { name: "Who We Help", href: "/who-we-help" },
+  { name: "Website & Automation Builds", href: "/website-and-automation-builds" },
+  { name: "HIPAA Pre-Assessment", href: "/hipaa-cyber-risk-pre-assessment" },
   { name: "Resources", href: "/resources" },
-  { name: "About", href: "/about" },
+  {
+    name: "About",
+    href: "/about",
+    items: [{ name: "Who We Are", href: "/about" }],
+  },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -37,22 +40,45 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-5 xl:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`rounded-md text-sm font-semibold transition hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "text-teal-700" : "text-slate-700"}`}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.items ? (
+              <div key={link.name} className="group relative">
+                <Link
+                  href={link.href}
+                  aria-haspopup="true"
+                  className={`inline-flex items-center gap-1 rounded-md text-sm font-semibold transition hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "text-teal-700" : "text-slate-700"}`}
+                >
+                  {link.name}
+                  <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <div className="invisible absolute left-0 top-full z-50 min-w-44 pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  <div className="rounded-md border border-slate-200 bg-white p-2 shadow-lg">
+                    {link.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`block rounded-md px-3 py-2 text-sm font-semibold transition hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === item.href ? "bg-teal-50 text-teal-800" : "text-slate-700"}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`rounded-md text-sm font-semibold transition hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "text-teal-700" : "text-slate-700"}`}
+              >
+                {link.name}
+              </Link>
+            ),
+          )}
         </div>
 
         <div className="hidden items-center gap-3 xl:flex">
-          <Link href="/contact" className="rounded-md px-4 py-3 text-sm font-bold text-slate-800 hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200">
-            Contact
-          </Link>
-          <Link href="/request-pre-assessment" className="rounded-md bg-blue-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
+          <Link href="/hipaa-cyber-risk-pre-assessment" className="rounded-md bg-blue-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
             Book Pre-Assessment
           </Link>
         </div>
@@ -72,20 +98,43 @@ export default function Navbar() {
       {isOpen && (
         <div id="mobile-menu" className="border-t border-slate-200 bg-white px-6 py-4 shadow-lg xl:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className={`rounded-md px-3 py-3 font-semibold focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "bg-teal-50 text-teal-800" : "text-slate-800"}`}
-              >
-                {link.name}
-              </Link>
-            ))}
-            <Link href="/contact" onClick={() => setIsOpen(false)} className="rounded-md px-3 py-3 font-semibold text-slate-800 focus:outline-none focus:ring-4 focus:ring-teal-200">
-              Contact
-            </Link>
-            <Link href="/request-pre-assessment" onClick={() => setIsOpen(false)} className="mt-2 rounded-md bg-blue-900 px-4 py-3 text-center font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
+            {navLinks.map((link) =>
+              link.items ? (
+                <div key={link.name} className="rounded-md">
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center justify-between rounded-md px-3 py-3 font-semibold focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "bg-teal-50 text-teal-800" : "text-slate-800"}`}
+                    aria-label={`${link.name} section`}
+                  >
+                    {link.name}
+                    <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                  <div className="ml-4 border-l border-slate-200 pl-3">
+                    {link.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`block rounded-md px-3 py-3 font-semibold focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === item.href ? "bg-teal-50 text-teal-800" : "text-slate-800"}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`rounded-md px-3 py-3 font-semibold focus:outline-none focus:ring-4 focus:ring-teal-200 ${pathname === link.href ? "bg-teal-50 text-teal-800" : "text-slate-800"}`}
+                >
+                  {link.name}
+                </Link>
+              ),
+            )}
+            <Link href="/hipaa-cyber-risk-pre-assessment" onClick={() => setIsOpen(false)} className="mt-2 rounded-md bg-blue-900 px-4 py-3 text-center font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
               Book Pre-Assessment
             </Link>
           </div>
