@@ -52,11 +52,12 @@ Founder final approval was given before production deployment on June 22, 2026. 
 ## Pre-Assessment Funnel Import
 
 - Imported ZIP source: `ai-hub-sentinel-funnel-updated-phone.zip`.
-- Adapted landing page route: `/request-pre-assessment`.
+- Primary adapted landing page route: `/hipaa-cyber-risk-pre-assessment`.
+- Legacy helper route: `/request-pre-assessment` redirects to `/hipaa-cyber-risk-pre-assessment`.
 - Adapted thank-you route: `/thank-you-pre-assessment`.
 - Thank-you page is `noindex, nofollow` and is guarded behind a browser submission flag set only after a successful preview form submission.
 - The ZIP phone number `918-409-2361` matches the phone number already used on the site.
-- The `/request-pre-assessment` form is self-contained in this AI Hub website project and sends one internal notification email when configured.
+- The `/hipaa-cyber-risk-pre-assessment` form is self-contained in this AI Hub website project and sends one internal notification email when configured.
 - This funnel does not connect to the Cold Caller CRM or any external application.
 
 ## Pre-Assessment Email Delivery
@@ -112,10 +113,11 @@ Local testing instructions:
 
 1. Run `npm run dev -- --hostname 127.0.0.1 --port 3000`.
 2. For local delivery testing, set `RESEND_API_URL` to a local mock endpoint and use non-production placeholder secret values.
-3. Open `/request-pre-assessment`.
+3. Open `/hipaa-cyber-risk-pre-assessment`.
 4. Confirm required fields and the no-PHI checkbox block incomplete submission.
 5. Submit valid test data and confirm the browser reaches `/thank-you-pre-assessment` only after the mock email endpoint accepts delivery.
 6. Open `/thank-you-pre-assessment` directly in a clean session and confirm the guarded state appears.
+7. Open `/request-pre-assessment` and confirm it redirects to `/hipaa-cyber-risk-pre-assessment`.
 
 Production deployment prerequisites:
 
@@ -129,7 +131,7 @@ Production deployment prerequisites:
 
 Failure behavior and recovery:
 
-- Incomplete or invalid form entries remain on `/request-pre-assessment` and use browser validation.
+- Incomplete or invalid form entries remain on `/hipaa-cyber-risk-pre-assessment` and use browser validation.
 - Server validation failures return `400` and keep the visitor on the form.
 - Rate-limited submissions return `429` and keep the visitor on the form.
 - Resend failures return `500` and keep the visitor on the form.

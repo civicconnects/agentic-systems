@@ -33,6 +33,7 @@ const faqs = [
   ["Do I need to provide patient information?", "No. Do not submit patient information, protected health information, medical records, or sensitive patient details through this form."],
   ["Is there a cost for the pre-assessment?", "The initial HIPAA compliance and cyber-risk pre-assessment is offered at no cost for qualified practices."],
   ["What happens after I submit the form?", "An AI Hub Sentinel team member reviews the request and contacts the practice to discuss the next step."],
+  ["Is Sentinel only for large healthcare groups?", "No. Sentinel is designed for independent practices, small clinics, and growing healthcare groups that need stronger risk visibility and managed support."],
 ];
 
 export default function PreAssessmentRequestClient() {
@@ -97,32 +98,41 @@ export default function PreAssessmentRequestClient() {
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <Navbar />
-      <section className="bg-[#082033] px-6 pb-20 pt-36 text-white">
+      <section className="border-b border-slate-200 bg-sky-50 px-6 py-3 text-sm font-semibold text-slate-700">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+          <span>Managed cybersecurity and HIPAA risk visibility for healthcare practices.</span>
+          <a href="tel:+19184092361" onClick={() => trackPhone("topbar")} className="text-blue-800 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">
+            Call 918-409-2361
+          </a>
+        </div>
+      </section>
+
+      <section className="bg-gradient-to-b from-sky-50 to-white px-6 pb-16 pt-14 text-slate-900">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <div>
-            <p className="font-semibold uppercase tracking-[0.08em] text-teal-300">For medical and dental practices</p>
-            <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight md:text-6xl">Find Cyber and HIPAA Security Gaps Before They Become a Practice Disruption</h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-blue-50">
+            <p className="font-semibold uppercase tracking-[0.08em] text-blue-800">For medical and dental practices</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-normal text-slate-950 md:text-6xl">Find Cyber and HIPAA Security Gaps Before They Become a Practice Disruption</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-700">
               Request a no-cost HIPAA compliance and cyber-risk pre-assessment for your medical or dental practice. Get a clearer view of potential security gaps, patient-data risks, and the priority areas that may need attention.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a href="#request-form" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-teal-300 px-6 py-3 font-bold text-slate-950 hover:bg-teal-200 focus:outline-none focus:ring-4 focus:ring-teal-200/60">
+              <a href="#request-form" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-blue-700 px-6 py-3 font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200">
                 Request Your No-Cost Pre-Assessment <ArrowRight className="h-5 w-5" />
               </a>
-              <a href="tel:+19184092361" onClick={() => trackPhone("hero")} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/30 px-6 py-3 font-bold text-white hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/30">
+              <a href="tel:+19184092361" onClick={() => trackPhone("hero")} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-blue-200 bg-white px-6 py-3 font-bold text-blue-800 hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-200">
                 <Phone className="h-5 w-5" /> Call 918-409-2361
               </a>
             </div>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {trustItems.map((item) => (
-                <li key={item} className="flex items-center gap-3 font-semibold text-blue-50">
-                  <CheckCircle2 className="h-5 w-5 shrink-0 text-teal-300" /> {item}
+                <li key={item} className="flex items-center gap-3 font-semibold text-slate-700">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-700" /> {item}
                 </li>
               ))}
             </ul>
           </div>
 
-          <section id="request-form" className="rounded-md border border-slate-200 bg-white p-6 text-slate-900 shadow-2xl">
+          <section id="request-form" className="order-first rounded-md border border-slate-200 bg-white p-6 text-slate-900 shadow-xl shadow-slate-200/70 lg:order-none">
             <h2 className="text-2xl font-bold">Request Your No-Cost HIPAA and Cyber-Risk Pre-Assessment</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">Tell us a little about your practice. We will review your request and contact you to discuss the next step.</p>
             <p className="mt-4 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm font-semibold text-amber-950">Do not submit patient information, protected health information, medical records, passwords, or sensitive patient data.</p>
@@ -173,7 +183,7 @@ export default function PreAssessmentRequestClient() {
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {assessmentAreas.map(([title, copy], index) => (
               <article key={title} className="rounded-md border border-slate-200 bg-slate-50 p-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-100 font-bold text-blue-800">{index + 1}</div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-100 font-bold text-blue-800">0{index + 1}</div>
                 <h3 className="mt-5 text-xl font-bold">{title}</h3>
                 <p className="mt-3 leading-7 text-slate-700">{copy}</p>
               </article>
@@ -188,6 +198,7 @@ export default function PreAssessmentRequestClient() {
             <p className="font-semibold uppercase tracking-[0.08em] text-teal-700">Why practices request it</p>
             <h2 className="mt-3 text-3xl font-bold md:text-5xl">Know What Needs Attention Before a Small Gap Becomes a Bigger Problem</h2>
             <p className="mt-5 text-lg leading-8 text-slate-700">Most healthcare practices are focused on patients, scheduling, billing, and daily operations. Security gaps can stay hidden until an email account is compromised, a device goes down, a backup fails, or patient information is put at risk.</p>
+            <p className="mt-5 text-lg leading-8 text-slate-700">AI Hub Sentinel gives your practice a clearer starting point. We help identify potential risk areas, explain what matters most, and provide practical guidance without adding another system for your team to manage.</p>
           </div>
           <div className="rounded-md border border-slate-200 bg-white p-6">
             <ShieldCheck className="h-10 w-10 text-teal-700" />
@@ -203,6 +214,16 @@ export default function PreAssessmentRequestClient() {
 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
+          <p className="font-semibold uppercase tracking-[0.08em] text-teal-700">Managed support</p>
+          <h2 className="mt-3 max-w-3xl text-3xl font-bold md:text-5xl">Not Another Dashboard Your Team Has to Figure Out</h2>
+          <p className="mt-5 max-w-4xl text-lg leading-8 text-slate-700">
+            Sentinel is designed as managed security support. Findings are reviewed, explained in clear language, and organized into practical next steps. When appropriate, AI Hub Sentinel can assist with approved remediation and response actions so your practice is not left trying to solve technical issues alone.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-6 py-20">
+        <div className="mx-auto max-w-7xl">
           <p className="font-semibold uppercase tracking-[0.08em] text-teal-700">Who this is for</p>
           <h2 className="mt-3 max-w-3xl text-3xl font-bold md:text-5xl">Designed for Healthcare Offices Handling Patient Information</h2>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -211,16 +232,32 @@ export default function PreAssessmentRequestClient() {
         </div>
       </section>
 
-      <section className="bg-[#0b2a3f] px-6 py-20 text-white">
+      <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-3xl font-bold md:text-5xl">Clear Answers Before You Request a Pre-Assessment</h2>
+          <p className="font-semibold uppercase tracking-[0.08em] text-teal-700">Frequently asked questions</p>
+          <h2 className="mt-3 text-3xl font-bold md:text-5xl">Clear Answers Before You Request a Pre-Assessment</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {faqs.map(([question, answer]) => (
-              <article key={question} className="rounded-md border border-white/15 bg-white/10 p-6">
+              <article key={question} className="rounded-md border border-slate-200 bg-slate-50 p-6">
                 <h3 className="text-xl font-bold">{question}</h3>
-                <p className="mt-3 leading-7 text-blue-50">{answer}</p>
+                <p className="mt-3 leading-7 text-slate-700">{answer}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-blue-700 px-6 py-16 text-white">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-3xl font-bold md:text-5xl">Get a Clearer View of What May Need Attention</h2>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-blue-50">Request your no-cost HIPAA compliance and cyber-risk pre-assessment today. No patient information is needed.</p>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <a href="#request-form" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-white px-6 py-3 font-bold text-blue-800 hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-white/40">
+              Request Your No-Cost Pre-Assessment <ArrowRight className="h-5 w-5" />
+            </a>
+            <a href="tel:+19184092361" onClick={() => trackPhone("bottom")} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/40 px-6 py-3 font-bold text-white hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/30">
+              <Phone className="h-5 w-5" /> Call 918-409-2361
+            </a>
           </div>
         </div>
       </section>

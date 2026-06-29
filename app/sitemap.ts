@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
     { url: `${baseUrl}/ai-hub-sentinel`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: `${baseUrl}/hipaa-cyber-risk-pre-assessment`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${baseUrl}/request-pre-assessment`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: `${baseUrl}/ai-receptionist`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/website-and-automation-builds`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.75 },
     { url: `${baseUrl}/who-we-help`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },

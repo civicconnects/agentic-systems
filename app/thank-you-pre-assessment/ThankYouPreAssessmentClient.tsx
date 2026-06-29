@@ -54,7 +54,7 @@ export default function ThankYouPreAssessmentClient({ initialAllowed }: ThankYou
           <div className="mx-auto max-w-3xl rounded-md border border-slate-200 bg-slate-50 p-8 text-center">
             <h1 className="text-3xl font-bold">Pre-assessment submission required</h1>
             <p className="mt-4 leading-7 text-slate-700">This page is shown only after a valid pre-assessment form submission flow.</p>
-            <Link href="/request-pre-assessment" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-blue-900 px-6 py-3 font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
+            <Link href="/hipaa-cyber-risk-pre-assessment" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-blue-900 px-6 py-3 font-bold text-white focus:outline-none focus:ring-4 focus:ring-blue-200">
               Request a Pre-Assessment
             </Link>
           </div>
